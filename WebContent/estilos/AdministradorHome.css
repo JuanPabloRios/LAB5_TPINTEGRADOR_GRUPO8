@@ -1,0 +1,106 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+.mainContainer {
+    display: flex;
+    flex-direction: column; 
+    height: 100%; 
+} 
+
+.controlesUsuario {
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+}
+
+.header{
+	flex: 1;
+	display: flex;
+    color: white;
+    background-color: gray;
+    max-height: 3em;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: space-between;
+    min-height: 3em;
+}
+
+th:first-child,td:first-child {  
+  width:100px;    
+}
+
+.content { 
+    flex: 4; 
+    padding: 10px; 
+} 
+
+.title {
+	display:flex; 
+	flex-direction:column; 
+	align-items:center;
+}
+
+.footer{
+	flex: 1;
+    color: white;
+    background-color: gray;
+    max-height: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3em;
+}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius:5px;
+}
+
+.tituloPaginaContainer{
+	display:flex; 
+	flex-direction:row; 
+	margin-bottom: 10px;
+}
+
+.tituloPagina {
+	display:flex; 
+	align-items:center; 
+	font-size: 24px;
+}
+
+.botonPrincipalContainer {
+	display:flex; 
+	align-items:center;
+}
+
+.salirContainer {
+	padding-right: 10px;
+}
+
+.btnHeader {
+    margin-left: 10px;
+}
+
+.btnNuevoCliente { 
+  padding: 8px 10px;
+  margin-left: 10px;
+}
+.button {
+  background-color: #04AA6D;
+  color: white; 
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius:5px;
+}
+
+.button:hover {
+  opacity: 0.8;
+}

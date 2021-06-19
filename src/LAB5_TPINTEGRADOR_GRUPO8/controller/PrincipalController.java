@@ -13,12 +13,18 @@ public class PrincipalController {
 		return mv;
 	}
 	
-	@RequestMapping("redireccionar_pag2.html")
-	public ModelAndView redireccionarAPagina2(String txtNombre) {
-		System.out.println("El usuario ingreso " + txtNombre);
+	@RequestMapping("redirigirLogin.html")
+	public ModelAndView redirigirAHome(String txtUsuario, String txtClave) {
+		System.out.println("Usuario " + txtUsuario);
+		System.out.println("Clave " + txtClave);
+		//ACA VA LA BUSQUEDA DE USER Y PASS Y SEGUN RESULTADO REDIRIGE A ALGUN HOME O A ERROR
+		
+		
+		
+		//VOY A REDIRECCIONAR A LA PAGINA HOME DEL ADMIN POR AHORA
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("nombre",txtNombre);
-		mv.setViewName("pag2");
+		mv.addObject("nombreCuenta","Nombre y Apellido");
+		mv.setViewName("AdministradorHome");
 		return mv;
 	} 
 }

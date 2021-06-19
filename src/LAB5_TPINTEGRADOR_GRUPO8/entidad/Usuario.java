@@ -1,8 +1,8 @@
 package LAB5_TPINTEGRADOR_GRUPO8.entidad;
 
 import java.io.Serializable;
+import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,19 +30,20 @@ public class Usuario implements Serializable{
 	private String nacionalidad;
 	private String usuario;
 	private String contrasenia;
-	private String fecha_de_nacimiento;
+	private Date fecha_de_nacimiento;
 	private int DNI;
 	private String direccion;
-	private String estado;
+	private Boolean estado;
 	@OneToOne
 	@JoinColumn(name="idTipoUsuario_c")
 	private TiposDeUsuarios tipoDeUsuario;
-	//cascade sirve para remover agregar tipo cascada la relacion.
-	//@OneToOne(cascade= {CascadeType.ALL})
+
+	@OneToOne
+	@JoinColumn(name="idLocalidad_c")
+	private Localidad localidad;
+	
 
 	
-	//faltan agregar idtipoudeusuario
-	//localidad, provincia, idtipoudeusuario
 	//constructor
 	public Usuario() {
 		
@@ -100,11 +101,11 @@ public class Usuario implements Serializable{
 		this.contrasenia = contrasenia;
 	}
 
-	public String getFecha_de_nacimiento() {
+	public Date getFecha_de_nacimiento() {
 		return fecha_de_nacimiento;
 	}
 
-	public void setFecha_de_nacimiento(String fecha_de_nacimiento) {
+	public void setFecha_de_nacimiento(Date fecha_de_nacimiento) {
 		this.fecha_de_nacimiento = fecha_de_nacimiento;
 	}
 
@@ -124,11 +125,11 @@ public class Usuario implements Serializable{
 		this.direccion = direccion;
 	}
 
-	public String getEstado() {
+	public Boolean getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
 	
@@ -140,6 +141,13 @@ public class Usuario implements Serializable{
 		this.tipoDeUsuario = tipoDeUsuario;
 	}
 
+	public Localidad getLocalidad() {
+		return localidad;
+	}
+
+	public void setLocalidad(Localidad localidad) {
+		this.localidad = localidad;
+	}
 
 	@Override
 	public String toString() {

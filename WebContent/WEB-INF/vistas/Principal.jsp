@@ -9,6 +9,7 @@
 <body>
 	<h1>PAGINA PRINCIPAL</h1>
 	<form action="redireccionar_pag2.html" method="get">
+		Ingrese su nombre: <input type="text" name="txtNombre">
 		<input type="submit" value="Ir a pagina 2" name="btnIrA2">
 	</form>
 </body>

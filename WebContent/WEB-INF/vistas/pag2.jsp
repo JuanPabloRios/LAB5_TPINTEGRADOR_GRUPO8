@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h1>soy la pagina 2</h1>
+	<h1> Bienvenido ${nombre}</h1>
 </body>
 </html>

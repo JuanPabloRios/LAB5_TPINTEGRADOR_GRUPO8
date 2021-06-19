@@ -1,5 +1,7 @@
 package LAB5_TPINTEGRADOR_GRUPO8.data.creator;
 
+import java.util.Date;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -33,10 +35,11 @@ public class DataCreator {
 		usuario.setContrasenia("pepe");
 		usuario.setDireccion("Av. Siempreviva 123");
 		usuario.setDNI(32444555);
-		usuario.setEstado("1");
+		usuario.setEstado(true);
 		usuario.setNacionalidad("Argentino");
 		usuario.setSexo("M");
-		usuario.setUsuario("gato");  
+		usuario.setUsuario("gato");   
+		usuario.setFecha_de_nacimiento(new Date(1991,03,27));  
 		usuario.setTipoDeUsuario(tpCliente); 
 		session.save(tpCliente);
 		session.save(usuario);

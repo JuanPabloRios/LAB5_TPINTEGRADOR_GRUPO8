@@ -12,26 +12,28 @@ public class PrincipalController {
 	 
 	@RequestMapping("redireccionar_Principal.html")
 	public ModelAndView redireccionarAPrincipal() {
-		DataCreator.createData();
+		//DataCreator.createData();
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("Principal");
 		return mv;
 	}
 	
 	@RequestMapping("redirigirLogin.html")
-	public ModelAndView redirigirAHome(String txtUsuario, String txtClave) {  
-		System.out.println("txtUsuario "+ txtUsuario);
-		System.out.println("txtClave "+ txtClave);
-		Usuario us = UsuarioSelector.obtenerUsuarioPorNombreDeUsuario(txtUsuario);
+	public ModelAndView redirigirAHome(String txtUsuario, String txtClave) {   
+		Usuario us = UsuarioSelector.obtenerUsuarioPorNombreDeUsuario(txtUsuario); 
 		Boolean errorDeUsuario = false;
-		if(us == null || us.getContrasenia() != txtClave) {
+		if(us == null ) { 
 			errorDeUsuario = true;
-		}  
+		} else if(!txtClave.equals(us.getContrasenia())) {
+			errorDeUsuario = true; 
+		} 
 		ModelAndView mv = new ModelAndView();
-		if(errorDeUsuario) {
+		if(errorDeUsuario) { 
 			mv.addObject("errorDeUsuario",true);
 			mv.setViewName("Principal");
-		} else {
+		} else {  
+			//ACA HAY QUE PONER EL IF PARA DIVIDIR ENTRE ADMINISTRADORES Y CLIENTES
+			//POR AHORA SOLO VA AL HOME DE ADMINS
 			mv.addObject("nombreCuenta",us.getNombre() + " " + us.getApellido());
 			mv.addObject("usuario",us);
 			mv.setViewName("AdministradorHome");

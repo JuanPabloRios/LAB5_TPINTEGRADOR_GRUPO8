@@ -21,12 +21,18 @@
 				<div class="header">
 					<div class="controlesUsuario">
 						<div>Banking App</div>
-						<div><button action="" class="button btnHeader">ABM Cuentas</button></div>
+						<div> 
+							<form method="post" action="redirigirABMCuentas.html">
+								<input type="submit" title="ABM Cuentas" value="ABM Cuentas" class="button btnHeader"></input>
+							</form>
+						</div> 
 					</div>
 					<div class="controlesUsuario">
 						<div>${nombreCuenta}</div>
 						<div class="salirContainer">
-							<button action="" class="button btnHeader">Salir</button>
+							<form method="post" action="salir.html">
+								<input type="submit" title="Salir" value="Salir" class="button btnHeader"></input>
+							</form>
 						</div>
 					</div>
 				</div> 
@@ -35,7 +41,7 @@
 					<div class="tituloPaginaContainer">
 						<div class="tituloPagina">Clientes</div> 
 						<div class="botonPrincipalContainer">
-							<form method="post" action="acalaaccionparacrearnuevo">
+							<form method="post" action="crearNuevoCliente.html">
 					  			<input class="button btnNuevoCliente" type="submit" title="Nuevo Cliente" value="Nuevo Cliente"></input> 
 					  		</form>
 					  	</div> 
@@ -65,9 +71,9 @@
 								for(Usuario c : clientes) { %>
 							<tr>
 							  	<td>
-							  		<form method="post" action="acalaaccionparairaeditar">
+							  		<form method="post" action="editarCliente.html">
 							  			<input class="button" type="submit" value="Editar / Eliminar"></input>
-							  			<input type="hidden" name="idCliente" value="<%=c.getIdusuario() %>" >
+							  			<input type="hidden" name="idUsuario" value="<%=c.getIdusuario() %>" >
 							  		</form>
 							  	</td>
 							    <td><%=c.getApellido()%></td>

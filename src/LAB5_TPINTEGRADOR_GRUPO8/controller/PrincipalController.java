@@ -7,17 +7,20 @@ import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
 import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector;
 import java.util.List;
 
+//Controlador de la vista Principal
 @Controller
 public class PrincipalController { 
-	 
+	
+	//Metodo inicial, es el que toma Spring para redireccionar a la pantalla de login
 	@RequestMapping("redireccionar_Principal.html")
 	public ModelAndView redireccionarAPrincipal() {
-		//DataCreator.createData();
+		DataCreator.createData();
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("Principal");
 		return mv;
 	}
 	
+	//Handler del boton de login, valida el usuario y redirige a cada home o devuelve un error
 	@RequestMapping("redirigirLogin.html")
 	public ModelAndView redirigirAHome(String txtUsuario, String txtClave) {   
 		Usuario us = UsuarioSelector.obtenerUsuarioPorNombreDeUsuario(txtUsuario); 
@@ -38,6 +41,7 @@ public class PrincipalController {
 				mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes());
 				mv.setViewName("AdministradorHome");
 			} else {
+				//Aca agregar metodo para traer las cuentas del cliente y agregarlo como object a la vista
 				mv.setViewName("AdministradorHome"); //ACA REEMPLAZAR PARA IR AL HOME DE CLIENTES
 			} 
 		} 

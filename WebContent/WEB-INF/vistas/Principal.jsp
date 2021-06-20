@@ -29,7 +29,11 @@
 						<div class="form-group">
 							<input type="submit" class="button" value="Ingresar" name="btnIngresar"> 
 						</div> 
-						<div class="alert">Usuario y/o clave incorrecto</div> 
+						<%if(request.getAttribute("errorDeUsuario")!=null)
+						{%>
+							 <div class="alert">Usuario y/o clave incorrecto</div> 
+						<%} %>
+						
 					</form> 
 				</div> 
 			</div> 

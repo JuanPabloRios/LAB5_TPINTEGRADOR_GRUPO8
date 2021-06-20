@@ -23,10 +23,10 @@ public class AdministradorHomeController {
 		return mv;
 	}
 	
-	@RequestMapping("redirigirABMCuentas.html")
+	@RequestMapping("redirigirListadoCuentas.html")
 	public ModelAndView redirigirAABMCuentas() { 
 		ModelAndView mv = new ModelAndView();  
-		mv.setViewName("ACA VA LA VISTA DE ABM CUENTAS");
+		mv.setViewName("ACA VA LA VISTA DE LISTADO DE CUENTAS");
 		return mv;
 	}
 	

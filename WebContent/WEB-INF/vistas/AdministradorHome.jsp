@@ -22,8 +22,8 @@
 					<div class="controlesUsuario">
 						<div>Banking App</div>
 						<div> 
-							<form method="post" action="redirigirABMCuentas.html">
-								<input type="submit" title="ABM Cuentas" value="ABM Cuentas" class="button btnHeader"></input>
+							<form method="post" action="redirigirListadoCuentas.html">
+								<input type="submit" title="Cuentas" value="Cuentas" class="button btnHeader"></input>
 							</form>
 						</div> 
 					</div>

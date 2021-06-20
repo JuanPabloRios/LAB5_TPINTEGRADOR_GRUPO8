@@ -24,6 +24,7 @@
 						<div> 
 							<form method="post" action="redirigirListadoCuentas.html">
 								<input type="submit" title="Cuentas" value="Cuentas" class="button btnHeader"></input>
+								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 							</form>
 						</div> 
 					</div>
@@ -43,6 +44,7 @@
 						<div class="botonPrincipalContainer">
 							<form method="post" action="crearNuevoCliente.html">
 					  			<input class="button btnNuevoCliente" type="submit" title="Nuevo Cliente" value="Nuevo Cliente"></input> 
+					  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 					  		</form>
 					  	</div> 
 					</div>
@@ -74,6 +76,7 @@
 							  		<form method="post" action="editarCliente.html">
 							  			<input class="button" type="submit" value="Editar / Eliminar"></input>
 							  			<input type="hidden" name="idUsuario" value="<%=c.getIdusuario() %>" >
+							  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 							  		</form>
 							  	</td>
 							    <td><%=c.getApellido()%></td>

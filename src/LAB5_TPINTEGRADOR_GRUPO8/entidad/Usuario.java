@@ -1,5 +1,4 @@
 package LAB5_TPINTEGRADOR_GRUPO8.entidad;
-
 import java.io.Serializable;
 import java.util.Date;
 

@@ -8,24 +8,26 @@ import org.springframework.web.servlet.ModelAndView;
 public class AdministradorHomeController {
 
 	@RequestMapping("editarCliente.html")
-	public ModelAndView editarCliente(Integer idUsuario) { 
+	public ModelAndView editarCliente(Integer idUsuario, String nombreCuenta) { 
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("idUsuario",idUsuario);
-		System.out.println("Id Cliente seleccionado " + idUsuario);
+		mv.addObject("nombreCuenta",nombreCuenta); 
 		mv.setViewName("ACA VA LA VISTA DE EDITAR CLIENTE");
 		return mv;
 	}
 	
 	@RequestMapping("crearNuevoCliente.html")
-	public ModelAndView crearNuevoCliente() { 
-		ModelAndView mv = new ModelAndView();  
+	public ModelAndView crearNuevoCliente(String nombreCuenta) { 
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("nombreCuenta",nombreCuenta);   
 		mv.setViewName("ACA VA LA VISTA DE crear nuevo CLIENTE");
 		return mv;
 	}
 	
 	@RequestMapping("redirigirListadoCuentas.html")
-	public ModelAndView redirigirAABMCuentas() { 
+	public ModelAndView redirigirAABMCuentas(String nombreCuenta) { 
 		ModelAndView mv = new ModelAndView();  
+		mv.addObject("nombreCuenta",nombreCuenta); 
 		mv.setViewName("ACA VA LA VISTA DE LISTADO DE CUENTAS");
 		return mv;
 	}

@@ -32,11 +32,14 @@ public class PrincipalController {
 			mv.addObject("errorDeUsuario",true);
 			mv.setViewName("Principal");
 		} else {  
-			//ACA HAY QUE PONER EL IF PARA DIVIDIR ENTRE ADMINISTRADORES Y CLIENTES
-			//POR AHORA SOLO VA AL HOME DE ADMINS
 			mv.addObject("nombreCuenta",us.getNombre() + " " + us.getApellido());
 			mv.addObject("usuario",us);
-			mv.setViewName("AdministradorHome");
+			if(us.getTipoDeUsuario().getDescripcion().equals("Administrador")) {
+				mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes());
+				mv.setViewName("AdministradorHome");
+			} else {
+				mv.setViewName("AdministradorHome"); //ACA REEMPLAZAR PARA IR AL HOME DE CLIENTES
+			} 
 		} 
 		return mv;
 	} 

@@ -1,3 +1,6 @@
+
+<%@page import="java.util.ArrayList" %>
+<%@page import="LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario" %> 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -31,7 +34,11 @@
 				<div class="content">
 					<div class="tituloPaginaContainer">
 						<div class="tituloPagina">Clientes</div> 
-						<div class="botonPrincipalContainer"><button class="button btnNuevoCliente" title="Nuevo Cliente" action="">Nuevo Cliente</button></div> 
+						<div class="botonPrincipalContainer">
+							<form method="post" action="acalaaccionparacrearnuevo">
+					  			<input class="button btnNuevoCliente" type="submit" title="Nuevo Cliente" value="Nuevo Cliente"></input> 
+					  		</form>
+					  	</div> 
 					</div>
 					
 					<table id="tablaClientes" class="table table-striped table-bordered" style="width:100%">
@@ -44,134 +51,31 @@
 						    <th>DIRECCION</th>
 						  </tr>
 					 	</thead>
-        				<tbody>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Rios</td>
-						    <td>Ezequiel Matias</td>
-						    <td>35343432</td>
-						    <td>Reynoso 2245, Don Torcuato, Buenos Aires</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Gomez</td>
-						    <td>Maria</td>
-						    <td>12312312</td>
-						    <td>La Habana 2245, Don Torcuato, Buenos Aires</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Perez</td>
-						    <td>Andrea</td>
-						    <td>43556987</td>
-						    <td>Av. Siempreviva 123, Springfield, Queensland</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Carlos</td>
-						    <td>Riquelme</td>
-						    <td>98345879</td>
-						    <td>Cacharrito 3213, Balvanera, Buenos Aires</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Tobias</td>
-						    <td>Diaz Caruso</td>
-						    <td>34223569</td>
-						    <td>Sucre 4265, Capital Federal, Buenos Aires</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Gutierrez</td>
-						    <td>Claudia</td>
-						    <td>54645434</td>
-						    <td>Av. Del Libertador 123, San Isidro, Buenos Aireas</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Rios</td>
-						    <td>Ezequiel Matias</td>
-						    <td>35343432</td>
-						    <td>Reynoso 2245, Don Torcuato, Buenos Aires</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Gomez</td>
-						    <td>Maria</td>
-						    <td>12312312</td>
-						    <td>La Habana 2245, Don Torcuato, Buenos Aires</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Perez</td>
-						    <td>Andrea</td>
-						    <td>43556987</td>
-						    <td>Av. Siempreviva 123, Springfield, Queensland</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Carlos</td>
-						    <td>Riquelme</td>
-						    <td>98345879</td>
-						    <td>Cacharrito 3213, Balvanera, Buenos Aires</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Tobias</td>
-						    <td>Diaz Caruso</td>
-						    <td>34223569</td>
-						    <td>Sucre 4265, Capital Federal, Buenos Aires</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Gutierrez</td>
-						    <td>Claudia</td>
-						    <td>54645434</td>
-						    <td>Av. Del Libertador 123, San Isidro, Buenos Aireas</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Rios</td>
-						    <td>Ezequiel Matias</td>
-						    <td>35343432</td>
-						    <td>Reynoso 2245, Don Torcuato, Buenos Aires</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Gomez</td>
-						    <td>Maria</td>
-						    <td>12312312</td>
-						    <td>La Habana 2245, Don Torcuato, Buenos Aires</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Perez</td>
-						    <td>Andrea</td>
-						    <td>43556987</td>
-						    <td>Av. Siempreviva 123, Springfield, Queensland</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Carlos</td>
-						    <td>Riquelme</td>
-						    <td>98345879</td>
-						    <td>Cacharrito 3213, Balvanera, Buenos Aires</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Tobias</td>
-						    <td>Diaz Caruso</td>
-						    <td>34223569</td>
-						    <td>Sucre 4265, Capital Federal, Buenos Aires</td>
-						  </tr>
-						  <tr>
-						  	<td><button class="button" value="Editar" action="">Editar / Eliminar</button></td>
-						    <td>Gutierrez</td>
-						    <td>Claudia</td>
-						    <td>54645434</td>
-						    <td>Av. Del Libertador 123, San Isidro, Buenos Aireas</td>
-						  </tr>
+        				<tbody> 
+        				<% 
+							ArrayList<Usuario> clientes = null;
 						  
+							if(request.getAttribute("listaClientes")!=null)
+							{
+								clientes = (ArrayList<Usuario>)request.getAttribute("listaClientes");
+							}		
+						  %>
+							
+							<%  if(clientes!=null)
+								for(Usuario c : clientes) { %>
+							<tr>
+							  	<td>
+							  		<form method="post" action="acalaaccionparairaeditar">
+							  			<input class="button" type="submit" value="Editar / Eliminar"></input>
+							  			<input type="hidden" name="idCliente" value="<%=c.getIdusuario() %>" >
+							  		</form>
+							  	</td>
+							    <td><%=c.getApellido()%></td>
+							    <td><%=c.getNombre()%></td>
+							    <td><%=c.getDNI()%></td>
+							    <td><%=c.getDireccion()%></td>
+						  	</tr> 
+					   <%  } %> 
 						</tbody>
 					</table>
 				</div>  

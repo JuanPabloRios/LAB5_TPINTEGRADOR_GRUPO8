@@ -1,51 +1,77 @@
 package LAB5_TPINTEGRADOR_GRUPO8.data.creator;
-
-import java.util.Date;
-
+import java.util.Date; 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
-
+import org.hibernate.service.ServiceRegistryBuilder; 
+import LAB5_TPINTEGRADOR_GRUPO8.selector.ConfigHibernate;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeUsuarios;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
 
 public class DataCreator {
+	
 	public static void createData() {
-		SessionFactory sessionFactory;
-		//instancia de configuration(para configurar)
-		Configuration configuration = new Configuration();
-		configuration.configure(); 
-		//con el getproperties obtenemos los datos del xml para crear la instancia de serviceRegistry
-		ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry(); 
-		//construimos una sessionFactory mediante el configuration, que es una sesion hacia la DB 
-		sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+		ConfigHibernate ch = new ConfigHibernate();
+		Session se = ch.abrirConexion();  
+		se.beginTransaction(); 
 		
-		 
-		Session session = sessionFactory.openSession(); 
-		session.beginTransaction(); 
+		//TIPOS DE USUARIO----------------------------------------
+		TiposDeUsuarios TUAdmin = new TiposDeUsuarios();
+		TUAdmin.setDescripcion("Administrador");
+		se.save(TUAdmin);
+		TiposDeUsuarios TUCliente = new TiposDeUsuarios();
+		TUCliente.setDescripcion("Cliente");
+		se.save(TUCliente);
+		//--------------------------------------------------------
 		
-		TiposDeUsuarios tpCliente = new TiposDeUsuarios();
-		tpCliente.setDescripcion("Cliente");
+		//USUARIO ADMINISTRADOR-----------------------------------
+		Usuario usAdmin = new Usuario();
+		usAdmin.setNombre("Homero");
+		usAdmin.setApellido("Simpson");
+		usAdmin.setContrasenia("admin");
+		usAdmin.setUsuario("admin");   
+		usAdmin.setDireccion("Av. Siempreviva 123");
+		usAdmin.setDNI(12312312);
+		usAdmin.setEstado(true);
+		usAdmin.setNacionalidad("Estados Unidos");
+		usAdmin.setSexo("M");
+		usAdmin.setFecha_de_nacimiento(new Date(1816,9,9));  
+		usAdmin.setTipoDeUsuario(TUAdmin);  
+		se.save(usAdmin); 
+		//--------------------------------------------------------
 		
-		Usuario usuario = new Usuario();
-		usuario.setNombre("Ezequiel");
-		usuario.setApellido("Rios");
-		usuario.setContrasenia("pepe");
-		usuario.setDireccion("Av. Siempreviva 123");
-		usuario.setDNI(32444555);
-		usuario.setEstado(true);
-		usuario.setNacionalidad("Argentino");
-		usuario.setSexo("M");
-		usuario.setUsuario("gato");   
-		usuario.setFecha_de_nacimiento(new Date(1991,03,27));  
-		usuario.setTipoDeUsuario(tpCliente); 
-		session.save(tpCliente);
-		session.save(usuario);
+		//USUARIOS CLIENTES---------------------------------------
+		Usuario cliente1 = new Usuario();
+		cliente1.setNombre("Ezequiel");
+		cliente1.setApellido("Rios");
+		cliente1.setUsuario("Ezequiel");   
+		cliente1.setContrasenia("Rios");
+		cliente1.setDireccion("Callao 1425");
+		cliente1.setDNI(32444555);
+		cliente1.setEstado(true);
+		cliente1.setNacionalidad("Argentina");
+		cliente1.setSexo("M");
+		cliente1.setFecha_de_nacimiento(new Date(1991,03,27));  
+		cliente1.setTipoDeUsuario(TUCliente);  
+		se.save(cliente1); 
 		
-		session.getTransaction().commit();
-		session.close(); 
-		sessionFactory.close();
+		Usuario cliente2 = new Usuario();
+		cliente2.setNombre("Rocio");
+		cliente2.setApellido("Favre");
+		cliente2.setUsuario("Rocio");   
+		cliente2.setContrasenia("Favre");
+		cliente2.setDireccion("Rivadavia 3541");
+		cliente2.setDNI(34253492);
+		cliente2.setEstado(true);
+		cliente2.setNacionalidad("Argentina");
+		cliente2.setSexo("M");
+		cliente2.setFecha_de_nacimiento(new Date(1990,5,5));  
+		cliente2.setTipoDeUsuario(TUCliente);  
+		se.save(cliente2); 
+		//-------------------------------------------------------- 
+		
+		se.getTransaction().commit();
+		ch.cerrarSession();
 	}
 }

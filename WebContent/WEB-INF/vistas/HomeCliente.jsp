@@ -11,8 +11,8 @@
 		<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="StyleSheet" type="text/css"> 
-		<link href="estilos/HomeCliente.css" rel="StyleSheet" type="text/css"> 
-		<link href="estilos/HomeCliente.css" rel="StyleSheet" type="text/css">  
+		<link href="estilos/AdministradorHome.css" rel="StyleSheet" type="text/css"> 
+		<!--  <link href="estilos/HomeCliente.css" rel="StyleSheet" type="text/css">  -->
 	</head>
 	<body> 
 		<div class="mainContainer"> 
@@ -46,12 +46,9 @@
 				} %>
 			<div class="content">
 				<div class="tituloPaginaContainer">
-					<div class="tituloPagina">Home Cliente</div>  
-					
-					
-				  	 
+					<div class="tituloPagina">Home Cliente</div>   	 
 				</div>
-				<label for="nombreClienteGet">${cliente.getNombre()}</label> <label for="apellidoClienteGet">${cliente.getApellido()}</label>
+				<label for="nombreClienteGet">${cliente.getNombre()}</label> <label for="apellidoClienteGet">${cliente.getApellido()}</label>     <input class="button" type="submit" value="Realizar transferencia">
 				<% if(request.getAttribute("idUsuario")!=null) { %>
 				<div style="border: solid gray 1px; border-radius: 5px; padding:5px; height: 217px" >
 					<h4>Cuentas</h4>
@@ -80,7 +77,7 @@
 							<tr> 
 								<td>
 									<form method="post" action="editarCuenta.html">
-							  			<input class="button" type="submit" value="Editar / Eliminar"></input>
+							  			<input class="button" type="submit" value="Ver movimientos">
 							  			<input type="hidden" name="idUsuario" value="${idUsuario}" >
 							  			<input type="hidden" name="idCuenta" value="<%=ci.getIdNroDeCuenta()%>" >
 							  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
@@ -96,38 +93,8 @@
 						</tbody>
 					</table>
 				</div>
-				<div style="border: solid gray 1px; border-radius: 5px; padding:5px; height: auto" >
-				<h4>Historial de movimientos - Cuenta Nro. <%=ci.getIdNroDeCuenta()%></h4>
-				<table id="tablaCuentas" class="table table-striped table-bordered" style="width:100%;">
-						<thead>
-						  <tr> 
-						  	<th></th>
-						    <th>FECHA</th>
-						    <th>CONCEPTO</th>
-						    <th>IMPORTE</th>
-						    <th>SALDO FINAL</th>
-						  </tr>
-					 	</thead>
-	       				<tbody> 	
-							<tr> 
-								<td>
-									<form method="post" action="editarCuenta.html">
-							  			<input class="button" type="submit" value="Ver movimiento">
-							  			<input type="hidden" name="idUsuario" value="${idUsuario}">
-							  			<input type="hidden" name="idCuenta" value="<%=%>">
-							  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}">
-							  										    <%  } } %>
-							  		</form>
-								</td>
-							    <td><jsp:expression></jsp:expression></td>
-							    <td><jsp:expression></jsp:expression></td>
-							    <td><jsp:expression></jsp:expression></td>
-							    <td><jsp:expression></jsp:expression></td>
-						  	</tr> 
-						</tbody>
-					</table>
-				</div>
 			</div>  
+			<%  } } %>
 			<div class="footer"> 
 	            <div>LAB5 UTN Grupo 8 2021</div> 
 		    </div>

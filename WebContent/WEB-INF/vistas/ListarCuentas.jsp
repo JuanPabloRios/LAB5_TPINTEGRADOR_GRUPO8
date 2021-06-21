@@ -110,7 +110,7 @@
 		    </div>
 		    <script type="text/javascript">
 			    $(document).ready( function () {
-			        $('#tablaClientes').DataTable({
+			        $('#tablaCuentas').DataTable({
 			        	"language": {
 			                "lengthMenu": "Mostrar _MENU_ por pagina",
 			                "zeroRecords": "No hay resultados",

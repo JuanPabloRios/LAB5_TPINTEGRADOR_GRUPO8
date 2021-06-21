@@ -11,8 +11,8 @@
 		<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="StyleSheet" type="text/css"> 
-		<link href="estilos/Transferencias.css" rel="StyleSheet" type="text/css"> 
-		<link href="estilos/Transferencias.css" rel="StyleSheet" type="text/css">  
+		<link href="estilos/AdministradorHome.css" rel="StyleSheet" type="text/css"> 
+		<!-- <link href="estilos/Transferencias.css" rel="StyleSheet" type="text/css">  -->
 	</head>
 	<body> 
 		<div class="mainContainer"> 

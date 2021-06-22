@@ -39,9 +39,19 @@ public class AdministradorHomeController {
 
     @RequestMapping("redirigirListadoCuentas.html")
     public ModelAndView redirigirAABMCuentas(String nombreCuenta) { 
-        ModelAndView mv = new ModelAndView();
+        ModelAndView mv = new ModelAndView(); 
+        mv.addObject("listaCuentas",CuentaSelector.obtenerTodasLasCuentas()); 
         mv.addObject("nombreCuenta",nombreCuenta); 
-        mv.setViewName("ACA VA LA VISTA DE LISTADO DE CUENTAS");
+        mv.setViewName("ListarCuentas");
+        return mv;
+    }
+    
+    @RequestMapping("regirigirAListadoDeClientes.html")
+    public ModelAndView regirigirAListadoDeClientes(String nombreCuenta) { 
+        ModelAndView mv = new ModelAndView(); 
+        mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes()); 
+        mv.addObject("nombreCuenta",nombreCuenta); 
+        mv.setViewName("AdministradorHome");
         return mv;
     }
 

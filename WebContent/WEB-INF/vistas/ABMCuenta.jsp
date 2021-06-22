@@ -49,10 +49,10 @@
 			<div class="content">
 				<div class="tituloPaginaContainer">
 					<div class="tituloPagina">ABM Cuenta</div>  
-					<% if(request.getAttribute("idUsuario")!=null) { %>
+					<% if(request.getAttribute("cuenta")!=null) { %>
 					<div class="botonPrincipalContainer">
 						<form method="post" action="eliminarCuenta.html">
-				  			<input class="button btnNuevaCuenta" type="submit" title="Eliminar cuenta" value="Eliminar Cuenta"></input> 
+				  			<input class="button btnNuevoCliente" type="submit" title="Eliminar cuenta" value="Eliminar Cuenta"></input> 
 				  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 				  			<input type="hidden" name="idUsuario" value="${idUsuario}" >
 				  		</form>
@@ -60,54 +60,68 @@
 				  	<% } %> 
 				</div>
 				<div style="margin-bottom: 10px;">
-					<form method="post" action="guardarCuenta.html" onsubmit="return error();">
-						<div id="datosPersonales">
-							
-								<div class="column">
-							    	<label for="nombreCliente">Cliente:</label>
-									<input type="text" id="nombreCliente" name="nombreCliente" value="${cuenta.getUsuario()}" required="required">
-							  	</div>
-							<div class="row">
-							  	<div class="column">
-							  		<label for="numeroCuenta">Numero de cuenta:</label>
-									<input type="text" id="numeroCuenta" name="numeroCuenta" value="${cuenta.getIdNroCuenta()}"></input>
-							  	</div>
-							  	<div class="column">
-							  		<label for="fechaCuenta">Fecha de creacion:</label>
-									<input type="text" id="fechaCuenta" name="fechaCuenta" value="${cuenta.getFechaCreacion()}"></input>
-							  	</div>
-							  	<div class="column">
-							  		<label for="CBU">CBU:</label>
-									<input type="text" id="CBU" name="CBU" value="${cuenta.getCBU()}"></input>
-							  	</div>
-								<div class="column"> 
-									<label for="tipoCuenta">Tipo de Cuenta:</label>
-									<select name="tipoCuenta" id="tipoCuenta">
-									  	<option value="P">Caja Ahorro Pesos</option>
-									  	<option value="D">Caja Ahorro Dolares</option>
-									</select> 
-							  	</div> 
-							  	<div class="column">
-							  		<label for="saldo">Saldo:</label>
-									<input type="text" id="saldo" name="saldo" value="${cuenta.getSaldo()}"></input>
-							  	</div>
-							</div>
-						</div> 
+					<form method="post" action="guardarCuenta.html" onsubmit="return error();"> 
+						<div class="row">
+							<div class="column" > 
+								<div style="display:flex; justify-content: left;">
+									<div style="max-width:150px;">
+										<input class="button btnNuevoCliente" type="button" title="Asignar cliente" value="Asignar cliente"></input>  
+					  					<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" > 
+					  				</div> 
+								</div> 
+						  	</div>  
+						  	<div class="column">
+						  		<label for="numeroCuenta">Numero de cuenta:</label>
+								<input type="text" id="numeroCuenta" name="numeroCuenta" value="${cuenta.getIdNroDeCuenta()}" disabled="true"></input>
+						  	</div>
+						</div>
+						<div class="row">
+						  	<div class="column">
+						  		<label for="fechaCuenta">Fecha de creacion:</label>
+								<input type="text" id="fechaCuenta" name="fechaCuenta" value="${cuenta.getFechaCreacion()}" disabled="true"></input>
+						  	</div>
+						  	<div class="column">
+						  		<label for="CBU">CBU:</label>
+								<input type="text" id="CBU" name="CBU" value="${cuenta.getCBU()}" disabled=true></input>
+						  	</div> 
+						</div>
 						<div class="row">
 							<div class="column"> 
-							</div>
-							<div class="column" style="display:flex; justify-content: flex-end;"><input type="submit" class="button btnSave" title="Guardar" value="Guardar" style="margin-top:10px;"></input> </div> 
-						</div>
-						 
-						<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
+								<label for="tipoCuenta">Tipo de Cuenta:</label>
+								<select name="tipoCuenta" id="tipoCuenta">
+								  	<option value="P">Caja Ahorro Pesos</option>
+								  	<option value="D">Caja Ahorro Dolares</option>
+								</select> 
+						  	</div> 
+						  	<div class="column">
+						  		<label for="saldo">Saldo:</label>
+						  		<%if(request.getAttribute("cuenta")==null) { %>
+									<input type="text" id="saldo" name="saldo" value="${cuenta.getSaldo()}" disabled="true"></input>
+								<% } %>
+								<%if(request.getAttribute("cuenta")!=null) { %>
+									<input type="text" id="saldo" name="saldo" value="${cuenta.getSaldo()}"></input>
+								<% } %>
+						  	</div>
+						</div>  
+						
+						<div class="row">
+							<div class="column"> 
+						  	</div> 
+						  	<div class="column" style="display:flex; justify-content: flex-end;">
+						  		<input type="submit" class="button btnSave" title="Guardar" value="Guardar" style="margin-top:10px;"></input>  
+								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
+						  	</div>
+						</div> 
 					</form>
+					<%if(request.getAttribute("cuenta")==null) { %>
+						<p>*NOTA: Los datos de Numero de cuenta, CBU, Fecha de Creacion y Saldo, estaran disponibles una vez creada la cuenta.</p>
+					<% } %>
 				</div>
 				
 			</div>  
-			<div class="footer"> 
-	            <div>LAB5 UTN Grupo 8 2021</div> 
-		    </div>
-	    </div>
+		<div class="footer"> 
+            <div>LAB5 UTN Grupo 8 2021</div> 
+	    </div> 
 
 </body>
 </html>

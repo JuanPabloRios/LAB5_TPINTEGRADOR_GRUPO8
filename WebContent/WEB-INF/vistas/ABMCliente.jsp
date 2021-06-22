@@ -12,7 +12,9 @@
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="estilos/AdministradorHome.css" rel="StyleSheet" type="text/css"> 
-		<link href="estilos/ABMCliente.css" rel="StyleSheet" type="text/css">  
+		<link href="estilos/ABMCliente.css" rel="StyleSheet" type="text/css">	
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>  
 	</head>
 	<body> 
 		<div class="mainContainer"> 
@@ -49,8 +51,8 @@
 					<div class="tituloPagina">ABM Cliente</div>  
 					<% if(request.getAttribute("idUsuario")!=null) { %>
 					<div class="botonPrincipalContainer">
-						<form method="post" action="eliminarCliente.html">
-				  			<input class="button btnNuevoCliente" type="submit" title="Eliminar cliente" value="Eliminar Cliente"></input> 
+						<form id="formDelete" method="post" action="eliminarCliente.html">
+				  			<input class="button btnNuevoCliente" type="button" title="Eliminar cliente" value="Eliminar Cliente" id="delete_button"></input> 
 				  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 				  			<input type="hidden" name="idUsuario" value="${idUsuario}" >
 				  		</form>
@@ -204,6 +206,29 @@
 		            }
 		        });
 		    } );
+		    
+		    $(function() {
+		    	   $("#delete_button").click(function(){
+		    		   $.confirm({
+		    			    title: 'Eliminar',
+		    			    content: 'Realmente desea eliminar el usuario?',
+		    			    buttons: {
+		    			        confirm: {
+		    			        	text:"Eliminar",
+		    			        	action: function () {
+		    			        		$('#formDelete').submit();
+		    			        	}
+		    			        },
+		    			        cancel: {
+		    			        	text:"Cancelar",
+		    			        	action:function () {}
+		    			        }
+		    			    }
+		    			    
+		    			});
+		    	   });
+		    	});
+		    
 	    </script>
 	</body>
 </html>

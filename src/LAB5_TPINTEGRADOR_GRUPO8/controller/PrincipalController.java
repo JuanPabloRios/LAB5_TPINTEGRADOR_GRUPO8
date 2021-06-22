@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView; 
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
+import LAB5_TPINTEGRADOR_GRUPO8.selector.CuentaSelector;
 import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector; 
 
 //Controlador de la vista Principal
@@ -40,8 +41,8 @@ public class PrincipalController {
 				mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes());
 				mv.setViewName("AdministradorHome");
 			} else {
-				//Aca agregar metodo para traer las cuentas del cliente y agregarlo como object a la vista
-				mv.setViewName("AdministradorHome"); //ACA REEMPLAZAR PARA IR AL HOME DE CLIENTES
+				mv.addObject("listaCuentas", CuentaSelector.obtenerTodasLasCuentasDeClientePorId(us.getIdusuario()));  
+				mv.setViewName("HomeCliente");
 			} 
 		} 
 		return mv;

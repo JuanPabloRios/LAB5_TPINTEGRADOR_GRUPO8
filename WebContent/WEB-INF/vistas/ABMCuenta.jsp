@@ -65,7 +65,7 @@
 							<div class="column" > 
 								<div style="display:flex; justify-content: left;">
 									<div style="max-width:150px;">
-										<input class="button btnNuevoCliente" type="button" title="Asignar cliente" value="Asignar cliente"></input>  
+										<input class="button btnNuevoCliente" id="asignarCliente" type="button" title="Asignar cliente" value="Asignar cliente"></input>  
 					  					<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" > 
 					  				</div> 
 								</div> 
@@ -113,6 +113,9 @@
 						  	</div>
 						</div> 
 					</form>
+					<form id="formAsignarCliente" method="post" action="buscarCliente.html">
+						<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
+					</form>
 					<%if(request.getAttribute("cuenta")==null) { %>
 						<p>*NOTA: Los datos de Numero de cuenta, CBU, Fecha de Creacion y Saldo, estaran disponibles una vez creada la cuenta.</p>
 					<% } %>
@@ -122,6 +125,13 @@
 		<div class="footer"> 
             <div>LAB5 UTN Grupo 8 2021</div> 
 	    </div> 
+	    <script type="text/javascript">
+	    $(function() {
+	    	   $("#asignarCliente").click(function(){
+	    		   $("#formAsignarCliente").submit();
+	    	   });
+	    	});
+	    </script>
 
 </body>
 </html>

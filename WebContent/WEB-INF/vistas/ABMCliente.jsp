@@ -79,7 +79,7 @@
 							  	</div>
 							  	<div class="column"> 
 							  		<label for="fechaNacimientoCliente">Fecha de Nacimiento:</label>
-									<input type="date" id="fechaNacimientoCliente" name="fechaNacimientoCliente" value="${cliente.getFecha_de_nacimiento()}" required="required"></input>
+									<!-- <input type="date" id="fechaNacimientoCliente" name="fechaNacimientoCliente" value="${cliente.getFecha_de_nacimiento()}" required="required"></input>  -->
 							  	</div>
 							</div>
 							<div class="row">

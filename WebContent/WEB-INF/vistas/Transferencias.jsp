@@ -12,21 +12,23 @@
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="estilos/AdministradorHome.css" rel="StyleSheet" type="text/css"> 
-		<!-- <link href="estilos/Transferencias.css" rel="StyleSheet" type="text/css">  -->
+		<link href="estilos/ABMCliente.css" rel="StyleSheet" type="text/css">  
 	</head>
 	<body> 
+			<% 
+				Usuario cliente = new Usuario();
+				if(request.getAttribute("cliente")!=null) {
+					cliente = (Usuario)request.getAttribute("cliente"); 
+				} %>
 		<div class="mainContainer"> 
 			<div class="header">
 				<div class="controlesUsuario">
 					<div>Banking App</div>
 					<div style="display:flex; flex-direction:row;"> 
-						<form method="post" action="redirigirListadoCuentas.html">
-							<input type="submit" title="Cuentas" value="Cuentas" class="button btnHeader"></input>
-								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
-						</form>
-						<form method="post" action="redirigirListadoClientes.html" style="margin-left:10px;">
-							<input type="submit" title="Clientes" value="Clientes" class="button btnHeader"></input>
-								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
+						<form method="post" action="irAClienteHome.html">
+							<input type="submit" title="Home" value="Home" class="button btnHeader"></input>
+							<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
+							<input type="hidden" name="idUsuario" value="<%=cliente.getIdusuario()%>" >
 						</form>
 					</div> 
 				</div>
@@ -39,89 +41,75 @@
 					</div>
 				</div>
 			</div> 
-			<% 
-				Usuario cliente = new Usuario();
-				if(request.getAttribute("cliente")!=null) {
-					cliente = (Usuario)request.getAttribute("cliente"); 
-				} %>
 			<div class="content">
 				<div class="tituloPaginaContainer">
-					<div class="tituloPagina">Realizar transferencia</div>  
-					
-					
-				  	 
+					<div class="tituloPagina">Realizar transferencia</div>   
 				</div>
-				<label for="nombreClienteGet">${cliente.getNombre()}</label> <label for="apellidoClienteGet">${cliente.getApellido()}</label>
-				<% if(request.getAttribute("idUsuario")!=null) { %>
-				<div style="border: solid gray 1px; border-radius: 5px; padding:5px; height: 217px" >
-					<h4>Seleccionar cuenta de origen</h4>
-					<table id="tablaCuentas" class="table table-striped table-bordered" style="width:100%;">
-						<thead>
-						  <tr> 
-						  	<th></th>
-						    <th>Nro CUENTA</th>
-						    <th>CBU</th>
-						    <th>TIPO</th>
-						    <th>SALDO</th>
-						  </tr>
-					 	</thead>
-	       				<tbody> 
-	       				<% 
-							ArrayList<Cuentas> cuentasCliente = null;
-						  
-							if(request.getAttribute("listaCuentas")!=null)
-							{
-								cuentasCliente = (ArrayList<Cuentas>)request.getAttribute("listaCuentas");
-							}		
-						  %>
-							
-							<%  if(cuentasCliente!=null)
-								for(Cuentas ci : cuentasCliente) { %>
-							<tr> 
-								<td>
-									<form method="post" action="editarCuenta.html">
-							  			
-							  			
-							  			<select name="CuentaDestino" id="CuentaDestino"><option>Seleccione cuenta origen</option></select>
-							  			
-							  		</form>
-								</td>
-							    <td><%=ci.getIdNroDeCuenta()%></td>
-							    <td><%=ci.getCBU()%></td>
-							    <td><%=ci.getTipoCuenta().getDescripcion()%></td>
-							    <td><%=ci.getSaldo()%></td>
-
-						  	</tr> 
-					    <jsp:scriptlet>  } } </jsp:scriptlet>
-						</tbody>
-					</table>
+				<div class="row">
+					<div class="column" >
+						<label for="nombreClienteGet">${cliente.getNombre()}</label> <label for="apellidoClienteGet">${cliente.getApellido()}</label> 
+						<div > 
+							<label for="CuentaOrigen">Seleccionar Cuenta de origen </label>
+							<select name="CuentaOrigen" id="CuentaOrigen" >
+							  	<option value="0">Seleccione cuenta de origen</option>
+								<option value="1">Nro Cuenta 1 y CBU</option>
+								<option value="2">Nro Cuenta 2 y CBU</option>
+								<option value="3">Nro Cuenta 3 y CBU</option>
+							</select> 
+						</div>
+					</div> 
+					<div class="column" >
+					</div> 
 				</div>
-				<div style="border: solid gray 1px; border-radius: 5px; padding:5px; height: auto" >
-				<h4>Seleccionar cuenta de destino</h4>
-				<table id="tablaCuentas" class="table table-striped table-bordered" style="width:100%;">
-						<thead>
-						  <tr> 
-						  	<th></th>
-						    <th>Nro CUENTA</th>
-						    <th>CBU</th>
-						    <th>NOMBRE</th>
-						  </tr>
-					 	</thead>
-	       				<tbody> 	
-							<tr> 
-								<td>
-									<form method="post" action="editarCuenta.html">
-							  			<select name="CuentaDestino" id="CuentaDestino"><option>Seleccione cuenta destino</option></select>
-							  		</form>
-								</td>
-							    <td><jsp:expression></jsp:expression></td>
-							    <td><jsp:expression></jsp:expression></td>
-							    <td><jsp:expression></jsp:expression></td>
-						  	</tr> 
-						</tbody>
-					</table>
+				<div class="row">
+					<div class="column" >
+						<div > 
+							<label for="CuentaOrigen">Seleccionar cuenta de destino</label>
+							<select name="CuentaOrigen" id="CuentaOrigen" onchange="checkTerceros(this)">
+							  	<option value="0">Seleccione cuenta de destino</option>
+								<option value="1">Nro Cuenta 1 y CBU</option>
+								<option value="2">Nro Cuenta 2 y CBU</option>
+								<option value="3">Nro Cuenta 3 y CBU</option>
+								<option value="Otros">Cuentas de terceros por CBU</option>
+							</select> 
+						</div> 
+					</div> 
+					<div class="column" >
+					</div> 
 				</div>
-			</div><br><label for="nombreCliente">Ingrese el monto a transferir:</label>  <input type="text" id="Monto" name="Monto" value="" required="required"><br><br><input type="submit" title="RealizarTransferencia" value="Realizar transferencia" class="button btnHeader">  
+				<div class="row">
+					<div class="column" >
+						<div id="cbuContainer" style="display:none;">
+							<label for="cbu">Ingrese el CBU de la cuenta destino:</label> 
+							<input type="number" id="cbu" name="cbu" value="" required="required">
+						</div>
+						<script>
+							function checkTerceros(element){
+								console.log(element.value);
+								if(element.value == 'Otros'){
+									$('#cbuContainer').show();
+								} else {
+									$('#cbuContainer').hide();
+								}
+							}
+						</script> 
+					</div> 
+					<div class="column" >
+					</div> 
+				</div>
+				<div class="row">
+					<div class="column" >
+						<label for="nombreCliente">Ingrese el monto a transferir:</label>  
+						<input type="text" id="Monto" name="Monto" value="" required="required"> 
+					</div> 
+					<div class="column"style="display:flex; justify-content: flex-end;" >
+						<div >
+					  		<input type="submit" class="button btnSave" title="Transferir" value="Transferir" style="margin-top:10px;"></input>  
+							<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
+					  	</div>
+					</div> 
+				</div>
+			</div>
 			<div class="footer"> 
 	            LAB5 UTN Grupo 8 2021 
 		    </div>

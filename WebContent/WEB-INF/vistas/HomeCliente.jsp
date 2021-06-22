@@ -11,23 +11,24 @@
 		<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="StyleSheet" type="text/css"> 
-		<link href="estilos/AdministradorHome.css" rel="StyleSheet" type="text/css"> 
-		<!--  <link href="estilos/HomeCliente.css" rel="StyleSheet" type="text/css">  -->
+		<link href="estilos/AdministradorHome.css" rel="StyleSheet" type="text/css">  
 	</head>
 	<body> 
+		<% 
+		Usuario cliente = new Usuario();
+		if(request.getAttribute("usuario")!=null) {
+			cliente = (Usuario)request.getAttribute("usuario"); 
+		} %>
 		<div class="mainContainer"> 
 			<div class="header">
 				<div class="controlesUsuario">
 					<div>Banking App</div>
 					<div style="display:flex; flex-direction:row;"> 
-						<form method="post" action="redirigirListadoCuentas.html">
-							<input type="submit" title="Cuentas" value="Cuentas" class="button btnHeader"></input>
-								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
-						</form>
-						<form method="post" action="redirigirListadoClientes.html" style="margin-left:10px;">
-							<input type="submit" title="Clientes" value="Clientes" class="button btnHeader"></input>
-								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
-						</form>
+						<!-- <form method="post" action="irAClienteHome.html">
+							<input type="submit" title="Home" value="Home" class="button btnHeader"></input>
+							<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
+							<input type="hidden" name="nombreCuenta" value="<%=cliente.getIdusuario()%>" >
+						</form>  -->
 					</div> 
 				</div>
 				<div class="controlesUsuario">
@@ -39,17 +40,19 @@
 					</div>
 				</div>
 			</div> 
-			<% 
-				Usuario cliente = new Usuario();
-				if(request.getAttribute("cliente")!=null) {
-					cliente = (Usuario)request.getAttribute("cliente"); 
-				} %>
+			
 			<div class="content">
 				<div class="tituloPaginaContainer">
-					<div class="tituloPagina">Home Cliente</div>   	 
-				</div>
-				<label for="nombreClienteGet">${cliente.getNombre()}</label> <label for="apellidoClienteGet">${cliente.getApellido()}</label>     <input class="button" type="submit" value="Realizar transferencia">
-				<% if(request.getAttribute("idUsuario")!=null) { %>
+					<div class="tituloPagina">Home Cliente</div>   	
+					<div class="botonPrincipalContainer">
+						<form method="post" action="irATransferencia.html">
+				  			<input class="button btnNuevoCliente" type="submit" title="Realizar transferencia" value="Realizar transferencia"></input> 
+				  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
+				  			<input type="hidden" name="idUsuario" value="<%=cliente.getIdusuario()%>" >
+				  		</form>
+				  	</div> 
+				</div>   
+				<% if(request.getAttribute("usuario")!=null) { %>
 				<div style="border: solid gray 1px; border-radius: 5px; padding:5px; height: 217px" >
 					<h4>Cuentas</h4>
 					<table id="tablaCuentas" class="table table-striped table-bordered" style="width:100%;">
@@ -72,13 +75,13 @@
 							}		
 						  %>
 							
-							<%  if(cuentasCliente!=null)
+						<%  if(cuentasCliente!=null)
 								for(Cuentas ci : cuentasCliente) { %>
 							<tr> 
 								<td>
-									<form method="post" action="editarCuenta.html">
+									<form method="post" action="verMovimientosCuenta.html">
 							  			<input class="button" type="submit" value="Ver movimientos">
-							  			<input type="hidden" name="idUsuario" value="${idUsuario}" >
+							  			<input type="hidden" name="idUsuario" value="<%=cliente.getIdusuario()%>" >
 							  			<input type="hidden" name="idCuenta" value="<%=ci.getIdNroDeCuenta()%>" >
 							  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 							  		</form>

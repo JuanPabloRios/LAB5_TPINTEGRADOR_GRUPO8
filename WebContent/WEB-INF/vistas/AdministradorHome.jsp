@@ -14,6 +14,9 @@
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="estilos/AdministradorHome.css" rel="StyleSheet" type="text/css"> 
+		
+		<script src="estilos/toast/javascript/jquery.toastmessage.js"></script>
+		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css">	
 	</head>
 	<body>
 		<div class="mainContainer">
@@ -92,6 +95,18 @@
 		            <div>LAB5 UTN Grupo 8 2021</div> 
 			    </div>
 		    </div>
+		    	    <%if(request.getAttribute("informarEliminadoCorrecto")!=null)
+	    	{  	
+	    	%>
+	    <script>console.log("ENTRAMOS EN EL IF"); $().toastmessage('showSuccessToast', "Usuario eliminado correctamente.");</script>
+	    	<%}
+	    %>
+	    		    	    <%if(request.getAttribute("informarUsuarioCreado")!=null)
+	    	{  	
+	    	%>
+	    <script>console.log("ENTRAMOS EN EL IF"); $().toastmessage('showSuccessToast', "Usuario creado correctamente.");</script>
+	    	<%}
+	    %>
 		    <script type="text/javascript">
 			    $(document).ready( function () {
 			        $('#tablaClientes').DataTable({

@@ -4,8 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView; 
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector;
-import java.util.List;
+import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector; 
 
 //Controlador de la vista Principal
 @Controller

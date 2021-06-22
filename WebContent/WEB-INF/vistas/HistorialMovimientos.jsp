@@ -13,32 +13,20 @@
 		</div>
 
 		<div style="border: solid gray 1px; border-radius: 5px; padding:5px; height: auto" >
-		<h4>Historial de movimientos - Cuenta Nro. <%=ci.getIdNroDeCuenta()%></h4>
+		<h4>Historial de movimientos - Cuenta Nro. ${ci.getIdNroDeCuenta()}</h4>
 		<table id="tablaCuentas" class="table table-striped table-bordered" style="width:100%;">
 				<thead>
-				  <tr> 
-				  	<th></th>
+				  <tr>  
 				    <th>FECHA</th>
-				    <th>CONCEPTO</th>
-				    <th>IMPORTE</th>
-				    <th>SALDO FINAL</th>
+				    <th>TIPO</th>
+				    <th>IMPORTE</th> 
 				  </tr>
 			 	</thead>
       				<tbody> 	
 					<tr> 
-						<td>
-							<form method="post" action="editarCuenta.html">
-					  			<input class="button" type="submit" value="Ver movimiento">
-					  			<input type="hidden" name="idUsuario" value="${idUsuario}">
-					  			<input type="hidden" name="idCuenta" value="<%=%>">
-					  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}">
-					  										    <%  } } %>
-					  		</form>
-						</td>
-					    <td><jsp:expression></jsp:expression></td>
-					    <td><jsp:expression></jsp:expression></td>
-					    <td><jsp:expression></jsp:expression></td>
-					    <td><jsp:expression></jsp:expression></td>
+						<td></td>
+					    <td></td>
+					    <td></td> 
 				  	</tr> 
 				</tbody>
 			</table>
@@ -46,6 +34,7 @@
 	<div class="footer"> 
            <div>LAB5 UTN Grupo 8 2021</div> 
     </div>
+   </div>
 	    <script type="text/javascript">
 		    $(document).ready( function () {
 		        $('#tablaCuentas').DataTable({

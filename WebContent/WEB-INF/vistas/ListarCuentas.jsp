@@ -22,8 +22,8 @@
 					<div class="controlesUsuario">
 						<div>Banking App</div>
 						<div> 
-							<form method="post" action="redirigirListadoCuentas.html">
-								<input type="submit" title="Cuentas" value="Cuentas" class="button btnHeader"></input>
+							<form method="post" action="regirigirAListadoDeClientes.html">
+								<input type="submit" title="Clientes" value="Clientes" class="button btnHeader"></input>
 								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 							</form>
 						</div> 
@@ -42,8 +42,8 @@
 					<div class="tituloPaginaContainer">
 						<div class="tituloPagina">Cuentas</div> 
 						<div class="botonPrincipalContainer">
-							<form method="post" action="crearNuevaCuenta.html">
-					  			<input class="button btnNuevaCuenta" type="submit" title="Nueva Cuenta" value="Nueva Cuenta"></input> 
+							<form method="post" action="redireccionarANuevaCuenta.html">
+					  			<input class="button btnNuevoCliente" type="submit" title="Nueva Cuenta" value="Nueva Cuenta"></input>  
 					  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 					  		</form>
 					  	</div> 
@@ -62,19 +62,7 @@
 						  </tr>
 					 	</thead>
         				<tbody> 
-        				<% 
-							ArrayList<Usuario> clientes = null;
-						  
-							if(request.getAttribute("listaClientes")!=null)
-							{
-								clientes = (ArrayList<Usuario>)request.getAttribute("listaClientes");
-							}		
-						  %>
-							
-							<%  if(clientes!=null)
-								for(Usuario c : clientes) { %>
-								
-								       				<% 
+						 <% 
 							ArrayList<Cuentas> cuentas = null;
 						  
 							if(request.getAttribute("listaCuentas")!=null)
@@ -87,20 +75,20 @@
 								for(Cuentas cu : cuentas) { %>
 							<tr>
 							  	<td>
-							  		<form method="post" action="editarCliente.html">
+							  		<form method="post" action="editarCuenta.html">
 							  			<input class="button" type="submit" value="Editar / Eliminar"></input>
-							  			<input type="hidden" name="idUsuario" value="<%=c.getIdusuario() %>" >
+							  			<input type="hidden" name="idCuenta" value="<%=cu.getIdNroDeCuenta()%>" >
 							  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 							  		</form>
 							  	</td>
-							    <td><%=cu.getApellido()%></td>
-							    <td><%=cu.getNombre()%></td>
-							    <td><%=cu.getIdNroDeCuenta%></td>
+							    <td><%=cu.getUsuario().getApellido()%></td>
+							    <td><%=cu.getUsuario().getNombre()%></td>
+							    <td><%=cu.getIdNroDeCuenta()%></td>
 							    <td><%=cu.getCBU()%></td>
-							    <td><%=cu.getTipoCuenta()%></td>
+							    <td><%=cu.getTipoCuenta().getDescripcion()%></td>
 							    <td><%=cu.getSaldo()%></td>
 						  	</tr> 
-					   <%  } %> 
+					   <% } %> 
 						</tbody>
 					</table>
 				</div>  
@@ -110,7 +98,7 @@
 		    </div>
 		    <script type="text/javascript">
 			    $(document).ready( function () {
-			        $('#tablaCuentas').DataTable({
+			        $('#tablaCuenta').DataTable({
 			        	"language": {
 			                "lengthMenu": "Mostrar _MENU_ por pagina",
 			                "zeroRecords": "No hay resultados",

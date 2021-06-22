@@ -41,7 +41,7 @@ public class Cuentas implements Serializable{
 		
 	}
 	
-	public int getIdNroDeCuenta() {
+	public Integer getIdNroDeCuenta() {
 		return idNroDeCuenta;
 	}
 

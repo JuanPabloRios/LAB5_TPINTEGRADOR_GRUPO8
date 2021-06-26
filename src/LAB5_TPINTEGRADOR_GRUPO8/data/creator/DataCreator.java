@@ -1,5 +1,5 @@
 package LAB5_TPINTEGRADOR_GRUPO8.data.creator;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import org.hibernate.Session; 
@@ -40,7 +40,7 @@ public class DataCreator {
             usAdmin.setEstado(true);
             usAdmin.setNacionalidad("Estados Unidos");
             usAdmin.setSexo("M");
-            usAdmin.setFecha_de_nacimiento(new Date(1816,9,9));  
+           usAdmin.setFecha_de_nacimiento(new Date(1816,9,9));  
             usAdmin.setTipoDeUsuario(TUAdmin);  
             se.save(usAdmin); 
             //--------------------------------------------------------

@@ -1,11 +1,12 @@
 package LAB5_TPINTEGRADOR_GRUPO8.controller;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
- 
+
 import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector;
 import LAB5_TPINTEGRADOR_GRUPO8.service.UsuarioService;
 
@@ -68,6 +69,25 @@ public class ABMClienteController {
     }
     
     //editarCuenta.html idUsuario, idCuenta, nombreCuenta
+    
+    
+    
+    
+    //editarCliente.html Usuario completo.
+    @RequestMapping("editCliente.html")
+    public ModelAndView editarCliente(String nombreCuenta,Integer idUsuario, String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
+			String nacionalidadCliente, String direccionCliente) {
+        ModelAndView mv = new ModelAndView(); 
+        mv.addObject("nombreCuenta",nombreCuenta);
+
+        UsuarioService.editarUsuario(idUsuario, nombreCliente, apellidoCliente, dniCliente, fechaNacimientoCliente, 
+				nacionalidadCliente, direccionCliente);
+    
+		mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes());
+        mv.addObject("informarUsuarioEditado",true);
+		mv.setViewName("AdministradorHome");
+        return mv;
+    }
     
     
 }

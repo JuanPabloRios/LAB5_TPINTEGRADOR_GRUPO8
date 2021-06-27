@@ -8,6 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.Session;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
+import LAB5_TPINTEGRADOR_GRUPO8.selector.ConfigHibernate;
 @Entity
 @Table(name="tiposDeUsuarios")
 public class TiposDeUsuarios implements Serializable {
@@ -21,8 +28,7 @@ public class TiposDeUsuarios implements Serializable {
 	
 	private String descripcion;
 	
-	public TiposDeUsuarios() {
-		
+	public TiposDeUsuarios() { 
 	}
 	
 	public int getIdTipoUsuario() {
@@ -39,8 +45,6 @@ public class TiposDeUsuarios implements Serializable {
 	@Override
 	public String toString() {
 		return "TiposDeUsuarios [idTipoUsuario=" + idTipoUsuario + ", descripcion=" + descripcion + "]";
-	}
-	
-	
+	} 
 	
 }

@@ -41,6 +41,10 @@ public class Cuentas implements Serializable{
 		
 	}
 	
+	public Cuentas(TiposDeCuentas tipoCuenta) {
+		this.tipoCuenta = tipoCuenta;
+	}
+	
 	public Integer getIdNroDeCuenta() {
 		return idNroDeCuenta;
 	}

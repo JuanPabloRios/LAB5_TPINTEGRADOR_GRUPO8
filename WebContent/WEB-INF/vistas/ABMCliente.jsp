@@ -138,14 +138,14 @@
 							<div class="column"> 
 							</div>
 							<div class="column" style="display:flex; justify-content: flex-end;">
-							<input type="submit" class="button btnSave" id="update_button" title="Guardar" value="Guardar" style="margin-top:10px;"></input>
+							<input type="button" class="button btnSave" id="update_button" title="Guardar" value="Guardar" style="margin-top:10px;"></input>
 							</div> 
 						</div>
 						 <input type="hidden" name="idUsuario" value="${idUsuario}" >
 						<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
 					</form>
 				<% }else{ %>
-				<form id="formCreate" method="post" action="guardarCliente.html" onsubmit="return error();">
+				<form id="formCreate" method="post" action="guardarCliente.html">
 						<div id="datosPersonales">
 							<div class="row">
 								<div class="column">
@@ -222,7 +222,7 @@
 							<div class="column"> 
 							</div>
 							<div class="column" style="display:flex; justify-content: flex-end;">
-							<input type="submit" class="button btnSave" id="create_button" title="Guardar" value="Guardar" style="margin-top:10px;"></input>
+							<input type="button" class="button btnSave" id="create_button" title="Guardar" value="Guardar" style="margin-top:10px;"></input>
 							</div> 
 						</div>
 						 

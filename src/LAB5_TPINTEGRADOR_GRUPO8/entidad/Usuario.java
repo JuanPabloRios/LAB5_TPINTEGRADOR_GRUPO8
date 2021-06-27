@@ -2,6 +2,7 @@ package LAB5_TPINTEGRADOR_GRUPO8.entidad;
 import java.io.Serializable;
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class Usuario implements Serializable{
 	private int DNI;
 	private String direccion;
 	private Boolean estado;
-	@OneToOne
+	@OneToOne 
 	@JoinColumn(name="idTipoUsuario_c")
 	private TiposDeUsuarios tipoDeUsuario;
 

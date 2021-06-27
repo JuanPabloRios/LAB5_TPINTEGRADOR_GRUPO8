@@ -2,7 +2,8 @@ package LAB5_TPINTEGRADOR_GRUPO8.selector;
 import java.util.ArrayList; 
 import java.util.List; 
 import org.hibernate.Session; 
-import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas; 
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas;
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario; 
 
 public class CuentaSelector {
 
@@ -34,14 +35,14 @@ public class CuentaSelector {
     }
     
     public static Cuentas obtenerCuentaPorId(Integer idCuenta) {
-    	ConfigHibernate ch = new ConfigHibernate();
-        Session se = ch.abrirConexion(); 
-        List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();  
-        for(Integer i = 0; i< cuentasClientes.size(); i++) { 
-            if(idCuenta == cuentasClientes.get(i).getIdNroDeCuenta()) {
-                return cuentasClientes.get(i);
-            }
-        } 
-        return null;
+    	ConfigHibernate config = new ConfigHibernate();
+    	Session session = config.abrirConexion(); 
+    	session.beginTransaction();
+    	Cuentas cuenta = (Cuentas)session.get(Cuentas.class,idCuenta); 
+    	config.cerrarSession();
+    	return cuenta;
     }
+    
+    
+    
 }

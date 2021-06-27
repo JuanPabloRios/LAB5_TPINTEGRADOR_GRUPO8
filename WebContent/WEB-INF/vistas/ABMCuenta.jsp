@@ -15,9 +15,13 @@
 		<link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="estilos/AdministradorHome.css" rel="StyleSheet" type="text/css"> 
 		<link href="estilos/ABMCliente.css" rel="StyleSheet" type="text/css">  
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css"> 
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css"> 
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>  
+		<script src="estilos/toast/javascript/jquery.toastmessage.js"></script>
+		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css"> 
 	</head>
 	<body> 
 		<div class="mainContainer"> 
@@ -64,7 +68,7 @@
 				</div>
 				<div style="margin-bottom: 10px;">
 				<% if(request.getAttribute("cuenta")!=null) { %>
-					<form id="formUpdate" method="post" action="editarCuenta.html" onsubmit="return error();"> 
+					<form id="formUpdate" method="post" action="editCuenta.html"> 
 						<div class="row">
 							<div class="column" > 
 								<label for="asignarCliente">Cliente seleccionado:</label>
@@ -77,25 +81,28 @@
 						  	</div>  
 						  	<div class="column">
 						  		<label for="numeroCuenta">Numero de cuenta:</label>
-								<input type="text" id="numeroCuenta" name="numeroCuenta" value="${cuenta.getIdNroDeCuenta()}" disabled="true"></input>
+								<input type="text" id="numeroCuenta2" name="numeroCuenta2" value="${cuenta.getIdNroDeCuenta()}" disabled="true"></input>
+								<input type="hidden" id="numeroCuenta" name="numeroCuenta" value="${cuenta.getIdNroDeCuenta()}"></input>
 						  	</div>
 						</div>
 						<div class="row">
 						  	<div class="column">
 						  		<label for="fechaCuenta">Fecha de creacion:</label>
-								<input type="text" id="fechaCuenta" name="fechaCuenta" value="${cuenta.getFechaCreacion()}" disabled="true"></input>
+								<input type="date" id="fechaCuenta" name="fechaCuenta" value="${cuenta.getFechaCreacion()}" disabled="true"></input>
+								<input type="hidden" id="fechaCuenta" name="fechaCuenta" value="${cuenta.getFechaCreacion()}"></input>
 						  	</div>
 						  	<div class="column">
 						  		<label for="CBU">CBU:</label>
 								<input type="text" id="CBU" name="CBU" value="${cuenta.getCBU()}" disabled=true></input>
+								<input type="hidden" id="CBU" name="CBU" value="${cuenta.getCBU()}"></input>
 						  	</div> 
 						</div>
 						<div class="row">
 							<div class="column"> 
 								<label for="tipoCuenta">Tipo de Cuenta:</label>
 								<select name="tipoCuenta" id="tipoCuenta">
-								  	<option value="P">Caja Ahorro Pesos</option>
-								  	<option value="D">Caja Ahorro Dolares</option>
+								  	<option value="Caja de Ahorro Pesos">Caja Ahorro Pesos</option>
+								  	<option value="Caja de Ahorro en Dolares">Caja Ahorro Dolares</option>
 								</select> 
 						  	</div> 
 						  	<div class="column">
@@ -113,7 +120,7 @@
 							<div class="column"> 
 						  	</div> 
 						  	<div class="column" style="display:flex; justify-content: flex-end;">
-						  		<input type="submit" class="button btnSave" title="Guardar" value="Guardar" id="update_button" style="margin-top:10px;"></input>  
+						  		<input class="button btnSave" title="Guardar" value="Guardar" id="update_button" style="margin-top:10px;"></input>  
 								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
 								<input class="idUserSelected" type="hidden" name="idUsuario"></input>
 						  	</div>
@@ -121,7 +128,7 @@
 					</form>
 					
 					<% }else{ %>
-					<form id="formCreate" method="post" action="guardarCuenta.html" onsubmit="return error();"> 
+					<form id="formCreate" method="post" action="guardarCuenta.html"> 
 						<div class="row">
 							<div class="column" > 
 								<label for="asignarCliente">Cliente seleccionado:</label>
@@ -135,24 +142,32 @@
 						  	<div class="column">
 						  		<label for="numeroCuenta">Numero de cuenta:</label>
 								<input type="text" id="numeroCuenta" name="numeroCuenta" value="${cuenta.getIdNroDeCuenta()}" disabled="true"></input>
+								<input type="hidden" id="numeroCuenta" name="numeroCuenta" value="${cuenta.getIdNroDeCuenta()}"></input>
 						  	</div>
 						</div>
 						<div class="row">
 						  	<div class="column">
+						  	<%
+							long millis=System.currentTimeMillis();
+							
+							java.sql.Date d=new java.sql.Date(millis);
+							   %>
 						  		<label for="fechaCuenta">Fecha de creacion:</label>
-								<input type="text" id="fechaCuenta" name="fechaCuenta" value="${cuenta.getFechaCreacion()}" disabled="true"></input>
+								<input type="date" id="fechaCuenta" name="fechaCuenta" value="<%=d%>" disabled="true"></input>
+								<input type="hidden" id="fechaCuenta" name="fechaCuenta" value="${cuenta.getFechaCreacion()}"></input>
 						  	</div>
 						  	<div class="column">
 						  		<label for="CBU">CBU:</label>
 								<input type="text" id="CBU" name="CBU" value="${cuenta.getCBU()}" disabled=true></input>
+								<input type="hidden" id="CBU" name="CBU" value="${cuenta.getCBU()}"></input>
 						  	</div> 
 						</div>
 						<div class="row">
 							<div class="column"> 
 								<label for="tipoCuenta">Tipo de Cuenta:</label>
 								<select name="tipoCuenta" id="tipoCuenta">
-								  	<option value="P">Caja Ahorro Pesos</option>
-								  	<option value="D">Caja Ahorro Dolares</option>
+								  	<option value="Caja de Ahorro Pesos">Caja Ahorro Pesos</option>
+								  	<option value="Caja de Ahorro en Dolares">Caja Ahorro Dolares</option>
 								</select> 
 						  	</div> 
 						  	<div class="column">
@@ -169,11 +184,10 @@
 						<div class="row">
 							<div class="column"> 
 						  	</div> 
-						  	<div class="column" style="display:flex; justify-content: flex-end;">
-						  		<input type="submit" class="button btnSave" title="Guardar" value="Guardar" id="create_button" style="margin-top:10px;"></input>  
-								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
-								<input type="hidden" name="idCuenta" value="${cuenta.getIdNroDeCuenta()}"></input>
-								<input class="idUserSelected" type="hidden" name="idUsuario"></input>
+						  	<div class="column" style="display:flex; justify-content: flex-end;"> 
+								<input class="idUserSelected" type="hidden" name="idUsuario"></input> 
+						  		<input class="button btnSave" title="Guardar" value="Guardar" id="create_button" style="margin-top:10px;"></input>  
+								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input> 
 						  	</div>
 						</div> 
 					</form>
@@ -277,11 +291,11 @@
 	    $(function() {
 	    	   $("#update_button").click(function(){
 	    		   $.confirm({
-	    			    title: 'Crear',
+	    			    title: 'Modificar',
 	    			    content: 'Realmente desea modificar la cuenta?',
 	    			    buttons: {
 	    			        confirm: {
-	    			        	text:"Crear",
+	    			        	text:"Modificar",
 	    			        	action: function () {
 	    			        		$('#formUpdate').submit();
 	    			        	}

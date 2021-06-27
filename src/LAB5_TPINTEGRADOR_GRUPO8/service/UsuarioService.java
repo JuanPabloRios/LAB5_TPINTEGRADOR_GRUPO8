@@ -68,48 +68,58 @@ public class UsuarioService {
     
     
     //FALTA AGREGAR LOCALIDAD Y PROVINCIA
-    public static void editarUsuario(Integer idUsuario, String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
+    public static String editarUsuario(Integer idUsuario, String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
 			String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
 			String nombreUsuario, String contrasenia){ 
     	try {
-	     	Usuario us = UsuarioSelector.obtenerUsuarioPorID(idUsuario);
-	    	ConfigHibernate config = new ConfigHibernate();
-	    	Session session = config.abrirConexion();
-	    	session.beginTransaction(); 
-	    	if(!us.getNombre().contains(nombreCliente)) { 
-	    		us.setNombre(nombreCliente);
+    		
+	    	Boolean existe = UsuarioService.existeDNI(dniCliente); 
+	    	if(!existe) {
+	    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class);
+		     	Usuario us = UsuarioSelector.obtenerUsuarioPorID(idUsuario);
+		    	ConfigHibernate config = new ConfigHibernate();
+		    	Session session = config.abrirConexion();
+		    	session.beginTransaction(); 
+		    	if(!us.getNombre().contains(nombreCliente)) { 
+		    		us.setNombre(nombreCliente);
+		    	}
+		    	if(!us.getApellido().contains(apellidoCliente)) {
+		    		us.setApellido(apellidoCliente);
+		    	}
+		    	
+		    	if(!us.getContrasenia().contains(contrasenia)) {
+		    		us.setContrasenia(contrasenia);
+		    	}
+		    	if(!us.getUsuario().contains(nombreUsuario)) {
+		    		us.setUsuario(nombreUsuario);
+		    	}
+		    	
+		    	if(us.getDireccion() != direccionCliente) {
+		    		us.setDireccion(direccionCliente);
+		    	}
+		    	if(us.getDNI() != dniCliente) {
+		    		us.setDNI(dniCliente);
+		    	}
+		    	if(!us.getNacionalidad().contains(nacionalidadCliente)) {   	    
+		    		us.setNacionalidad(nacionalidadCliente);
+		    	}
+		    	if(!us.getSexo().contains(sexoCliente)) {    	    
+		    		us.setSexo(sexoCliente);
+		    	}
+		    	if(!us.getFecha_de_nacimiento().equals(fechaNacimientoCliente)) {
+		    		us.setFecha_de_nacimiento(fechaNacimientoCliente);  
+		    	} 
+		    	session.update(us); 
+		    	session.getTransaction().commit(); 
+		    	config.cerrarSession(); 
+		    	((ConfigurableApplicationContext)appContext).close();
+	        	return "OK";
+	    	} else {
+	    		return "El DNI ingresado ya existe";
 	    	}
-	    	if(!us.getApellido().contains(apellidoCliente)) {
-	    		us.setApellido(apellidoCliente);
-	    	}
-	    	
-	    	if(!us.getContrasenia().contains(contrasenia)) {
-	    		us.setContrasenia(contrasenia);
-	    	}
-	    	if(!us.getUsuario().contains(nombreUsuario)) {
-	    		us.setUsuario(nombreUsuario);
-	    	}
-	    	
-	    	if(us.getDireccion() != direccionCliente) {
-	    		us.setDireccion(direccionCliente);
-	    	}
-	    	if(us.getDNI() != dniCliente) {
-	    		us.setDNI(dniCliente);
-	    	}
-	    	if(!us.getNacionalidad().contains(nacionalidadCliente)) {   	    
-	    		us.setNacionalidad(nacionalidadCliente);
-	    	}
-	    	if(!us.getSexo().contains(sexoCliente)) {    	    
-	    		us.setSexo(sexoCliente);
-	    	}
-	    	if(!us.getFecha_de_nacimiento().equals(fechaNacimientoCliente)) {
-	    		us.setFecha_de_nacimiento(fechaNacimientoCliente);  
-	    	} 
-	    	session.update(us); 
-	    	session.getTransaction().commit(); 
-	    	config.cerrarSession(); 
 	    }catch (HibernateException he){
 	        he.printStackTrace();
+	        return "Ocurrio una excepcion durante la Modificacion";
 	    }
     }	
     

@@ -87,13 +87,39 @@ public class ABMClienteController {
 										String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
 										String nombreUsuario, String contrasenia) {
         ModelAndView mv = new ModelAndView(); 
+        
         mv.addObject("nombreCuenta",nombreCuenta); 
-        UsuarioService.editarUsuario(idUsuario, nombreCliente, apellidoCliente, dniCliente, fechaNacimientoCliente, 
+        
+        String result = UsuarioService.editarUsuario(idUsuario, nombreCliente, apellidoCliente, dniCliente, fechaNacimientoCliente, 
 				nacionalidadCliente, direccionCliente, sexoCliente, provinciaCliente, localidadCliente,
 				nombreUsuario, contrasenia); 
-		mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes());
-        mv.addObject("informarUsuarioEditado",true);
-		mv.setViewName("AdministradorHome");
+        
+        if(result.equalsIgnoreCase("OK")) {
+			mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes());
+	        mv.addObject("informarUsuarioEditado",true);
+			mv.setViewName("AdministradorHome");
+			
+        } else {
+        	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
+        	Usuario cliente = (Usuario)appContext.getBean("UsuarioCliente"); 
+        	cliente.setNombre(nombreCliente);
+        	cliente.setApellido(apellidoCliente);
+        	cliente.setContrasenia(contrasenia);
+        	cliente.setUsuario(nombreUsuario);   
+        	cliente.setDireccion(direccionCliente);
+        	cliente.setDNI(dniCliente); 
+        	cliente.setNacionalidad(nacionalidadCliente);
+        	cliente.setSexo(sexoCliente);
+        	cliente.setFecha_de_nacimiento(fechaNacimientoCliente); 
+        	
+        	mv.addObject("cliente",cliente);
+        	mv.addObject("informarError",true);
+        	mv.addObject("mensajeError",result); 
+        	mv.setViewName("ABMCliente"); 
+        	((ConfigurableApplicationContext)appContext).close();
+        }  
+		
+		
         return mv;
     }
     

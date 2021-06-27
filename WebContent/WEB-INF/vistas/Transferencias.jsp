@@ -100,7 +100,7 @@
 				<div class="row">
 					<div class="column" >
 						<label for="nombreCliente">Ingrese el monto a transferir:</label>  
-						<input type="text" id="Monto" name="Monto" value="" required="required"> 
+						<input type="text" id="Monto" name="Monto" value="" required="required" onkeypress="return validate(this,event);"/> 
 					</div> 
 					<div class="column"style="display:flex; justify-content: flex-end;" >
 						<div >
@@ -139,6 +139,27 @@
 		            }
 		        });
 		    } );
-	    </script>
+		    
+		    
+		    function validate(el, evt) {
+		    	   var charCode = (evt.which) ? evt.which : event.keyCode
+		    	    if (charCode != 45 && charCode != 8 && (charCode != 46) && (charCode < 48 || charCode > 57))
+		    	        return false;
+		    	    if (charCode == 46) {
+		    	        if ((el.value) && (el.value.indexOf('.') >= 0))
+		    	            return false;
+		    	        else
+		    	            return true;
+		    	    }
+		    	    return true;
+		    	    var charCode = (evt.which) ? evt.which : event.keyCode;
+		    	    var number = evt.value.split('.');
+		    	    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+		    	        return false;
+		    	    }
+		    	};
+		    </script>
+		  </head>
+
 	</body>
 </html>

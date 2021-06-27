@@ -6,6 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
 import LAB5_TPINTEGRADOR_GRUPO8.selector.CuentaSelector;
+import LAB5_TPINTEGRADOR_GRUPO8.selector.MovimientoSelector;
 import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector;
 
 @Controller
@@ -37,7 +38,7 @@ public class HomeClienteController {
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("nombreCuenta",nombreCuenta); 
         mv.addObject("cuenta", CuentaSelector.obtenerCuentaPorId(idCuenta));
-        mv.addObject("movimientos", "");//ACA IRIAN LOS MOVIMIENTOS DE LA CUENTA
+        mv.addObject("listarMovimientos",MovimientoSelector.obtenerTodosLosMovimientosDeClientePorId(idCuenta));//ACA IRIAN LOS MOVIMIENTOS DE LA CUENTA
         mv.setViewName("HistorialMovimientos");
         return mv;
     }

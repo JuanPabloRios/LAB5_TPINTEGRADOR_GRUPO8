@@ -110,7 +110,7 @@
 					<div class="column" >
 						<div id="cbuContainer" style="display:none;">
 							<label for="cbu">Ingrese el CBU de la cuenta destino:</label> 
-							<input type="text" id="cbu" name="cbu" value="" >
+							<input type="text" id="cbu" name="cbu" value="" minlength="22" maxlength="22" onkeypress="return validateCBU(event);" >
 						</div>
 						<script>
 							function checkTerceros(element){
@@ -217,6 +217,22 @@
 		    	        return false;
 		    	    }
 		    	};
+		    	
+		    	function validateCBU(evt){
+    
+
+    var code = (evt.which) ? evt.which : evt.keyCode;
+    
+    if(code==8) {
+      return true;
+    } else if(code>=48 && code<=57) { 
+      return true;
+    } else{ 
+      return false;
+    }
+}
+		    	
+		    	
 		   </script>
 	</body>
 </html>

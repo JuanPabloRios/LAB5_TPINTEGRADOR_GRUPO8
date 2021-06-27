@@ -175,12 +175,12 @@
 					<form id="formAsignarCliente" method="post" action="buscarCliente.html">
 						<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
 					</form>
-				</div>
-				
+				</div> 
 			</div>  
 		<div class="footer"> 
             <div>LAB5 UTN Grupo 8 2021</div> 
-	    </div> 
+	    </div>  
+	</div>  
 	    <script type="text/javascript">
 	    $(function() {
 	    	   $("#asignarCliente").click(function(){

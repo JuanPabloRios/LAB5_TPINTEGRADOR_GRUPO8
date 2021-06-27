@@ -2,8 +2,7 @@ package LAB5_TPINTEGRADOR_GRUPO8.selector;
 import java.util.ArrayList; 
 import java.util.List; 
 import org.hibernate.Session; 
-import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas;
-import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario; 
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas; 
 
 public class CuentaSelector {
 

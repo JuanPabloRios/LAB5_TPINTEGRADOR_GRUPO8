@@ -2,9 +2,7 @@ package LAB5_TPINTEGRADOR_GRUPO8.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector;
+import org.springframework.web.servlet.ModelAndView; 
 
 @Controller
 public class ABMCuentaController {

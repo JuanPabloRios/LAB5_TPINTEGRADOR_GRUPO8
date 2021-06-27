@@ -37,30 +37,27 @@ public class ABMClienteController {
     public ModelAndView eliminarCliente(String nombreCuenta, Integer idUsuario) {
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("nombreCuenta",nombreCuenta);
-        //ejecutar metodo para eliminar el cliente.
-        //abrir alerta y si es true proceder con el eliminado, y una alert de finalizacion
-        //redireccionar a la ventana principal de clientes
         UsuarioService.eliminarUsuarioPorId(idUsuario);
-        //los metodos planteados en clases en la capa Service
         
         
 		mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes());
-		//podriamos enviar un mensaje cuando seteamos la vista(un alert? o algo en jquery)
+
         mv.addObject("informarEliminadoCorrecto",true);
 		mv.setViewName("AdministradorHome");
         return mv;
     }
     
     //guardarCliente.html 
-
     @RequestMapping("guardarCliente.html")
     public ModelAndView guardarCliente(String nombreCuenta, String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
-    									String nacionalidadCliente, String direccionCliente) {
+    									String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
+    									String nombreUsuario, String contrasenia) {
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("nombreCuenta",nombreCuenta);
 
         UsuarioService.crearUsuario(nombreCliente, apellidoCliente, dniCliente, fechaNacimientoCliente, 
-				nacionalidadCliente, direccionCliente);
+				nacionalidadCliente, direccionCliente, sexoCliente, provinciaCliente, localidadCliente,
+				nombreUsuario, contrasenia);
     
 		mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes());
         mv.addObject("informarUsuarioCreado",true);
@@ -68,20 +65,19 @@ public class ABMClienteController {
         return mv;
     }
     
-    //editarCuenta.html idUsuario, idCuenta, nombreCuenta
-    
-    
-    
+    //editarCuenta.html idUsuario, idCuenta, nombreCuenta  
     
     //editarCliente.html Usuario completo.
     @RequestMapping("editCliente.html")
     public ModelAndView editarCliente(String nombreCuenta,Integer idUsuario, String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
-			String nacionalidadCliente, String direccionCliente) {
+										String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
+										String nombreUsuario, String contrasenia) {
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("nombreCuenta",nombreCuenta);
 
         UsuarioService.editarUsuario(idUsuario, nombreCliente, apellidoCliente, dniCliente, fechaNacimientoCliente, 
-				nacionalidadCliente, direccionCliente);
+				nacionalidadCliente, direccionCliente, sexoCliente, provinciaCliente, localidadCliente,
+				nombreUsuario, contrasenia);
     
 		mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes());
         mv.addObject("informarUsuarioEditado",true);

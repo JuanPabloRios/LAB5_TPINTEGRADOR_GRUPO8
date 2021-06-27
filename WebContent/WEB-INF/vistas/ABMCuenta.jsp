@@ -15,10 +15,13 @@
 		<link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="estilos/AdministradorHome.css" rel="StyleSheet" type="text/css"> 
 		<link href="estilos/ABMCliente.css" rel="StyleSheet" type="text/css">  
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css"> 
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>  
 		<script src="estilos/toast/javascript/jquery.toastmessage.js"></script>
-		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css">	
+		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css"> 
 	</head>
 	<body> 
 		<div class="mainContainer"> 
@@ -68,11 +71,12 @@
 					<form id="formUpdate" method="post" action="editCuenta.html"> 
 						<div class="row">
 							<div class="column" > 
-								<div style="display:flex; justify-content: left;">
+								<label for="asignarCliente">Cliente seleccionado:</label>
+								<div style="display:flex; justify-content: space-between;">
 									<div style="max-width:150px;">
-										<input class="button btnNuevoCliente" id="asignarCliente" type="button" title="Asignar cliente" value="Asignar cliente"></input>  
-					  					<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" > 
+										<input class="button btnNuevoCliente asignarCliente" id="asignarCliente" type="button" title="Asignar cliente" value="Asignar cliente"></input>   
 					  				</div> 
+					  				<div style="flex: 2; padding-left: 17px;"><input type="text" id="ususarioAsignadoLabel" disabled="true"></input></div>
 								</div> 
 						  	</div>  
 						  	<div class="column">
@@ -118,6 +122,7 @@
 						  	<div class="column" style="display:flex; justify-content: flex-end;">
 						  		<input class="button btnSave" title="Guardar" value="Guardar" id="update_button" style="margin-top:10px;"></input>  
 								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
+								<input class="idUserSelected" type="hidden" name="idUsuario"></input>
 						  	</div>
 						</div> 
 					</form>
@@ -126,11 +131,12 @@
 					<form id="formCreate" method="post" action="guardarCuenta.html"> 
 						<div class="row">
 							<div class="column" > 
-								<div style="display:flex; justify-content: left;">
+								<label for="asignarCliente">Cliente seleccionado:</label>
+								<div style="display:flex; justify-content: space-between;">
 									<div style="max-width:150px;">
-										<input class="button btnNuevoCliente" id="asignarCliente" type="button" title="Asignar cliente" value="Asignar cliente"></input>  
-					  					<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" > 
+										<input class="button btnNuevoCliente asignarCliente" id="asignarCliente" type="button" title="Asignar cliente" value="Asignar cliente"></input>   
 					  				</div> 
+					  				<div style="flex: 2; padding-left: 17px;"><input type="text" id="ususarioAsignadoLabel" disabled="true"></input></div>
 								</div> 
 						  	</div>  
 						  	<div class="column">
@@ -178,28 +184,109 @@
 						<div class="row">
 							<div class="column"> 
 						  	</div> 
-						  	<div class="column" style="display:flex; justify-content: flex-end;">
+						  	<div class="column" style="display:flex; justify-content: flex-end;"> 
+								<input class="idUserSelected" type="hidden" name="idUsuario"></input> 
 						  		<input class="button btnSave" title="Guardar" value="Guardar" id="create_button" style="margin-top:10px;"></input>  
-								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>								
+								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input> 
 						  	</div>
 						</div> 
 					</form>
-					<% } %> 
-					<form id="formAsignarCliente" method="post" action="buscarCliente.html">
-						<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
-					</form>
+					<% } %>  
 				</div> 
 			</div>  
 		<div class="footer"> 
             <div>LAB5 UTN Grupo 8 2021</div> 
 	    </div>  
 	</div>  
+	<div id="dialog" title="Seleccionar Cliente" style="display:none;">
+            <h3>Clientes</h3> 
+             <table id="tablaClientes" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>APELLIDO</th>
+                    <th>NOMBRE</th>
+                    <th>DNI</th>
+                    <th>DIRECCION</th>
+                  </tr>
+                 </thead> 
+                 <tbody> 
+                 </tbody>
+            </table>
+         </div> 
 	    <script type="text/javascript">
+	    function seleccionerCliente(elemento){ 
+	    	let idUsuario = elemento.dataset.usuarioid;
+	    	let nombreUsuario = elemento.dataset.nombreusuario;
+	    	let apellidoUsuario = elemento.dataset.apellidousuario;
+	    	$("#ususarioAsignadoLabel").val(apellidoUsuario + ', ' + nombreUsuario);
+	    	let usersSelectedInput = $(".idUserSelected");
+	    	for(let i = 0; i<usersSelectedInput.length; i++){
+	    		usersSelectedInput.val(idUsuario);
+	    	} 
+	    	$( "#dialog" ).dialog( "close" );
+	    	console.log("ID " + idUsuario + " Nombre "+ nombreUsuario + " Apellido " + apellidoUsuario); 
+	    }
+	    $(document).ready( function () {
+            $('#tablaClientes').DataTable({ 
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ por pagina",
+                    "zeroRecords": "No hay resultados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay registros para mostrar",
+                    "infoFiltered": "( filtrados de un total de _MAX_)",
+                    "search":"Buscar: ",
+                    "paginate": {
+                        "first":      "Primera",
+                        "last":       "Ultima",
+                        "next":       "Siguiente",
+                        "previous":   "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending":  ": Activar para ordenar de manera ascendente",
+                        "sortDescending": ": Activar para ordenar de manera descendente"
+                    }
+                }
+            });
+        } );
 	    $(function() {
-	    	   $("#asignarCliente").click(function(){
-	    		   $("#formAsignarCliente").submit();
+	    	   $(".asignarCliente").click(function(){
+	    		   $.ajax({ 
+	    			    datatype  : "json",	
+	    			    headers:{ 'Accept': "application/json", 'Content-Type': "application/json"},     
+	    		        type: "GET",
+	    		        url: "obtenerClientes.html", 
+	    		        success: function(response)
+	    		        { 
+	    		        	let rows = JSON.parse(response);
+	    		        	let table = $("#tablaClientes").find('tbody'); 
+	    		        	for(let i = 0; i< rows.length; i++){
+	    		        		let cliente = rows[i];
+								let row = '<tr><td><input class="button" type="submit" data-usuarioid="'+cliente.idusuario+'" data-nombreusuario="'+cliente.nombre+'" data-apellidousuario="'+cliente.apellido+'" value="Seleccionar" onclick="seleccionerCliente(this)"></input></td>'+
+								' <td>'+cliente.apellido+'</td> <td>'+cliente.nombre+'</td> <td>'+cliente.dni+'</td> <td>'+cliente.direccion+'</td></tr>';
+	    		        		table.append(row);
+	    		        	} 
+	    		        	$( function() {
+	    		                $( "#dialog" ).dialog({ 
+	    		                    modal: true,
+	    		                    height: 500,
+	    		                    width: 800,
+	    		                    beforeClose: function( event, ui ) {
+	    		                    	$("#tablaClientes > tbody").empty();
+	    		                    }
+	    		                });
+	    		              } );
+	    		        	
+	    		        },
+	    		        error: function(e)
+	    		        {
+	    		        	console.log(JSON.stringify(e));
+	    		        }
+	    		    });
 	    	   });
 	    	});
+	    
+	    
 	    
 	    $(function() {
 	    	   $("#update_button").click(function(){

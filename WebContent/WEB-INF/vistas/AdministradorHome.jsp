@@ -66,8 +66,7 @@
         				<% 
 							ArrayList<Usuario> clientes = null;
 						  
-							if(request.getAttribute("listaClientes")!=null)
-							{
+							if(request.getAttribute("listaClientes")!=null) {
 								clientes = (ArrayList<Usuario>)request.getAttribute("listaClientes");
 							}		
 						  %>

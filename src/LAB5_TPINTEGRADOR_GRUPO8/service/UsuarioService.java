@@ -32,9 +32,10 @@ public class UsuarioService {
 	        he.printStackTrace();
 	    }
     }	
-    //FALTA AGREGAR EL CAMPO DE USUARIO,CONTRASEÑA Y SEXO
+    //FALTA AGREGAR EL CAMPO DE LOCALIDAD Y PROVINCIA
     public static void crearUsuario(String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
-    	String nacionalidadCliente, String direccionCliente){ 
+    	String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
+		String nombreUsuario, String contrasenia){ 
     	try{
 	    	Boolean existe = UsuarioSelector.validarDNI(dniCliente);
 	    	if(!existe.booleanValue()) {
@@ -46,13 +47,13 @@ public class UsuarioService {
 	            Usuario us = new Usuario();
 	            us.setNombre(nombreCliente);
 	            us.setApellido(apellidoCliente);
-	            us.setContrasenia(nombreCliente);
-	            us.setUsuario(nombreCliente);   
+	            us.setContrasenia(contrasenia);
+	            us.setUsuario(nombreUsuario);   
 	            us.setDireccion(direccionCliente);
 	            us.setDNI(dniCliente);
 	            us.setEstado(true);
 	            us.setNacionalidad(nacionalidadCliente);
-	            us.setSexo("M");
+	            us.setSexo(sexoCliente);
 	            us.setFecha_de_nacimiento(fechaNacimientoCliente);  
 	            us.setTipoDeUsuario(tp);  
 	            session.save(us); 
@@ -68,9 +69,10 @@ public class UsuarioService {
     }
     
     
-    //FALTA AGREGAR EL USUARIO Y CONTRASEÑA
+    //FALTA AGREGAR LOCALIDAD Y PROVINCIA
     public static void editarUsuario(Integer idUsuario, String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
-			String nacionalidadCliente, String direccionCliente){ 
+			String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
+			String nombreUsuario, String contrasenia){ 
     	try {
 	     	Usuario us = UsuarioSelector.readOne(idUsuario); 
 	     	
@@ -78,7 +80,7 @@ public class UsuarioService {
 	    	Session session = config.abrirConexion();
 	    	session.beginTransaction();
 	    	System.out.println("traemos el usuario por ID " + us);
-	    	System.out.println("datos que obtenemos " + nombreCliente +" "+apellidoCliente +" "+dniCliente +" "+fechaNacimientoCliente +" "+nacionalidadCliente +" "+ direccionCliente);
+	    	System.out.println("datos que obtenemos " + nombreCliente +" "+apellidoCliente +" "+dniCliente +" "+fechaNacimientoCliente +" "+nacionalidadCliente +" "+ direccionCliente +" "+ nombreUsuario +" "+ contrasenia);
 	
 	    	if(!us.getNombre().contains(nombreCliente)) {
 	    		System.out.println("setNombre " );
@@ -87,8 +89,13 @@ public class UsuarioService {
 	    	if(!us.getApellido().contains(apellidoCliente)) {
 	    		us.setApellido(apellidoCliente);
 	    	}
-	        
-	        //us.setContrasenia(nombreCliente);
+	    	
+	    	if(!us.getContrasenia().contains(contrasenia)) {
+	    		us.setContrasenia(contrasenia);
+	    	}
+	    	if(!us.getUsuario().contains(nombreUsuario)) {
+	    		us.setUsuario(nombreUsuario);
+	    	}
 	    	
 	    	if(us.getDireccion() != direccionCliente) {
 	    		us.setDireccion(direccionCliente);
@@ -99,8 +106,8 @@ public class UsuarioService {
 	    	if(!us.getNacionalidad().contains(nacionalidadCliente)) {   	    
 	    		us.setNacionalidad(nacionalidadCliente);
 	    	}
-	    	if(!us.getSexo().contains("M")) {    	    
-	    		us.setSexo("M");
+	    	if(!us.getSexo().contains(sexoCliente)) {    	    
+	    		us.setSexo(sexoCliente);
 	    	}
 	    	if(!us.getFecha_de_nacimiento().equals(fechaNacimientoCliente)) {
 	    		us.setFecha_de_nacimiento(fechaNacimientoCliente);  

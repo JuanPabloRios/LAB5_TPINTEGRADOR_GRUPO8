@@ -61,7 +61,7 @@
 				</div>
 				<div style="margin-bottom: 10px;">
 				<% if(request.getAttribute("idUsuario")!=null) { %>
-					<form method="post" action="editCliente.html" onsubmit="return error();">
+					<form id="formUpdate" method="post" action="editCliente.html" onsubmit="return error();">
 						<div id="datosPersonales">
 							<div class="row">
 								<div class="column">
@@ -97,6 +97,16 @@
 									<input type="text" id="nacionalidadCliente" name="nacionalidadCliente" value="${cliente.getNacionalidad()}" required="required"></input>
 							  	</div>
 							</div>
+							<div class="row">
+								<div class="column">
+							    	<label for="nombreUsuario">Usuario:</label>
+									<input type="text" id="nombreUsuario" name="nombreUsuario" value="${cliente.getUsuario()}" required="required"></input>
+							  	</div>
+							  	<div class="column">
+							    	<label for="contrasenia">Contraseña:</label>
+									<input type="text" id="contrasenia" name="contrasenia" value="${cliente.getContrasenia()}" required="required"></input>
+							  	</div>
+							</div>
 						</div> 
 						<div id="datosDomicilio">
 							<div class="row">
@@ -127,14 +137,15 @@
 						<div class="row">
 							<div class="column"> 
 							</div>
-							<div class="column" style="display:flex; justify-content: flex-end;"><input type="submit" class="button btnSave" id="update_button" title="Guardar" value="Guardar" style="margin-top:10px;"></input>
+							<div class="column" style="display:flex; justify-content: flex-end;">
+							<input type="submit" class="button btnSave" id="update_button" title="Guardar" value="Guardar" style="margin-top:10px;"></input>
 							</div> 
 						</div>
 						 <input type="hidden" name="idUsuario" value="${idUsuario}" >
 						<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
 					</form>
 				<% }else{ %>
-				<form method="post" action="guardarCliente.html" onsubmit="return error();">
+				<form id="formCreate" method="post" action="guardarCliente.html" onsubmit="return error();">
 						<div id="datosPersonales">
 							<div class="row">
 								<div class="column">
@@ -170,6 +181,16 @@
 									<input type="text" id="nacionalidadCliente" name="nacionalidadCliente" value="${cliente.getNacionalidad()}" required="required"></input>
 							  	</div>
 							</div>
+							<div class="row">
+								<div class="column">
+							    	<label for="nombreUsuario">Usuario:</label>
+									<input type="text" id="nombreUsuario" name="nombreUsuario" value="${cliente.getUsuario()}" required="required"></input>
+							  	</div>
+							  	<div class="column">
+							    	<label for="contrasenia">Contraseña:</label>
+									<input type="text" id="contrasenia" name="contrasenia" value="${cliente.getContrasenia()}" required="required"></input>
+							  	</div>
+							</div>
 						</div> 
 						<div id="datosDomicilio">
 							<div class="row">
@@ -200,7 +221,8 @@
 						<div class="row">
 							<div class="column"> 
 							</div>
-							<div class="column" style="display:flex; justify-content: flex-end;"><input type="submit" class="button btnSave" id="create_button" title="Guardar" value="Guardar" style="margin-top:10px;"></input>
+							<div class="column" style="display:flex; justify-content: flex-end;">
+							<input type="submit" class="button btnSave" id="create_button" title="Guardar" value="Guardar" style="margin-top:10px;"></input>
 							</div> 
 						</div>
 						 
@@ -315,7 +337,7 @@
 		    			        confirm: {
 		    			        	text:"Modificar",
 		    			        	action: function () {
-		    			        		$('#formDelete').submit();
+		    			        		$('#formUpdate').submit();
 		    			        	}
 		    			        },
 		    			        cancel: {
@@ -337,7 +359,7 @@
 		    			        confirm: {
 		    			        	text:"Crear",
 		    			        	action: function () {
-		    			        		$('#formDelete').submit();
+		    			        		$('#formCreate').submit();
 		    			        	}
 		    			        },
 		    			        cancel: {

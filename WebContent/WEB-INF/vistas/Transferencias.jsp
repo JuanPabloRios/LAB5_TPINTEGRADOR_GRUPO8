@@ -13,6 +13,10 @@
 		<link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="estilos/AdministradorHome.css" rel="StyleSheet" type="text/css"> 
 		<link href="estilos/ABMCliente.css" rel="StyleSheet" type="text/css">  
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>  
+		<script src="estilos/toast/javascript/jquery.toastmessage.js"></script>
+		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css">	
 	</head>
 	<body> 
 			<% 
@@ -42,6 +46,7 @@
 				</div>
 			</div> 
 			<div class="content">
+			<form id="formTransfer" method="post" action="transferenciaCuenta.html"> 
 				<div class="tituloPaginaContainer">
 					<div class="tituloPagina">Realizar transferencia</div>   
 				</div>
@@ -51,10 +56,22 @@
 						<div > 
 							<label for="CuentaOrigen">Seleccionar Cuenta de origen </label>
 							<select name="CuentaOrigen" id="CuentaOrigen" >
-							  	<option value="0">Seleccione cuenta de origen</option>
-								<option value="1">Nro Cuenta 1 y CBU</option>
-								<option value="2">Nro Cuenta 2 y CBU</option>
-								<option value="3">Nro Cuenta 3 y CBU</option>
+						<% 
+							ArrayList<Cuentas> cuentasCliente = null;
+						  
+							if(request.getAttribute("cuentas")!=null)
+							{
+								cuentasCliente = (ArrayList<Cuentas>)request.getAttribute("cuentas");
+							}		
+						  %>
+							
+						<%  if(cuentasCliente!=null)
+								for(Cuentas ci : cuentasCliente) { %>
+	
+							    <option value="<%=ci.getIdNroDeCuenta()%>">Nro. De Cuenta: <%=ci.getIdNroDeCuenta()%> CBU: <%=ci.getCBU()%></option>
+
+					    <%  } %>
+
 							</select> 
 						</div>
 					</div> 
@@ -64,12 +81,24 @@
 				<div class="row">
 					<div class="column" >
 						<div > 
-							<label for="CuentaOrigen">Seleccionar cuenta de destino</label>
-							<select name="CuentaOrigen" id="CuentaOrigen" onchange="checkTerceros(this)">
-							  	<option value="0">Seleccione cuenta de destino</option>
-								<option value="1">Nro Cuenta 1 y CBU</option>
-								<option value="2">Nro Cuenta 2 y CBU</option>
-								<option value="3">Nro Cuenta 3 y CBU</option>
+							<label for="CuentaDestino">Seleccionar cuenta de destino</label>
+							<select name="CuentaDestino" id="CuentaDestino" onchange="checkTerceros(this)">
+						<% 
+							ArrayList<Cuentas> cuentasClient = null;
+						  
+							if(request.getAttribute("cuentas")!=null)
+							{
+								cuentasClient = (ArrayList<Cuentas>)request.getAttribute("cuentas");
+							}		
+						  %>
+							
+						<%  if(cuentasClient!=null)
+								for(Cuentas ci : cuentasClient) { %>
+	
+							    <option value="<%=ci.getIdNroDeCuenta()%>">Nro. De Cuenta: <%=ci.getIdNroDeCuenta()%> CBU: <%=ci.getCBU()%></option>
+								
+					    <%  } %>
+
 								<option value="Otros">Cuentas de terceros por CBU</option>
 							</select> 
 						</div> 
@@ -81,7 +110,7 @@
 					<div class="column" >
 						<div id="cbuContainer" style="display:none;">
 							<label for="cbu">Ingrese el CBU de la cuenta destino:</label> 
-							<input type="number" id="cbu" name="cbu" value="" required="required">
+							<input type="text" id="cbu" name="cbu" value="" >
 						</div>
 						<script>
 							function checkTerceros(element){
@@ -100,15 +129,17 @@
 				<div class="row">
 					<div class="column" >
 						<label for="nombreCliente">Ingrese el monto a transferir:</label>  
-						<input type="text" id="Monto" name="Monto" value="" required="required"> 
+						<input type="number" id="Monto" name="Monto" value="" required="required"> 
 					</div> 
 					<div class="column"style="display:flex; justify-content: flex-end;" >
 						<div >
-					  		<input type="submit" class="button btnSave" title="Transferir" value="Transferir" style="margin-top:10px;"></input>  
+					  		<input class="button btnSave" title="Transferir" value="Transferir" id="transfer_button" style="margin-top:10px;"></input>  
 							<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
 					  	</div>
 					</div> 
+				
 				</div>
+				</form>
 			</div>
 			<div class="footer"> 
 	            LAB5 UTN Grupo 8 2021 
@@ -139,6 +170,28 @@
 		            }
 		        });
 		    } );
+		    
+		    $(function() {
+		    	   $("#transfer_button").click(function(){
+		    		   $.confirm({
+		    			    title: 'Transferir',
+		    			    content: 'Realmente desea realizar la transferencia?',
+		    			    buttons: {
+		    			        confirm: {
+		    			        	text:"transferir",
+		    			        	action: function () {
+		    			        		$('#formTransfer').submit();
+		    			        	}
+		    			        },
+		    			        cancel: {
+		    			        	text:"Cancelar",
+		    			        	action:function () {}
+		    			        }
+		    			    }
+		    			    
+		    			});
+		    	   });
+		    	});
 	    </script>
 	</body>
 </html>

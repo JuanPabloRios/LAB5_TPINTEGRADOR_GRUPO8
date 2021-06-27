@@ -57,41 +57,30 @@
 					  <tr>  
 					    <th>FECHA</th>
 					    <th>TIPO</th>
-					    <th>IMPORTE</th> 
+					    <th>IMPORTE</th>
+					    <th>DETALLE</th>  
 					  </tr>
 				 	</thead>
-	      				<tbody> 	
-						<tr> 
-							<td>08/04/1997</td>
-						    <td>DEBITO</td>
-						    <td>13432.00</td> 
-					  	</tr> 
-					  	<tr> 
-							<td>01/04/1997</td>
-						    <td>CREDITO</td>
-						    <td>425.00</td> 
-					  	</tr> 
-					  	<tr> 
-							<td>01/04/1997</td>
-						    <td>DEBITO</td>
-						    <td>2.00</td> 
-					  	</tr>
-					  	<tr> 
-							<td>28/03/1997</td>
-						    <td>CREDITO</td>
-						    <td>800.00</td> 
-					  	</tr>
-					  	<tr> 
-							<td>27/03/1997</td>
-						    <td>DEBITO</td>
-						    <td>10.00</td> 
-					  	</tr>
-					  	<tr> 
-							<td>26/03/1997</td>
-						    <td>DEBITO</td>
-						    <td>120.00</td> 
-					  	</tr>
-					</tbody>
+				 		<tbody> 
+        				<% 
+							ArrayList<Movimientos> movimiento = null;
+						  
+							if(request.getAttribute("listarMovimientos")!=null)
+							{
+								movimiento = (ArrayList<Movimientos>)request.getAttribute("listarMovimientos");
+							}		
+						  %>
+							
+							<%  if(movimiento!=null)
+								for(Movimientos m : movimiento) { %>
+							<tr>
+							    <td><%=m.getFecha()%></td>
+							    <td><%=m.getTipoMovimiento().getDescripcion()%></td>
+							    <td><%=m.getImporte()%></td>
+							    <td><%=m.getDetalle()%></td>							    
+						  	</tr> 
+					   <%  } %> 
+						</tbody>
 				</table>
 			</div>
 			</div>

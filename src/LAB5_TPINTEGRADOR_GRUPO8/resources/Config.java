@@ -104,4 +104,10 @@ public class Config {
 		cuentaPesos.setTipoCuenta(TipoCuentaPesos());
 		return cuentaPesos;
 	}
+	
+	@Bean @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Cuentas cuenta() {
+		Cuentas cuenta = new Cuentas();
+		return cuenta;
+	}
 }

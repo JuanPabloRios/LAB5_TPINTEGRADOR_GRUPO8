@@ -15,6 +15,8 @@
 		<link href="estilos/ABMCliente.css" rel="StyleSheet" type="text/css">	
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>  
+		<script src="estilos/toast/javascript/jquery.toastmessage.js"></script>
+		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css">	
 	</head>
 	<body> 
 		<div class="mainContainer"> 
@@ -279,6 +281,10 @@
 			<div class="footer"> 
 	            <div>LAB5 UTN Grupo 8 2021</div> 
 		    </div>
+		    <%if(request.getAttribute("informarError")!=null) { 
+		    	String errorMessage = (String)request.getAttribute("mensajeError"); %>
+	    		<script>console.log("ENTRAMOS EN EL IF"); $().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
+	    	<%} %>
 	    </div>
 	    <script type="text/javascript">
 		    $(document).ready( function () {

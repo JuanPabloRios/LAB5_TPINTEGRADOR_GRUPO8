@@ -1,12 +1,10 @@
 package LAB5_TPINTEGRADOR_GRUPO8.data.creator;
 import java.sql.Date;
-import java.util.List;
-
+import java.util.List; 
 import org.hibernate.Session;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;  
 import LAB5_TPINTEGRADOR_GRUPO8.selector.ConfigHibernate;
 import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas;
@@ -324,6 +322,8 @@ public class DataCreator {
             se.save(movimiento10);
             
             se.getTransaction().commit(); 
+
+        	((ConfigurableApplicationContext)appContext).close();
         }
         ch.cerrarSession(); 
     }

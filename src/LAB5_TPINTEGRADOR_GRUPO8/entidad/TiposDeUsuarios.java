@@ -7,14 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.hibernate.Session;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.ConfigHibernate;
+import javax.persistence.Table; 
 @Entity
 @Table(name="tiposDeUsuarios")
 public class TiposDeUsuarios implements Serializable {

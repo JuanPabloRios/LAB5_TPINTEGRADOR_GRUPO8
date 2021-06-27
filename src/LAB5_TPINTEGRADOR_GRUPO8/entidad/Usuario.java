@@ -1,8 +1,6 @@
 package LAB5_TPINTEGRADOR_GRUPO8.entidad;
 import java.io.Serializable;
-import java.sql.Date;
-
-import javax.persistence.CascadeType;
+import java.sql.Date; 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

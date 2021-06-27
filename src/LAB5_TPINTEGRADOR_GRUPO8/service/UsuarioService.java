@@ -1,55 +1,47 @@
-package LAB5_TPINTEGRADOR_GRUPO8.service;
-
-import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeUsuarios;
+package LAB5_TPINTEGRADOR_GRUPO8.service; 
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
 import LAB5_TPINTEGRADOR_GRUPO8.selector.ConfigHibernate;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector;
-
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-
-import java.util.List;
-
+import LAB5_TPINTEGRADOR_GRUPO8.selector.TipoDeUsuarioSelector;
+import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector; 
+import java.sql.Date;  
+import java.util.List; 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext; 
 
 public class UsuarioService {
 	
     public static void eliminarUsuarioPorId(Integer idUsuario){ 
     	try {
-	     	Usuario usuario = UsuarioSelector.readOne(idUsuario);     	
+	     	Usuario usuario = UsuarioSelector.obtenerUsuarioPorID(idUsuario);     	
 	    	ConfigHibernate config = new ConfigHibernate();
 	    	usuario.setEstado(false);
 	    	Session session = config.abrirConexion();
-	    	session.beginTransaction();
-	    	
-	    	session.update(usuario);
-	    	
-	    	session.getTransaction().commit();
-	    	
+	    	session.beginTransaction(); 
+	    	session.update(usuario); 
+	    	session.getTransaction().commit(); 
 	    	config.cerrarSession();
 	    }catch (HibernateException he){
 	        he.printStackTrace();
 	    }
     }	
     //FALTA AGREGAR EL CAMPO DE LOCALIDAD Y PROVINCIA
-    public static void crearUsuario(String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
+    public static String crearUsuario(String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
     	String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
 		String nombreUsuario, String contrasenia){ 
     	try{
-	    	Boolean existe = UsuarioSelector.validarDNI(dniCliente);
-	    	System.out.println("existe " + existe);
-	    	if(!existe.booleanValue()) {
+	    	Boolean existe = UsuarioService.existeDNI(dniCliente); 
+	    	if(!existe) {
 	    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class);
 	    		ConfigHibernate config = new ConfigHibernate();
 	        	Session session = config.abrirConexion();
 	        	session.beginTransaction();
 	        	
 	            Usuario us = (Usuario)appContext.getBean("UsuarioCliente"); 
-	            us.setTipoDeUsuario(UsuarioSelector.obtenerTipoUsuarioPorNombre("Cliente"));
+	            us.setTipoDeUsuario(TipoDeUsuarioSelector.obtenerTipoUsuarioPorNombre("Cliente"));
 	            us.setNombre(nombreCliente);
 	            us.setApellido(apellidoCliente);
 	            us.setContrasenia(contrasenia);
@@ -59,16 +51,19 @@ public class UsuarioService {
 	            us.setNacionalidad(nacionalidadCliente);
 	            us.setSexo(sexoCliente);
 	            us.setFecha_de_nacimiento(fechaNacimientoCliente);   
-	            session.save(us); 
-	        	
-	        	session.getTransaction().commit();
-	        	
+	            session.save(us);  
+	        	session.getTransaction().commit(); 
 	        	config.cerrarSession();
-	    	}  	
 
+	        	((ConfigurableApplicationContext)appContext).close();
+	        	return "OK";
+	    	} else {
+	    		return "El DNI ingresado ya existe";
+	    	}
 	    }catch (HibernateException he){
 	        he.printStackTrace();
-	    }
+	        return "Ocurrio una excepcion durante el guardado";
+	    } 
     }
     
     
@@ -77,12 +72,11 @@ public class UsuarioService {
 			String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
 			String nombreUsuario, String contrasenia){ 
     	try {
-	     	Usuario us = UsuarioSelector.readOne(idUsuario);
+	     	Usuario us = UsuarioSelector.obtenerUsuarioPorID(idUsuario);
 	    	ConfigHibernate config = new ConfigHibernate();
 	    	Session session = config.abrirConexion();
 	    	session.beginTransaction(); 
-	    	if(!us.getNombre().contains(nombreCliente)) {
-	    		System.out.println("setNombre " );
+	    	if(!us.getNombre().contains(nombreCliente)) { 
 	    		us.setNombre(nombreCliente);
 	    	}
 	    	if(!us.getApellido().contains(apellidoCliente)) {
@@ -119,5 +113,18 @@ public class UsuarioService {
 	    }
     }	
     
-	
+  //DEVUELVE true si se puede crear y false si no, por encontrar el DNI ya entre los USUARIOS
+    public static Boolean existeDNI (Integer dniUsuario){ 
+    	ConfigHibernate config = new ConfigHibernate();
+    	Session session = config.abrirConexion(); 
+    	session.beginTransaction(); 
+    	List<Usuario> usuarios = (List<Usuario>)session.createQuery("FROM Usuario").list(); 
+    	config.cerrarSession();
+        for(Integer i = 0; i< usuarios.size(); i++) { 
+            if(usuarios.get(i).getTipoDeUsuario().getDescripcion().equals("Cliente") && usuarios.get(i).getEstado() && usuarios.get(i).getDNI() == dniUsuario ) {
+                return true;
+            }
+        } 
+    	return false;
+    }	
 }

@@ -92,12 +92,12 @@
 							    <td><%=ci.getSaldo()%></td>
 
 						  	</tr> 
-					    
+					    <%  } %>
 						</tbody>
 					</table>
 				</div>
 			</div>  
-			<%  } } %>
+			<% } %>
 			<div class="footer"> 
 	            <div>LAB5 UTN Grupo 8 2021</div> 
 		    </div>

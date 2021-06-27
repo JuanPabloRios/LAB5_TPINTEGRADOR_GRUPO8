@@ -43,6 +43,14 @@ public class CuentaSelector {
     	return cuenta;
     }
     
-    
+    public static Cuentas obtenerCuentaPorCBU(String cbu){ 
+        List<Cuentas> cuentas = CuentaSelector.obtenerTodasLasCuentas(); 
+        for(Integer i = 0; i< cuentas.size(); i++) { 
+            if(cbu.equals(cuentas.get(i).getCBU())) {
+                return cuentas.get(i);
+            }
+        }
+        return null;
+    }
     
 }

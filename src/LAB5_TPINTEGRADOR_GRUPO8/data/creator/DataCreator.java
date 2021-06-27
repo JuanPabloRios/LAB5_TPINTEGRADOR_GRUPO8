@@ -84,7 +84,7 @@ public class DataCreator {
             se.save(cliente3); 
             
             Usuario cliente4 = (Usuario)appContext.getBean("UsuarioCliente"); 
-            cliente4.setNombre("Matías");
+            cliente4.setNombre("Matias");
             cliente4.setApellido("Saura");
             cliente4.setUsuario("Matías");   
             cliente4.setContrasenia("Saura");

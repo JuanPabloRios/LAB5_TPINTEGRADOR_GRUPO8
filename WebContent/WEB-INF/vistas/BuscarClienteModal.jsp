@@ -17,13 +17,7 @@
         <link rel="stylesheet" href="/resources/demos/style.css"> 
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script>
-        $( function() {
-          $( "#dialog" ).dialog({ 
-              modal: true,
-              height: 500,
-              width: 800
-          });
-        } );
+        
         </script>
     </head>
     <body>  

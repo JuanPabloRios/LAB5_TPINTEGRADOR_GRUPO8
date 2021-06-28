@@ -137,6 +137,8 @@
 						<div >
 					  		<input class="button btnSave" title="Transferir" value="Transferir" id="transfer_button" style="margin-top:10px;"></input>  
 							<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
+							<input type="hidden" name="idUsuario" value="<%=cliente.getIdusuario()%>" >
+							
 					  	</div>
 					</div> 
 				
@@ -147,6 +149,11 @@
 	            LAB5 UTN Grupo 8 2021 
 		    </div>
 	    </div>
+   		<%if(request.getAttribute("informarError")!=null) { 
+	    	String errorMessage = (String)request.getAttribute("mensajeError"); %>
+    		<script>console.log("ENTRAMOS EN EL IF"); $().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
+    	<%} %>
+	    
 	    <script type="text/javascript">
 		    $(document).ready( function () {
 		        $('#tablaCuentas').DataTable({

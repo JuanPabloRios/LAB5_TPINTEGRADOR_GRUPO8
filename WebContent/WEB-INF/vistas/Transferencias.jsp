@@ -110,7 +110,7 @@
 					<div class="column" >
 						<div id="cbuContainer" style="display:none;">
 							<label for="cbu">Ingrese el CBU de la cuenta destino:</label> 
-							<input type="text" id="cbu" name="cbu" value="" >
+							<input type="text" id="cbu" name="cbu" value="" minlength="22" maxlength="22" onkeypress="return validateCBU(event);" >
 						</div>
 						<script>
 							function checkTerceros(element){
@@ -129,7 +129,9 @@
 				<div class="row">
 					<div class="column" >
 						<label for="nombreCliente">Ingrese el monto a transferir:</label>  
-						<input type="number" id="Monto" name="Monto" value="" required="required"> 
+
+						<input type="number" id="Monto" name="Monto" value="" required="required" onkeypress="return validate(this,event);"> 
+
 					</div> 
 					<div class="column"style="display:flex; justify-content: flex-end;" >
 						<div >
@@ -171,6 +173,7 @@
 		        });
 		    } );
 		    
+
 		    $(function() {
 		    	   $("#transfer_button").click(function(){
 		    		   $.confirm({
@@ -192,6 +195,44 @@
 		    			});
 		    	   });
 		    	});
-	    </script>
+
+
+
+
+		    
+		    function validate(el, evt) {
+		    	   var charCode = (evt.which) ? evt.which : event.keyCode
+		    	    if (charCode != 45 && charCode != 8 && (charCode != 46) && (charCode < 48 || charCode > 57))
+		    	        return false;
+		    	    if (charCode == 46) {
+		    	        if ((el.value) && (el.value.indexOf('.') >= 0))
+		    	            return false;
+		    	        else
+		    	            return true;
+		    	    }
+		    	    return true;
+		    	    var charCode = (evt.which) ? evt.which : event.keyCode;
+		    	    var number = evt.value.split('.');
+		    	    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+		    	        return false;
+		    	    }
+		    	};
+		    	
+		    	function validateCBU(evt){
+    
+
+    var code = (evt.which) ? evt.which : evt.keyCode;
+    
+    if(code==8) {
+      return true;
+    } else if(code>=48 && code<=57) { 
+      return true;
+    } else{ 
+      return false;
+    }
+}
+		    	
+		    	
+		   </script>
 	</body>
 </html>

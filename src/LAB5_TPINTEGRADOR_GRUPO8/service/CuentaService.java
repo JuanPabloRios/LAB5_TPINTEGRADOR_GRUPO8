@@ -47,7 +47,7 @@ public class CuentaService {
 		    }
 	    }
 
-	public static String crearCuenta(String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta){ 
+	public static String crearCuenta(String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, TiposDeCuentas tipoCuenta){ 
 	    	try{
 		    	Boolean limiteCantCuentas = CuentaService.limiteCuentas(); 
 		    	
@@ -57,17 +57,15 @@ public class CuentaService {
 		        	Session session = config.abrirConexion();
 		        	session.beginTransaction();
 		        	
-		            Cuentas cu = (Cuentas)appContext.getBean("Cuenta"); 
-		            cu.setTipoDeUsuario(TipoDeUsuarioSelector.obtenerTipoUsuarioPorNombre("Cliente"));
-		            cu.setNombre(nombreCliente);
-		            cu.setApellido(apellidoCliente);
-		            cu.setContrasenia(contrasenia);
-		            cu.setUsuario(nombreUsuario);   
-		            cu.setDireccion(direccionCliente);
-		            cu.setDNI(dniCliente); 
-		            cu.setNacionalidad(nacionalidadCliente);
-		            cu.setSexo(sexoCliente);
-		            cu.setFecha_de_nacimiento(fechaNacimientoCliente);   
+		            Cuentas cu = (Cuentas)appContext.getBean("Cuenta");
+		            
+		            cu.setCBU(CBU);
+		            cu.setSaldo(saldo);
+		            cu.setFechaCreacion(fechaCuenta);
+		            cu.setTipoCuenta(tipoCuenta);
+		          
+		            
+		            
 		            session.save(cu);  
 		        	session.getTransaction().commit(); 
 		        	config.cerrarSession();

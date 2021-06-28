@@ -1,11 +1,17 @@
-package LAB5_TPINTEGRADOR_GRUPO8.selector; 
+package LAB5_TPINTEGRADOR_GRUPO8.dao; 
 import java.util.ArrayList; 
 import java.util.List; 
-import org.hibernate.Session; 
-import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas;
-import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario; 
+import org.hibernate.Session;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class CuentaSelector {
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas;
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
+import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
+import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate; 
+
+public class CuentaDao {
 
     public static List<Cuentas> obtenerTodasLasCuentasDeClientePorId(Integer usuarioId){ 
         ConfigHibernate ch = new ConfigHibernate();
@@ -44,13 +50,23 @@ public class CuentaSelector {
     }
     
     public static Cuentas obtenerCuentaPorCBU(String cbu){ 
-        List<Cuentas> cuentas = CuentaSelector.obtenerTodasLasCuentas(); 
+        List<Cuentas> cuentas = CuentaDao.obtenerTodasLasCuentas(); 
         for(Integer i = 0; i< cuentas.size(); i++) { 
             if(cbu.equals(cuentas.get(i).getCBU())) {
                 return cuentas.get(i);
             }
         }
         return null;
+    }
+    
+    public static String actualizarCuenta(Cuentas ca) { 
+     	ConfigHibernate config = new ConfigHibernate();
+    	Session session = config.abrirConexion(); 
+    	session.beginTransaction();
+    	session.update(ca); 
+    	session.getTransaction().commit(); 
+    	config.cerrarSession();  
+    	return "OK";
     }
     
 }

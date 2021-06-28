@@ -3,9 +3,9 @@ package LAB5_TPINTEGRADOR_GRUPO8.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import LAB5_TPINTEGRADOR_GRUPO8.dao.CuentaDao;
+import LAB5_TPINTEGRADOR_GRUPO8.dao.UsuarioDao;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.CuentaSelector;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector;
 import LAB5_TPINTEGRADOR_GRUPO8.service.MovimientoService;
 
 public class TransferenciaController {
@@ -20,9 +20,9 @@ public class TransferenciaController {
         String result = MovimientoService.transferenciaCuenta(idUsuario, Monto, CuentaDestino, CuentaOrigen, cbu);
         System.out.println("RESULT " + result);
 
-        Usuario us = UsuarioSelector.obtenerUsuarioPorID(idUsuario);
+        Usuario us = UsuarioDao.obtenerUsuarioPorID(idUsuario);
         mv.addObject("usuario",us);
-        mv.addObject("listaCuentas", CuentaSelector.obtenerTodasLasCuentasDeClientePorId(us.getIdusuario()));
+        mv.addObject("listaCuentas", CuentaDao.obtenerTodasLasCuentasDeClientePorId(us.getIdusuario()));
         mv.setViewName("HomeCliente");
         return mv;
     }

@@ -16,23 +16,24 @@ import LAB5_TPINTEGRADOR_GRUPO8.entidad.TipoMovimiento;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.Config; 
 
 public class MovimientoService {
-	   public static String transferenciaCuenta(Integer idUsuario, Double Monto, Integer CuentaDestino, Integer CuentaOrigen, String cbu){ 
+	   public static String transferenciaCuenta( Double Monto, Integer CuentaDestino, Integer CuentaOrigen, String cbu){ 
 	        try {
 	    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
 	    		Cuentas cOrigen = CuentaDao.obtenerCuentaPorId(CuentaOrigen);
 	    		if(cOrigen.getSaldo() >= Monto) {
-				   if(!cbu.isEmpty()) { 
+				   if(cbu.isEmpty()) { 
 
 				        TipoMovimiento debito = TipoMovimientoDao.obtenerTipoMovimientoPorNombre("DEBITO");
 				        TipoMovimiento credito = TipoMovimientoDao.obtenerTipoMovimientoPorNombre("CREDITO");
 				        
 				        Double mTotalOrigen = cOrigen.getSaldo()-Monto;
+				        System.out.println("mTotalOrigen " + mTotalOrigen+" estado actual "+ cOrigen.getSaldo() +" MONTO "+ Monto);
 				        cOrigen.setSaldo(mTotalOrigen);
 				        
 				        Movimientos mOrigen = (Movimientos)appContext.getBean("MovimientoDebito");
 				        mOrigen.setDescripcion("Transferencia a Cuenta Propia " + CuentaDestino); 
 				        mOrigen.setTipoMovimiento(debito);
-				        mOrigen.setImporte(mTotalOrigen);
+				        mOrigen.setImporte(Monto);
 				        mOrigen.setFecha(new Date(System.currentTimeMillis()));
 				        mOrigen.setDetalle("Movimiento ");
 				        mOrigen.setUsuario(cOrigen); 
@@ -42,13 +43,16 @@ public class MovimientoService {
 				    	
 				        Movimientos mDestino = (Movimientos)appContext.getBean("MovimientoCredito");
 				        mDestino.setDescripcion("Transferencia recibida " + CuentaOrigen); 
-				        mDestino.setImporte(mTotal);
+				        mDestino.setImporte(Monto);
 				        mDestino.setTipoMovimiento(credito);
 				        mDestino.setFecha(new Date(System.currentTimeMillis()));
 				        mDestino.setDetalle("Movimiento ");
 				        mDestino.setUsuario(cDestino); 
+				        
 				    	cDestino.setSaldo(mTotal);
 				    	
+				        System.out.println("mTotalOrigen " + mTotal+" estado actual "+ cDestino.getSaldo() +" MONTO "+ Monto);
+
 				    	MovimientoDao.insertarMovimiento(mOrigen);
 				    	MovimientoDao.insertarMovimiento(mDestino); 
 				    	CuentaDao.actualizarCuenta(cOrigen); 
@@ -66,7 +70,7 @@ public class MovimientoService {
 				        Movimientos mOrigen = new Movimientos();
 				        mOrigen.setDescripcion("Transferencia por Cbu " + cbu); 
 				        mOrigen.setTipoMovimiento(debito);
-				        mOrigen.setImporte(mTotalOrigen);
+				        mOrigen.setImporte(Monto);
 				        mOrigen.setFecha(new Date(System.currentTimeMillis()));
 				        mOrigen.setDetalle("Movimiento ");
 				        mOrigen.setUsuario(cOrigen);  
@@ -77,7 +81,7 @@ public class MovimientoService {
 				        Movimientos mDestino = new Movimientos();
 				        mDestino.setDescripcion("Transferencia recibida " + CuentaOrigen); 
 				        mDestino.setTipoMovimiento(credito);
-				        mDestino.setImporte(mTotal);
+				        mDestino.setImporte(Monto);
 				        mDestino.setFecha(new Date(System.currentTimeMillis()));
 				        mDestino.setDetalle("Movimiento ");
 				        mDestino.setUsuario(cCbuDestino); 

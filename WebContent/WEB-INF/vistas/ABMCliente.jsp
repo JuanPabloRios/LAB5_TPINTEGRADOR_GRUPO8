@@ -63,7 +63,7 @@
 				</div>
 				<div style="margin-bottom: 10px;">
 				<% if(request.getAttribute("idUsuario")!=null) { %>
-					<form id="formUpdate" method="post" action="editCliente.html" onsubmit="return error();">
+					<form id="formUpdate" method="post" action="editCliente.html">
 						<div id="datosPersonales">
 							<div class="row">
 								<div class="column">

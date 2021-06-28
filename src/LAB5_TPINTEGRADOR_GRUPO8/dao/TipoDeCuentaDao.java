@@ -1,12 +1,13 @@
-package LAB5_TPINTEGRADOR_GRUPO8.selector;
+package LAB5_TPINTEGRADOR_GRUPO8.dao;
 
 import java.util.List;
 
 import org.hibernate.Session;
 
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeCuentas;
+import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate;
 
-public class TipoDeCuentaSelector {
+public class TipoDeCuentaDao {
 	public static TiposDeCuentas obtenerTipoCuentaPorNombre(String tipoCuenta) { 
         ConfigHibernate ch = new ConfigHibernate();
         Session se = ch.abrirConexion(); 

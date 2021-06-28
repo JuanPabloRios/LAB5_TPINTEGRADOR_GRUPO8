@@ -1,5 +1,4 @@
-package LAB5_TPINTEGRADOR_GRUPO8.selector;
-
+package LAB5_TPINTEGRADOR_GRUPO8.resources;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

@@ -4,8 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import LAB5_TPINTEGRADOR_GRUPO8.data.creator.DataCreator;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.CuentaSelector;
+import LAB5_TPINTEGRADOR_GRUPO8.dao.CuentaDao;
+import LAB5_TPINTEGRADOR_GRUPO8.resources.DataCreator;
 
 @Controller
 public class ListarCuentasController {
@@ -23,7 +23,7 @@ public class ListarCuentasController {
 	public ModelAndView redireccionarAEditarCuenta(String nombreCuenta, Integer idCuenta) {
 		DataCreator.createData();
 		ModelAndView mv = new ModelAndView(); 
-		mv.addObject("cuenta", CuentaSelector.obtenerCuentaPorId(idCuenta)  );
+		mv.addObject("cuenta", CuentaDao.obtenerCuentaPorId(idCuenta)  );
 		mv.addObject("nombreCuenta",nombreCuenta);
 		mv.setViewName("ABMCuenta");
 		return mv;

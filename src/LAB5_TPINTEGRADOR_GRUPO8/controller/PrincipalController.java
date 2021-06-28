@@ -1,11 +1,11 @@
-package LAB5_TPINTEGRADOR_GRUPO8.controller;
-import LAB5_TPINTEGRADOR_GRUPO8.data.creator.*; 
+package LAB5_TPINTEGRADOR_GRUPO8.controller; 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView; 
+import org.springframework.web.servlet.ModelAndView;
+import LAB5_TPINTEGRADOR_GRUPO8.dao.CuentaDao;
+import LAB5_TPINTEGRADOR_GRUPO8.dao.UsuarioDao;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.CuentaSelector;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector; 
+import LAB5_TPINTEGRADOR_GRUPO8.resources.DataCreator; 
 
 //Controlador de la vista Principal
 @Controller
@@ -23,7 +23,7 @@ public class PrincipalController {
 	//Handler del boton de login, valida el usuario y redirige a cada home o devuelve un error
 	@RequestMapping("redirigirLogin.html")
 	public ModelAndView redirigirAHome(String txtUsuario, String txtClave) {   
-		Usuario us = UsuarioSelector.obtenerUsuarioPorNombreDeUsuario(txtUsuario); 
+		Usuario us = UsuarioDao.obtenerUsuarioPorNombreDeUsuario(txtUsuario); 
 		Boolean errorDeUsuario = false;
 		if(us == null ) { 
 			errorDeUsuario = true;
@@ -38,10 +38,10 @@ public class PrincipalController {
 			mv.addObject("nombreCuenta",us.getNombre() + " " + us.getApellido());
 			mv.addObject("usuario",us);
 			if(us.getTipoDeUsuario().getDescripcion().equals("Administrador")) {
-				mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes());
+				mv.addObject("listaClientes",UsuarioDao.obtenerTodosLosClientes());
 				mv.setViewName("AdministradorHome");
 			} else {
-				mv.addObject("listaCuentas", CuentaSelector.obtenerTodasLasCuentasDeClientePorId(us.getIdusuario()));  
+				mv.addObject("listaCuentas", CuentaDao.obtenerTodasLasCuentasDeClientePorId(us.getIdusuario()));  
 				mv.setViewName("HomeCliente");
 			} 
 		} 

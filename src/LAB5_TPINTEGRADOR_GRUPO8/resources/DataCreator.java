@@ -1,19 +1,18 @@
-package LAB5_TPINTEGRADOR_GRUPO8.data.creator;
+package LAB5_TPINTEGRADOR_GRUPO8.resources;
 import java.sql.Date;
 import java.util.List; 
 import org.hibernate.Session;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;  
-import LAB5_TPINTEGRADOR_GRUPO8.selector.ConfigHibernate;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import LAB5_TPINTEGRADOR_GRUPO8.dao.UsuarioDao;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Movimientos;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TipoMovimiento;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeCuentas;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeUsuarios;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
-import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
 
 public class DataCreator {
     
@@ -21,7 +20,7 @@ public class DataCreator {
         ConfigHibernate ch = new ConfigHibernate();
         Session se = ch.abrirConexion();  
         se.beginTransaction(); 
-        List<Usuario> usuarios = UsuarioSelector.obtenerTodosLosUsarios();
+        List<Usuario> usuarios = UsuarioDao.obtenerTodosLosUsarios();
         if(usuarios.isEmpty()) {
         	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
         	

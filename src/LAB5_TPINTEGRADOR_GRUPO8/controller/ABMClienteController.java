@@ -5,10 +5,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView; 
+import org.springframework.web.servlet.ModelAndView;
+
+import LAB5_TPINTEGRADOR_GRUPO8.dao.UsuarioDao;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.UsuarioSelector;
 import LAB5_TPINTEGRADOR_GRUPO8.service.UsuarioService;
 
 @Controller
@@ -18,7 +19,7 @@ public class ABMClienteController {
     public ModelAndView irAListadoClientes(String nombreCuenta) {
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("nombreCuenta",nombreCuenta); 
-        mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes());
+        mv.addObject("listaClientes",UsuarioDao.obtenerTodosLosClientes());
         mv.setViewName("AdministradorHome");
         return mv;
     }
@@ -39,7 +40,7 @@ public class ABMClienteController {
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("nombreCuenta",nombreCuenta);
         UsuarioService.eliminarUsuarioPorId(idUsuario); 
-		mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes()); 
+		mv.addObject("listaClientes",UsuarioDao.obtenerTodosLosClientes()); 
         mv.addObject("informarEliminadoCorrecto",true);
 		mv.setViewName("AdministradorHome");
         return mv;
@@ -59,7 +60,7 @@ public class ABMClienteController {
        
         if(result.equalsIgnoreCase("OK")) {
         	mv.addObject("informarUsuarioCreado",true);
-        	mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes()); 
+        	mv.addObject("listaClientes",UsuarioDao.obtenerTodosLosClientes()); 
         	mv.setViewName("AdministradorHome");
         } else {
         	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
@@ -95,7 +96,7 @@ public class ABMClienteController {
 				nombreUsuario, contrasenia); 
         
         if(result.equalsIgnoreCase("OK")) {
-			mv.addObject("listaClientes",UsuarioSelector.obtenerTodosLosClientes());
+			mv.addObject("listaClientes",UsuarioDao.obtenerTodosLosClientes());
 	        mv.addObject("informarUsuarioEditado",true);
 			mv.setViewName("AdministradorHome");
 			

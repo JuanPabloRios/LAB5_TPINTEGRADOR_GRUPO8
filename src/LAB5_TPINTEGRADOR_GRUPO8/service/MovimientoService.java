@@ -2,102 +2,92 @@ package LAB5_TPINTEGRADOR_GRUPO8.service;
 
 import java.sql.Date;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
+import org.hibernate.HibernateException; 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import LAB5_TPINTEGRADOR_GRUPO8.dao.CuentaDao;
+import LAB5_TPINTEGRADOR_GRUPO8.dao.MovimientoDao;
+import LAB5_TPINTEGRADOR_GRUPO8.dao.TipoMovimientoDao;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Movimientos;
-import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.ConfigHibernate;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.CuentaSelector;
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.TipoMovimiento; 
+import LAB5_TPINTEGRADOR_GRUPO8.resources.Config; 
 
 public class MovimientoService {
 	   public static String transferenciaCuenta(Integer idUsuario, Double Monto, Integer CuentaDestino, Integer CuentaOrigen, String cbu){ 
 	        try {
-	    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class);
-	    		
-	    		Cuentas cOrigen = CuentaSelector.obtenerCuentaPorId(CuentaOrigen);
+	    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
+	    		Cuentas cOrigen = CuentaDao.obtenerCuentaPorId(CuentaOrigen);
 	    		if(cOrigen.getSaldo() >= Monto) {
-				   if(!cbu.isEmpty()) {
-					    ConfigHibernate ch = new ConfigHibernate();       
-				        Session se = ch.abrirConexion(); 
-				        se.beginTransaction();
+				   if(!cbu.isEmpty()) { 
+
+				        TipoMovimiento debito = TipoMovimientoDao.obtenerTipoMovimientoPorNombre("DEBITO");
+				        TipoMovimiento credito = TipoMovimientoDao.obtenerTipoMovimientoPorNombre("CREDITO");
 				        
 				        Double mTotalOrigen = cOrigen.getSaldo()-Monto;
 				        cOrigen.setSaldo(mTotalOrigen);
 				        
-				        Movimientos mOrigen = new Movimientos();
+				        Movimientos mOrigen = (Movimientos)appContext.getBean("MovimientoDebito");
 				        mOrigen.setDescripcion("Transferencia a Cuenta Propia " + CuentaDestino); 
+				        mOrigen.setTipoMovimiento(debito);
 				        mOrigen.setImporte(mTotalOrigen);
 				        mOrigen.setFecha(new Date(System.currentTimeMillis()));
 				        mOrigen.setDetalle("Movimiento ");
-				        mOrigen.setUsuario(cOrigen);
-			            
+				        mOrigen.setUsuario(cOrigen); 
 				        
-				        Cuentas cDestino = CuentaSelector.obtenerCuentaPorId(CuentaDestino);
+				        Cuentas cDestino = CuentaDao.obtenerCuentaPorId(CuentaDestino);
 				    	Double mTotal = cDestino.getSaldo() + Monto; 
 				    	
-				        Movimientos mDestino = new Movimientos();
+				        Movimientos mDestino = (Movimientos)appContext.getBean("MovimientoCredito");
 				        mDestino.setDescripcion("Transferencia recibida " + CuentaOrigen); 
 				        mDestino.setImporte(mTotal);
+				        mDestino.setTipoMovimiento(credito);
 				        mDestino.setFecha(new Date(System.currentTimeMillis()));
 				        mDestino.setDetalle("Movimiento ");
-				        mDestino.setUsuario(cDestino);
-			            se.save(mDestino);
-				    	
-				    	
+				        mDestino.setUsuario(cDestino); 
 				    	cDestino.setSaldo(mTotal);
 				    	
-				    	se.save(mOrigen);
-				    	se.save(mDestino);
-				    	se.update(cOrigen);
-				    	se.update(cDestino);
-				    	se.getTransaction().commit(); 
-				        ch.cerrarSession();	   
+				    	MovimientoDao.insertarMovimiento(mOrigen);
+				    	MovimientoDao.insertarMovimiento(mDestino); 
+				    	CuentaDao.actualizarCuenta(cOrigen); 
+				    	CuentaDao.actualizarCuenta(cDestino);  
+				    	
 				    	((ConfigurableApplicationContext)appContext).close();
 				        return "OK";
-				   }else {
-					    ConfigHibernate ch = new ConfigHibernate();       
-				        Session se = ch.abrirConexion(); 
-				        se.beginTransaction();
-				        
-				        
-				        
+				   }else {  
+					   
+					   	TipoMovimiento debito = TipoMovimientoDao.obtenerTipoMovimientoPorNombre("DEBITO");
+				        TipoMovimiento credito = TipoMovimientoDao.obtenerTipoMovimientoPorNombre("CREDITO");
 				        Double mTotalOrigen = cOrigen.getSaldo()-Monto;
 				        cOrigen.setSaldo(mTotalOrigen);
 				        
 				        Movimientos mOrigen = new Movimientos();
 				        mOrigen.setDescripcion("Transferencia por Cbu " + cbu); 
+				        mOrigen.setTipoMovimiento(debito);
 				        mOrigen.setImporte(mTotalOrigen);
 				        mOrigen.setFecha(new Date(System.currentTimeMillis()));
 				        mOrigen.setDetalle("Movimiento ");
-				        mOrigen.setUsuario(cOrigen);
-			            
+				        mOrigen.setUsuario(cOrigen);  
 				        
-				        
-				        Cuentas cCbuDestino = CuentaSelector.obtenerCuentaPorCBU(cbu);
+				        Cuentas cCbuDestino = CuentaDao.obtenerCuentaPorCBU(cbu);
 				        Double mTotal = cCbuDestino.getSaldo() + Monto; 
 				    	
 				        Movimientos mDestino = new Movimientos();
 				        mDestino.setDescripcion("Transferencia recibida " + CuentaOrigen); 
+				        mDestino.setTipoMovimiento(credito);
 				        mDestino.setImporte(mTotal);
 				        mDestino.setFecha(new Date(System.currentTimeMillis()));
 				        mDestino.setDetalle("Movimiento ");
-				        mDestino.setUsuario(cCbuDestino);
-			            se.save(mDestino);
+				        mDestino.setUsuario(cCbuDestino); 
 				    	
 				        
 				        cCbuDestino.setSaldo(mTotal);
-				    	se.save(mOrigen);
-				    	se.save(mDestino);
-				    	se.update(cOrigen);
-				    	se.update(cCbuDestino);
-				      
-				    	se.getTransaction().commit(); 
-				        ch.cerrarSession();	   
+				        MovimientoDao.insertarMovimiento(mOrigen);
+				    	MovimientoDao.insertarMovimiento(mDestino); 
+				    	CuentaDao.actualizarCuenta(cOrigen); 
+				    	CuentaDao.actualizarCuenta(cCbuDestino);  
 				    	((ConfigurableApplicationContext)appContext).close();
 					   return "OK";
 				   }

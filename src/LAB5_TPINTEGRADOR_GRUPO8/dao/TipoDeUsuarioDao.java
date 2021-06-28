@@ -1,12 +1,13 @@
-package LAB5_TPINTEGRADOR_GRUPO8.selector;
+package LAB5_TPINTEGRADOR_GRUPO8.dao;
 
 import java.util.List;
 
 import org.hibernate.Session;
 
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeUsuarios;
+import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate;
 
-public class TipoDeUsuarioSelector {
+public class TipoDeUsuarioDao {
 	public static TiposDeUsuarios obtenerTipoUsuarioPorNombre(String tipoUsuario) { 
         ConfigHibernate ch = new ConfigHibernate();
         Session se = ch.abrirConexion(); 

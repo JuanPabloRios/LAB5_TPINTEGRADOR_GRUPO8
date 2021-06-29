@@ -24,7 +24,7 @@ import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate;
 public class CuentaService {
 	
 	  public static String editarCuenta(Integer numeroCuenta, Double saldo , TiposDeCuentas tipoCuenta){ 
-	    	try {  
+	    	try{
 		     	Cuentas ca = CuentaDao.obtenerCuentaPorId(numeroCuenta);	 
 		    	if(!ca.getSaldo().equals(saldo)) { 
 		    		ca.setSaldo(saldo);
@@ -32,6 +32,7 @@ public class CuentaService {
 		    	if(ca.getTipoCuenta().getDescripcion() != tipoCuenta.getDescripcion()) {
 		    		ca.setTipoCuenta(tipoCuenta);
 		    	}
+
 		    	CuentaDao.actualizarCuenta(ca); 
 	        	return "OK";
 		    }catch (HibernateException he){
@@ -40,7 +41,10 @@ public class CuentaService {
 		    }
 	    }
 
-	public static String crearCuenta(Double saldo, String CBU, Date fechaCuenta,TiposDeCuentas tpCuenta,Integer numeroCuenta, Usuario usuario ){ 
+
+
+	    
+		public static String crearCuenta(Double saldo, String CBU, Date fechaCuenta,TiposDeCuentas tpCuenta,Integer numeroCuenta, Usuario usuario ){ 
 	    	try{
 		    	Boolean limiteCantCuentas = CuentaService.limiteCuentas(); // FALTA ESTO!!! y qeu el saldo inicial es $10.000
 		    	
@@ -70,4 +74,5 @@ public class CuentaService {
 		// TODO 
 		return null;
 	}	
+
 }

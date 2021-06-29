@@ -3,6 +3,7 @@ package LAB5_TPINTEGRADOR_GRUPO8.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -17,26 +18,41 @@ public class MovimientoDao {
 	
     public static List<Movimientos> obtenerTodosLosMovimientosDeClientePorId(Integer idCuenta){ 
         ConfigHibernate ch = new ConfigHibernate();
-        Session se = ch.abrirConexion(); 
-        List<Movimientos> movimientosClientes = (List<Movimientos>)se.createQuery("FROM Movimientos").list(); 
         List<Movimientos> result = new ArrayList<>();
-        for(Integer i = 0; i< movimientosClientes.size(); i++) { 
-            if(movimientosClientes.get(i).getUsuario().getIdNroDeCuenta() ==  idCuenta) {
-                result.add(movimientosClientes.get(i));
-            }
+        try {
+	        Session se = ch.abrirConexion(); 
+	        List<Movimientos> movimientosClientes = (List<Movimientos>)se.createQuery("FROM Movimientos").list(); 
+	        for(Integer i = 0; i< movimientosClientes.size(); i++) { 
+	            if(movimientosClientes.get(i).getUsuario().getIdNroDeCuenta() ==  idCuenta) {
+	                result.add(movimientosClientes.get(i));
+	            }
+	        }
         }
+        catch (HibernateException he){
+	        he.printStackTrace();
+	    }
         ch.cerrarSession();
         return result;
     }
     
     public static String insertarMovimiento(Movimientos mov) { 
-    	ConfigHibernate ch = new ConfigHibernate();       
-        Session se = ch.abrirConexion(); 
-        se.beginTransaction();
-        se.save(mov);
-        se.getTransaction().commit();
-        ch.cerrarSession();
-    	return "OK";
+    	try {
+	    	ConfigHibernate ch = new ConfigHibernate();       
+	        Session se = ch.abrirConexion(); 
+	        se.beginTransaction();
+	        se.save(mov);
+	        se.getTransaction().commit();
+	        ch.cerrarSession();
+	    	return "OK";
+    	}
+    	catch (HibernateException he){
+	        he.printStackTrace();
+	        return "Ocurrió una excepcion durante la transacción";
+	    }
+    	catch (Exception ex){
+    		ex.printStackTrace();
+	        return "Ocurrió una excepcion durante la transacción";
+	    }
     }
     
  

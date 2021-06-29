@@ -16,19 +16,15 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class UsuarioService {
 	
     public static void eliminarUsuarioPorId(Integer idUsuario){ 
-    	try {
-	     	Usuario usuario = UsuarioDao.obtenerUsuarioPorID(idUsuario);     	
-	    	UsuarioDao.eliminarUsuario(usuario);
-	    }catch (HibernateException he){
-	        he.printStackTrace();
-	    }
+    	Usuario usuario = UsuarioDao.obtenerUsuarioPorID(idUsuario);     	
+	    UsuarioDao.eliminarUsuario(usuario);
     }	
+    
     //FALTA AGREGAR EL CAMPO DE LOCALIDAD Y PROVINCIA
     public static String crearUsuario(String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
     	String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
 		String nombreUsuario, String contrasenia){ 
-    	try{
-	    	Boolean existe = UsuarioService.existeDNI(dniCliente); 
+    	Boolean existe = UsuarioService.existeDNI(dniCliente); 
 	    	if(!existe) {
 	    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
 	            Usuario us = (Usuario)appContext.getBean("UsuarioCliente"); 
@@ -48,10 +44,6 @@ public class UsuarioService {
 	    	} else {
 	    		return "El DNI ingresado ya existe";
 	    	}
-	    }catch (HibernateException he){
-	        he.printStackTrace();
-	        return "Ocurrio una excepcion durante el guardado";
-	    } 
     }
     
     
@@ -59,9 +51,7 @@ public class UsuarioService {
     public static String editarUsuario(Integer idUsuario, String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
 			String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
 			String nombreUsuario, String contrasenia){ 
-    	try {
-    		
-	    	Boolean existe = UsuarioService.existeDNI(dniCliente); 
+    	Boolean existe = UsuarioService.existeDNI(dniCliente); 
 	    	if(!existe) { 
 		     	Usuario us = UsuarioDao.obtenerUsuarioPorID(idUsuario); 
 		    	if(!us.getNombre().contains(nombreCliente)) { 
@@ -98,10 +88,6 @@ public class UsuarioService {
 	    	} else {
 	    		return "El DNI ingresado ya existe";
 	    	}
-	    } catch (HibernateException he){
-	        he.printStackTrace();
-	        return "Ocurrio una excepcion durante la Modificacion";
-	    }
     }	
     
   //DEVUELVE true si se puede crear y false si no, por encontrar el DNI ya entre los USUARIOS

@@ -16,6 +16,7 @@ import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeCuentas;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
 import LAB5_TPINTEGRADOR_GRUPO8.service.CuentaService;
+import LAB5_TPINTEGRADOR_GRUPO8.service.UsuarioService;
 
 import java.util.List; 
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,16 @@ public class ABMCuentaController {
 	    mapper.enable(SerializationFeature.INDENT_OUTPUT);
 	    List<Usuario> res = UsuarioDao.obtenerTodosLosClientes();
         return mapper.writeValueAsString(res);
+    }
+	
+    @RequestMapping("eliminarCuenta.html")
+    public ModelAndView eliminarCuenta(Integer idNroDeCuenta) {
+        ModelAndView mv = new ModelAndView(); 
+        CuentaService.eliminarCuentaPorId(idNroDeCuenta); 
+		mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
+        mv.addObject("informarEliminadoCorrecto",true);
+		mv.setViewName("AdministradorHome");
+        return mv;
     }
 	 
 	@RequestMapping("editCuenta.html")

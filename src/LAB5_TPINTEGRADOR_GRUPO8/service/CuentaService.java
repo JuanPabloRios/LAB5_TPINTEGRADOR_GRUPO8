@@ -15,9 +15,9 @@ import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeCuentas;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
 
-import LAB5_TPINTEGRADOR_GRUPO8.selector.ConfigHibernate;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.CuentaSelector;
-import LAB5_TPINTEGRADOR_GRUPO8.selector.TipoDeUsuarioSelector;
+
+import LAB5_TPINTEGRADOR_GRUPO8.dao.CuentaDao;
+import LAB5_TPINTEGRADOR_GRUPO8.dao.TipoDeUsuarioDao;
 
 import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate;
 
@@ -40,29 +40,20 @@ public class CuentaService {
 		    }
 	    }
 
-	public static String crearCuenta(String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, TiposDeCuentas tipoCuenta){ 
+	public static String crearCuenta(Double saldo, String CBU, Date fechaCuenta,TiposDeCuentas tpCuenta,Integer numeroCuenta, Usuario usuario ){ 
 	    	try{
-		    	Boolean limiteCantCuentas = CuentaService.limiteCuentas(); 
+		    	Boolean limiteCantCuentas = CuentaService.limiteCuentas(); // FALTA ESTO!!! y qeu el saldo inicial es $10.000
 		    	
 		    	if(!limiteCantCuentas) {
-		    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class);
-		    		ConfigHibernate config = new ConfigHibernate();
-		        	Session session = config.abrirConexion();
-		        	session.beginTransaction();
+		    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
+		            Cuentas cuenta = (Cuentas)appContext.getBean("cuenta"); 
 		        	
-		            Cuentas cu = (Cuentas)appContext.getBean("Cuenta");
-		            
-		            cu.setCBU(CBU);
-		            cu.setSaldo(saldo);
-		            cu.setFechaCreacion(fechaCuenta);
-		            cu.setTipoCuenta(tipoCuenta);
-		          
-		            
-		            
-		            session.save(cu);  
-		        	session.getTransaction().commit(); 
-		        	config.cerrarSession();
-
+		        	cuenta.setSaldo(saldo);
+		        	cuenta.setCBU(CBU);
+		        	cuenta.setTipoCuenta(tpCuenta);
+		        	cuenta.setFechaCreacion(fechaCuenta);
+		        	cuenta.setUsuario(usuario);
+		        	CuentaDao.insertarCuenta(cuenta);
 		        	((ConfigurableApplicationContext)appContext).close();
 		        	return "OK";
 		    	} else {

@@ -84,24 +84,28 @@ public class ABMCuentaController {
 public ModelAndView guardarCuenta(String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta ) {
     ModelAndView mv = new ModelAndView(); 
     mv.addObject("nombreCuenta",nombreCuenta);
-    TiposDeCuentas tpCuentas = TipoDeCuentaSelector.obtenerTipoCuentaPorNombre(tipoCuenta);
-    
-    String result = CuentaService.crearCuenta( nombreCuenta, saldo, CBU,fechaCuenta, tipoCuenta, numeroCuenta );
+    TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta);
+  
+	Usuario usuario = null;// ME FALTA EL USUARIO !!!!!
+	
+	String result = CuentaService.crearCuenta(saldo, CBU,fechaCuenta, tpCuentas, numeroCuenta,usuario );
    
     if(result.equalsIgnoreCase("OK")) {
-
-    	mv.addObject("listaCuentas",CuentaSelector.obtenerTodasLasCuentas()); 
-    	mv.setViewName("AdministradorHome");
+    	mv.addObject("informarCuentaCreada",true);
+    	mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
+    	 mv.addObject("nombreCuenta",nombreCuenta); 
+    	mv.setViewName("ListarCuentas");
     } else {
     	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
     	Cuentas cuenta = (Cuentas)appContext.getBean("cuenta"); 
     	
-    	cuenta.setSaldo(saldo);;
+    	cuenta.setSaldo(saldo);
     	cuenta.setCBU(CBU);
     	cuenta.setTipoCuenta(tpCuentas);
     	cuenta.setFechaCreacion(fechaCuenta);
+
     	
-    	mv.addObject("Cuenta",cuenta);
+    	mv.addObject("cliente",cuenta);
     	mv.addObject("informarError",true);
     	mv.addObject("mensajeError",result); 
     	mv.setViewName("ABMCuenta"); 

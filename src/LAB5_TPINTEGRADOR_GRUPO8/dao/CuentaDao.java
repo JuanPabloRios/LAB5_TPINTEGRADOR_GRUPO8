@@ -68,5 +68,16 @@ public class CuentaDao {
     	config.cerrarSession();  
     	return "OK";
     }
+
+	public static String insertarCuenta(Cuentas cuenta) {
+	
+    	ConfigHibernate config = new ConfigHibernate(); 
+    	Session session = config.abrirConexion();
+    	session.beginTransaction();  
+    	session.save(cuenta);  
+    	session.getTransaction().commit(); 
+    	config.cerrarSession();
+        return null;
+	}
     
 }

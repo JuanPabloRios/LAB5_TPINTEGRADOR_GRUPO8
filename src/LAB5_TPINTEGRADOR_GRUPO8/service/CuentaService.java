@@ -15,8 +15,7 @@ import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate;
 
 public class CuentaService {
 	
-	  public static String editarCuenta(Integer numeroCuenta, Double saldo , TiposDeCuentas tipoCuenta){ 
-	    	try {  
+	  public static String editarCuenta(Integer numeroCuenta, Double saldo , TiposDeCuentas tipoCuenta){  
 		     	Cuentas ca = CuentaDao.obtenerCuentaPorId(numeroCuenta);	 
 		    	if(!ca.getSaldo().equals(saldo)) { 
 		    		ca.setSaldo(saldo);
@@ -24,11 +23,6 @@ public class CuentaService {
 		    	if(ca.getTipoCuenta().getDescripcion() != tipoCuenta.getDescripcion()) {
 		    		ca.setTipoCuenta(tipoCuenta);
 		    	}
-		    	CuentaDao.actualizarCuenta(ca); 
-	        	return "OK";
-		    }catch (HibernateException he){
-		        he.printStackTrace();
-		        return "Ocurrio una excepcion durante la Modificacion";
-		    }
+		    	return CuentaDao.actualizarCuenta(ca); 
 	    }	
 }

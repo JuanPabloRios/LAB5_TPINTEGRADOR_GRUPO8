@@ -17,7 +17,6 @@ import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
 
 public class MovimientoService {
 	   public static String transferenciaCuenta( Double Monto, Integer CuentaDestino, Integer CuentaOrigen, String cbu){ 
-	        try {
 	    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
 	    		Cuentas cOrigen = CuentaDao.obtenerCuentaPorId(CuentaOrigen);
 	    		if(cOrigen.getSaldo() >= Monto) {
@@ -98,11 +97,6 @@ public class MovimientoService {
 			   }else {
 				   return "Saldo insuficiente para realizar la transferencia.";
 			   }
-		   
-	        }catch (HibernateException he){
-		        he.printStackTrace();
-		        return "Ocurrio una excepcion durante la Modificacion";
-		    }
 	    }
 	    
 }

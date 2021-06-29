@@ -17,10 +17,10 @@ public class CuentaDao {
 
     public static List<Cuentas> obtenerTodasLasCuentasDeClientePorId(Integer usuarioId){ 
         ConfigHibernate ch = new ConfigHibernate();
-        Session se = ch.abrirConexion(); 
-        List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list(); 
         List<Cuentas> result = new ArrayList<>();
         try {
+        	Session se = ch.abrirConexion(); 
+            List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
 	        for(Integer i = 0; i< cuentasClientes.size(); i++) { 
 	            if(cuentasClientes.get(i).getUsuario().getIdusuario() ==  usuarioId) {
 	                result.add(cuentasClientes.get(i));
@@ -29,6 +29,9 @@ public class CuentaDao {
         }
         catch(HibernateException he){
         	he.printStackTrace();
+        }
+        catch(Exception ex){
+        	ex.printStackTrace();
         }
         finally {
         ch.cerrarSession();
@@ -39,16 +42,19 @@ public class CuentaDao {
     //FALTA EL CAMPO ESTADO EN LAS CUENTAS
     public static List<Cuentas> obtenerTodasLasCuentas(){ 
         ConfigHibernate ch = new ConfigHibernate();
-        Session se = ch.abrirConexion(); 
-        List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list(); 
         List<Cuentas> result = new ArrayList<>();
         try {
+        	Session se = ch.abrirConexion(); 
+            List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
 	        for(Integer i = 0; i < cuentasClientes.size(); i++) {  
 	        	result.add(cuentasClientes.get(i)); 
 	        }
         }
         catch(HibernateException he){
         	he.printStackTrace();
+        }
+        catch(Exception ex){
+        	ex.printStackTrace();
         }
         finally {
         ch.cerrarSession();
@@ -57,9 +63,9 @@ public class CuentaDao {
     }
     
     public static Cuentas obtenerCuentaPorId(Integer idCuenta) {
-    	ConfigHibernate config = new ConfigHibernate();
-    	Session session = config.abrirConexion(); 
     	try {
+    	ConfigHibernate config = new ConfigHibernate();
+        Session session = config.abrirConexion(); 
     	session.beginTransaction();
     	Cuentas cuenta = (Cuentas)session.get(Cuentas.class,idCuenta); 
     	config.cerrarSession();
@@ -68,12 +74,15 @@ public class CuentaDao {
     	catch(HibernateException he){
         	he.printStackTrace();
         }
+    	catch(Exception ex){
+        	ex.printStackTrace();
+        }
 		return null;
     }
     
     public static Cuentas obtenerCuentaPorCBU(String cbu){ 
-        List<Cuentas> cuentas = CuentaDao.obtenerTodasLasCuentas(); 
         try {
+        	List<Cuentas> cuentas = CuentaDao.obtenerTodasLasCuentas();
 	        for(Integer i = 0; i< cuentas.size(); i++) { 
 	            if(cbu.equals(cuentas.get(i).getCBU())) {
 	                return cuentas.get(i);
@@ -83,23 +92,30 @@ public class CuentaDao {
         catch(HibernateException he){
         	he.printStackTrace();
         }
+        catch(Exception ex){
+        	ex.printStackTrace();
+        }
         return null;
     }
     
     public static String actualizarCuenta(Cuentas ca) { 
      	ConfigHibernate config = new ConfigHibernate();
-    	Session session = config.abrirConexion(); 
     	try {
-    	session.beginTransaction();
-    	session.update(ca); 
-    	session.getTransaction().commit(); 
+    		Session session = config.abrirConexion(); 
+    		session.beginTransaction();
+    		session.update(ca); 
+    		session.getTransaction().commit(); 
     	}
     	catch(HibernateException he){
         	he.printStackTrace();
         	return "Ocurrio una excepcion durante la Modificacion";
         }
+    	catch(Exception ex){
+        	ex.printStackTrace();
+        	return "Ocurrio una excepcion durante la Modificacion";
+        }
     	finally{
-    	config.cerrarSession();
+    		config.cerrarSession();
     	}
     	return "OK";
     }

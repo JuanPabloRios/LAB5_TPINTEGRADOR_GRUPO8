@@ -98,6 +98,24 @@ public class CuentaDao {
         return null;
     }
     
+    public static String eliminarCuenta(Cuentas cu){   	
+    	try{ConfigHibernate config = new ConfigHibernate(); 
+	    	Session session = config.abrirConexion();
+	    	session.beginTransaction(); 
+	    	cu.setEstado(false);
+	    	session.update(cu); 
+	    	session.getTransaction().commit(); 
+	    	config.cerrarSession();
+    	}
+    	catch (HibernateException he){
+	        he.printStackTrace();
+	    } 
+        catch (Exception ex){
+	        ex.printStackTrace();
+	    }
+		return null;
+    }
+    
     public static String actualizarCuenta(Cuentas ca) { 
      	ConfigHibernate config = new ConfigHibernate();
     	try {

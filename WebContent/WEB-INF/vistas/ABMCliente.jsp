@@ -68,17 +68,17 @@
 							<div class="row">
 								<div class="column">
 							    	<label for="nombreCliente">Nombre:</label>
-									<input type="text" id="nombreCliente" name="nombreCliente" value="${cliente.getNombre()}" required="required"></input>
+									<input type="text" id="nombreCliente" name="nombreCliente" value="${cliente.getNombre()}" pattern="[a-zA-Z]" required="required"></input>
 							  	</div>
 							  	<div class="column">
 							    	<label for="apellidoCliente">Apellido:</label>
-									<input type="text" id="apellidoCliente" name="apellidoCliente" value="${cliente.getApellido()}" required="required"></input>
+									<input type="text" id="apellidoCliente" name="apellidoCliente" value="${cliente.getApellido()}" pattern="[a-zA-Z]" required="required"></input>
 							  	</div>
 							</div>
 							<div class="row">
 								<div class="column"> 
 									<label for="dniCliente">DNI:</label>
-									<input type="number" id="dniCliente" name="dniCliente" value="${cliente.getDNI()}" required="required"></input>
+									<input type="number" id="dniCliente" name="dniCliente" value="${cliente.getDNI()}" pattern="[0-9]." maxlength="10" required="required"></input>
 							  	</div>
 							  	<div class="column"> 
 							  		<label for="fechaNacimientoCliente">Fecha de Nacimiento:</label>
@@ -96,7 +96,7 @@
 							  	</div> 
 							  	<div class="column">
 							  		<label for="nacionalidadCliente">Nacionalidad:</label>
-									<input type="text" id="nacionalidadCliente" name="nacionalidadCliente" value="${cliente.getNacionalidad()}" required="required"></input>
+									<input type="text" id="nacionalidadCliente" name="nacionalidadCliente" value="${cliente.getNacionalidad()}" pattern="[a-zA-Z]" required="required"></input>
 							  	</div>
 							</div>
 							<div class="row">
@@ -105,7 +105,7 @@
 									<input type="text" id="nombreUsuario" name="nombreUsuario" value="${cliente.getUsuario()}" required="required"></input>
 							  	</div>
 							  	<div class="column">
-							    	<label for="contrasenia">Contraseña:</label>
+							    	<label for="contrasenia">ContraseÃ±a:</label>
 									<input type="text" id="contrasenia" name="contrasenia" value="${cliente.getContrasenia()}" required="required"></input>
 							  	</div>
 							</div>
@@ -189,7 +189,7 @@
 									<input type="text" id="nombreUsuario" name="nombreUsuario" value="${cliente.getUsuario()}" required="required"></input>
 							  	</div>
 							  	<div class="column">
-							    	<label for="contrasenia">Contraseña:</label>
+							    	<label for="contrasenia">ContraseÃ±a:</label>
 									<input type="text" id="contrasenia" name="contrasenia" value="${cliente.getContrasenia()}" required="required"></input>
 							  	</div>
 							</div>

@@ -39,6 +39,16 @@ public class ABMCuentaController {
 	    List<Usuario> res = UsuarioDao.obtenerTodosLosClientes();
         return mapper.writeValueAsString(res);
     }
+	
+    @RequestMapping("eliminarCuenta.html")
+    public ModelAndView eliminarCuenta(Integer idNroDeCuenta) {
+        ModelAndView mv = new ModelAndView(); 
+        CuentaService.eliminarCuentaPorId(idNroDeCuenta); 
+		mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
+        mv.addObject("informarEliminadoCorrecto",true);
+		mv.setViewName("AdministradorHome");
+        return mv;
+    }
 	 
 	@RequestMapping("editCuenta.html")
     public ModelAndView editarCuenta(String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta) {

@@ -61,6 +61,7 @@ public class ABMCuentaController {
 
         if(result.equalsIgnoreCase("OK")) {
 			
+
 	        mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
 	        mv.addObject("informarCuentaEditada",true);
 	        mv.addObject("nombreCuenta",nombreCuenta); 
@@ -85,4 +86,41 @@ public class ABMCuentaController {
 		
         return mv;
     } 
+
+
+
+//guardarCuenta.html 
+@RequestMapping("guardarCuenta.html")
+public ModelAndView guardarCuenta(String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta ) {
+    ModelAndView mv = new ModelAndView(); 
+    mv.addObject("nombreCuenta",nombreCuenta);
+    TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta);
+  
+	Usuario usuario = null;// ME FALTA EL USUARIO !!!!!
+	
+	String result = CuentaService.crearCuenta(saldo, CBU,fechaCuenta, tpCuentas, numeroCuenta,usuario );
+   
+    if(result.equalsIgnoreCase("OK")) {
+    	mv.addObject("informarCuentaCreada",true);
+    	mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
+    	 mv.addObject("nombreCuenta",nombreCuenta); 
+    	mv.setViewName("ListarCuentas");
+    } else {
+    	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
+    	Cuentas cuenta = (Cuentas)appContext.getBean("cuenta"); 
+    	
+    	cuenta.setSaldo(saldo);
+    	cuenta.setCBU(CBU);
+    	cuenta.setTipoCuenta(tpCuentas);
+    	cuenta.setFechaCreacion(fechaCuenta);
+
+    	
+    	mv.addObject("cliente",cuenta);
+    	mv.addObject("informarError",true);
+    	mv.addObject("mensajeError",result); 
+    	mv.setViewName("ABMCuenta"); 
+    	((ConfigurableApplicationContext)appContext).close();
+    }  
+    return mv;
+}
 }

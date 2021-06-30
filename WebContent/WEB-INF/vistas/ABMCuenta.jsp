@@ -2,6 +2,7 @@
 <%@page import="java.util.ArrayList" %>
 <%@page import="LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario" %> 
 <%@page import="LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas" %>  
+<%@page import="LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeCuentas" %>  
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -151,6 +152,10 @@
 							long millis=System.currentTimeMillis();
 							
 							java.sql.Date d=new java.sql.Date(millis);
+							
+
+							
+							
 							   %>
 						  		<label for="fechaCuenta">Fecha de creacion:</label>
 								<input type="date" id="fechaCuenta" name="fechaCuenta" value="<%=d%>" disabled="true"></input>
@@ -158,26 +163,26 @@
 						  	</div>
 						  	<div class="column">
 						  		<label for="CBU">CBU:</label>
-								<input type="text" id="CBU" name="CBU" value="${cuenta.getCBU()}" disabled=true></input>
+								<input type="text" id="CBU" name="CBU" value="${cuenta.getCBU()}" disabled="true"></input>
 								<input type="hidden" id="CBU" name="CBU" value="${cuenta.getCBU()}"></input>
 						  	</div> 
 						</div>
+
 						<div class="row">
 							<div class="column"> 
 								<label for="tipoCuenta">Tipo de Cuenta:</label>
 								<select name="tipoCuenta" id="tipoCuenta">
+
 								  	<option value="Caja de Ahorro Pesos">Caja Ahorro Pesos</option>
 								  	<option value="Caja de Ahorro en Dolares">Caja Ahorro Dolares</option>
+								  
 								</select> 
 						  	</div> 
 						  	<div class="column">
 						  		<label for="saldo">Saldo:</label>
-						  		<%if(request.getAttribute("cuenta")==null) { %>
+
 									<input type="text" id="saldo" name="saldo" value="${cuenta.getSaldo()}" disabled="true"></input>
-								<% } %>
-								<%if(request.getAttribute("cuenta")!=null) { %>
-									<input type="text" id="saldo" name="saldo" value="${cuenta.getSaldo()}"></input>
-								<% } %>
+
 						  	</div>
 						</div>  
 						

@@ -29,7 +29,7 @@ public class ABMClienteController {
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("nombreCuenta",nombreCuenta);
         //ACA BUSCAR TODAS LAS CUENTAS Y AGREGARLAS AL MODELO
-        mv.setViewName("ACA VA EL NOMBRE DE LA VISTA PARA LISTAR CENTAS");
+        mv.setViewName("ACA VA EL NOMBRE DE LA VISTA PARA LISTAR CUENTAS");
         return mv;
     }
 

@@ -16,10 +16,10 @@ import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate;
 public class CuentaDao {
 
     public static List<Cuentas> obtenerTodasLasCuentasDeClientePorId(Integer usuarioId){ 
-        ConfigHibernate ch = new ConfigHibernate();
+         
         List<Cuentas> result = new ArrayList<>();
         try {
-        	Session se = ch.abrirConexion(); 
+        	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
             List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
 	        for(Integer i = 0; i< cuentasClientes.size(); i++) { 
 	            if(cuentasClientes.get(i).getUsuario().getIdusuario() ==  usuarioId) {
@@ -34,17 +34,16 @@ public class CuentaDao {
         	ex.printStackTrace();
         }
         finally {
-        ch.cerrarSession();
+        	ConfigHibernate.cerrarSessionFactory();
         }
         return result;
     }
     
-    //FALTA EL CAMPO ESTADO EN LAS CUENTAS
-    public static List<Cuentas> obtenerTodasLasCuentas(){ 
-        ConfigHibernate ch = new ConfigHibernate();
+    
+    public static List<Cuentas> obtenerTodasLasCuentas(){  
         List<Cuentas> result = new ArrayList<>();
         try {
-        	Session se = ch.abrirConexion(); 
+        	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
             List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
 	        for(Integer i = 0; i < cuentasClientes.size(); i++) {  
 	        	result.add(cuentasClientes.get(i)); 
@@ -57,7 +56,7 @@ public class CuentaDao {
         	ex.printStackTrace();
         }
         finally {
-        ch.cerrarSession();
+        	ConfigHibernate.cerrarSessionFactory();
         }
         return result;
     }

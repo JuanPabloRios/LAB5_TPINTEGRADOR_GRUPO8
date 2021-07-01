@@ -1,32 +1,25 @@
-package LAB5_TPINTEGRADOR_GRUPO8.resources;
-import org.hibernate.Session;
+package LAB5_TPINTEGRADOR_GRUPO8.resources; 
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration; 
 
 public class ConfigHibernate {
-	private SessionFactory sessionFactory;
-	private Session session;
+	private static final SessionFactory sessionFactory = crearSessionFactory(); 
 
-	public ConfigHibernate() {
-		Configuration configuration = new Configuration();
-        configuration.configure();
-        ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
-        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+	@SuppressWarnings("deprecation")
+	private static SessionFactory crearSessionFactory() {
+		try {
+			return new Configuration().configure().buildSessionFactory();
+		} catch (Throwable ex) {
+			System.err.println("No fie posible crear la SessionFactory " + ex);
+			throw new ExceptionInInitializerError(ex);
+		}
 	}
 	
-	public Session abrirConexion() {
-		session=sessionFactory.openSession();
-		return session;
-	}
-	
-	public void cerrarSession() {
-		session.close();
-		cerrarSessionFactory();
+	public static SessionFactory obtenerSessionFactory() { 
+        return sessionFactory;
 	} 
 	
-	public void cerrarSessionFactory() {
-		sessionFactory.close();
+	public static void cerrarSessionFactory() {
+		obtenerSessionFactory().close();
 	}
 }

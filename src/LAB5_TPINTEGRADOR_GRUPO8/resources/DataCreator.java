@@ -16,9 +16,8 @@ import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
 
 public class DataCreator {
     
-    public static void createData() {
-        ConfigHibernate ch = new ConfigHibernate();
-        Session se = ch.abrirConexion();  
+    public static void createData() { 
+        Session se = ConfigHibernate.obtenerSessionFactory().openSession();
         se.beginTransaction(); 
         List<Usuario> usuarios = UsuarioDao.obtenerTodosLosUsarios();
         if(usuarios.isEmpty()) {
@@ -324,6 +323,6 @@ public class DataCreator {
 
         	((ConfigurableApplicationContext)appContext).close();
         }
-        ch.cerrarSession(); 
+        ConfigHibernate.cerrarSessionFactory();
     }
 }

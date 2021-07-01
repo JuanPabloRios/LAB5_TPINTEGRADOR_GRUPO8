@@ -10,13 +10,13 @@
   <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
   <property name="hbm2ddl.auto">update</property>
   
-  <mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeUsuarios"/>
-  <mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario"/>
-  <mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeCuentas"/>
-  <mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas"/>
-  <mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.Movimientos"/>
-  <mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.TipoMovimiento"/>
-<mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.Localidad"/>
-<mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.Provincia"/>
+  	<mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeUsuarios"/>
+  	<mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario"/>
+  	<mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeCuentas"/>
+  	<mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas"/>
+  	<mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.Movimientos"/>
+  	<mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.TipoMovimiento"/>
+	<mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.Localidad"/>
+	<mapping class="LAB5_TPINTEGRADOR_GRUPO8.entidad.Provincia"/>
  </session-factory>
 </hibernate-configuration>

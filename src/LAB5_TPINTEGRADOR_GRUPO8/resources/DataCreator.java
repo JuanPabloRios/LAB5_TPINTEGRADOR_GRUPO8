@@ -14,6 +14,7 @@ import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeCuentas;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeUsuarios;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
 
+//Como el nombre indica, la usamos para crear los datos en la base de datos
 public class DataCreator {
     
     public static void createData() { 

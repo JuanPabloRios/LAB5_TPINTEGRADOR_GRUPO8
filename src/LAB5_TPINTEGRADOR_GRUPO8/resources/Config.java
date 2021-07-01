@@ -10,6 +10,8 @@ import LAB5_TPINTEGRADOR_GRUPO8.entidad.TipoMovimiento;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeCuentas;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeUsuarios;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
+//ESTA ES LA CLASE DE CONFIGURACION QUE USAMOS CON SPRINGCORE
+//Seria nuesto IoC Container. Es el encargado de instanciar los elementos.
 
 //Con el tag configuration le decimos a Spring Core que este va a ser un config file
 @Configuration

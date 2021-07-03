@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope; 
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas;
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.Localidad;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Movimientos;
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.Provincia;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TipoMovimiento;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeCuentas;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeUsuarios;
@@ -38,6 +40,18 @@ public class Config {
 		admin.setTipoDeUsuario(TipoDeUsuarioAdministrador());
 		admin.setEstado(true);
 		return admin;
+	}
+	
+	@Bean @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Provincia nuevaProvincia() {
+		Provincia prov = new Provincia(); 
+		return prov;
+	}
+	
+	@Bean @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Localidad nuevaLocalidad() {
+		Localidad loc = new Localidad(); 
+		return loc;
 	}
 	
 	@Bean @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)

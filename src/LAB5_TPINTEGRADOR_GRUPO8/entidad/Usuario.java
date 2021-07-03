@@ -152,7 +152,7 @@ public class Usuario implements Serializable{
 		return "Usuario [idusuario=" + idusuario + ", nombre=" + nombre + ", apellido=" + apellido + ", sexo=" + sexo
 				+ ", nacionalidad=" + nacionalidad + ", usuario=" + usuario + ", contrasenia=" + contrasenia
 				+ ", fecha_de_nacimiento=" + fecha_de_nacimiento + ", DNI=" + DNI + ", direccion=" + direccion
-				+ ", estado=" + estado + "]";
+				+ ", estado=" + estado + ", localidad="+localidad+"]";
 	}
 
 

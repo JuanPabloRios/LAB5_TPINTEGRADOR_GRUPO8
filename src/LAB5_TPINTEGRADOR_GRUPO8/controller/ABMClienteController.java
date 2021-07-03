@@ -49,11 +49,11 @@ public class ABMClienteController {
     //guardarCliente.html 
     @RequestMapping("guardarCliente.html")
     public ModelAndView guardarCliente(String nombreCuenta, String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
-    									String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
+    									String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, Integer localidadCliente,
     									String nombreUsuario, String contrasenia) {
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("nombreCuenta",nombreCuenta);
-
+        System.out.println("@@ localidadCliente "+ localidadCliente + " @@ provinciaCliente "+ provinciaCliente);
         String result = UsuarioService.crearUsuario(nombreCliente, apellidoCliente, dniCliente, fechaNacimientoCliente, 
 				nacionalidadCliente, direccionCliente, sexoCliente, provinciaCliente, localidadCliente,
 				nombreUsuario, contrasenia);

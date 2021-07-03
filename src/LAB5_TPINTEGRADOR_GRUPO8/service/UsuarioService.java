@@ -1,6 +1,7 @@
 package LAB5_TPINTEGRADOR_GRUPO8.service; 
 import LAB5_TPINTEGRADOR_GRUPO8.dao.TipoDeUsuarioDao;
 import LAB5_TPINTEGRADOR_GRUPO8.dao.UsuarioDao;
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.Localidad;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate;
@@ -22,10 +23,12 @@ public class UsuarioService {
     
     //FALTA AGREGAR EL CAMPO DE LOCALIDAD Y PROVINCIA
     public static String crearUsuario(String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
-    	String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
+    	String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, Integer localidadCliente,
 		String nombreUsuario, String contrasenia){ 
     	Boolean existe = UsuarioService.existeDNI(dniCliente); 
 	    	if(!existe) {
+	    		Localidad loc = LocalidadService.obtenerLocalidadPorId(localidadCliente);
+	    		
 	    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
 	            Usuario us = (Usuario)appContext.getBean("UsuarioCliente"); 
 	            us.setTipoDeUsuario(TipoDeUsuarioDao.obtenerTipoUsuarioPorNombre("Cliente"));
@@ -38,6 +41,7 @@ public class UsuarioService {
 	            us.setNacionalidad(nacionalidadCliente);
 	            us.setSexo(sexoCliente);
 	            us.setFecha_de_nacimiento(fechaNacimientoCliente);  
+	            us.setLocalidad(loc);
 	            UsuarioDao.insertarUsuario(us);
 	        	((ConfigurableApplicationContext)appContext).close();
 	        	return "OK";

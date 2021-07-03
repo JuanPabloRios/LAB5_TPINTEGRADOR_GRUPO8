@@ -2619,11 +2619,13 @@ public class DataCreator {
             localidades.add("Yánima");
             localidades.add("Yerba Buena");
             localidades.add("Yerba Buena (S)");
+            List<Localidad> localidadesToInsert = new ArrayList<Localidad>();
             for(String nombre : localidades) {
             	Localidad objLocalidad = (Localidad)appContext.getBean("nuevaLocalidad"); 
             	objLocalidad.setNombre(nombre);
             	objLocalidad.setProvincia(provinciasPorCodigo.get(24)); 
             	se.save(objLocalidad); 
+            	localidadesToInsert.add(objLocalidad);
             }
             
             //
@@ -2638,6 +2640,7 @@ public class DataCreator {
             usAdmin.setDNI(12312312); 
             usAdmin.setNacionalidad("Estados Unidos");
             usAdmin.setSexo("M");  
+            usAdmin.setLocalidad(localidadesToInsert.get(3));
             usAdmin.setFecha_de_nacimiento(Date.valueOf("1987-04-08")); 
             se.save(usAdmin); 
             //--------------------------------------------------------
@@ -2652,6 +2655,7 @@ public class DataCreator {
             cliente1.setDNI(32444555); 
             cliente1.setNacionalidad("Argentina");
             cliente1.setSexo("M");
+            cliente1.setLocalidad(localidadesToInsert.get(6));
             cliente1.setFecha_de_nacimiento(Date.valueOf("1991-03-27"));
             se.save(cliente1); 
             
@@ -2664,6 +2668,7 @@ public class DataCreator {
             cliente2.setDNI(34253492); 
             cliente2.setNacionalidad("Argentina");
             cliente2.setSexo("M");
+            cliente2.setLocalidad(localidadesToInsert.get(10));
             cliente2.setFecha_de_nacimiento(Date.valueOf("1990-05-05")); 
             se.save(cliente2); 
             
@@ -2676,6 +2681,7 @@ public class DataCreator {
             cliente3.setDNI(43456343); 
             cliente3.setNacionalidad("Argentina");
             cliente3.setSexo("M");
+            cliente3.setLocalidad(localidadesToInsert.get(9));
             cliente3.setFecha_de_nacimiento(Date.valueOf("1989-04-10")); 
             se.save(cliente3); 
             
@@ -2688,6 +2694,7 @@ public class DataCreator {
             cliente4.setDNI(4597080); 
             cliente4.setNacionalidad("Argentina");
             cliente4.setSexo("M");
+            cliente4.setLocalidad(localidadesToInsert.get(8));
             cliente4.setFecha_de_nacimiento(Date.valueOf("1987-01-29")); 
             se.save(cliente4); 
             
@@ -2698,6 +2705,7 @@ public class DataCreator {
             cliente5.setContrasenia("Gomez");
             cliente5.setDireccion("Ayacucho 132 ");
             cliente5.setDNI(97834659); 
+            cliente5.setLocalidad(localidadesToInsert.get(12));
             cliente5.setNacionalidad("Paraguay");
             cliente5.setSexo("M");
             cliente5.setFecha_de_nacimiento(Date.valueOf("1952-11-10")); 
@@ -2712,6 +2720,7 @@ public class DataCreator {
             cliente6.setDNI(23456975); 
             cliente6.setNacionalidad("Colombia");
             cliente6.setSexo("F");
+            cliente6.setLocalidad(localidadesToInsert.get(7));
             cliente6.setFecha_de_nacimiento(Date.valueOf("1985-04-11")); 
             se.save(cliente6); 
             
@@ -2724,6 +2733,7 @@ public class DataCreator {
             cliente7.setDNI(56834984); 
             cliente7.setNacionalidad("Argentina");
             cliente7.setSexo("F");
+            cliente7.setLocalidad(localidadesToInsert.get(6));
             cliente7.setFecha_de_nacimiento(Date.valueOf("1977-10-03")); 
             se.save(cliente7); 
             
@@ -2736,6 +2746,7 @@ public class DataCreator {
             cliente8.setDNI(41234987); 
             cliente8.setNacionalidad("Brasil");
             cliente8.setSexo("M");
+            cliente8.setLocalidad(localidadesToInsert.get(5));
             cliente8.setFecha_de_nacimiento(Date.valueOf("1973-03-10")); 
             se.save(cliente8); 
             
@@ -2748,6 +2759,7 @@ public class DataCreator {
             cliente9.setDNI(23947586); 
             cliente9.setNacionalidad("Argentina");
             cliente9.setSexo("M");
+            cliente9.setLocalidad(localidadesToInsert.get(4));
             cliente9.setFecha_de_nacimiento(Date.valueOf("1988-05-12")); 
             se.save(cliente9); 
             

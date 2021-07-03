@@ -17,10 +17,9 @@ public class MovimientoDao {
 
 	
     public static List<Movimientos> obtenerTodosLosMovimientosDeClientePorId(Integer idCuenta){ 
-        ConfigHibernate ch = new ConfigHibernate();
         List<Movimientos> result = new ArrayList<>();
         try {
-	        Session se = ch.abrirConexion(); 
+	        Session se = ConfigHibernate.obtenerSessionFactory().openSession(); 
 	        List<Movimientos> movimientosClientes = (List<Movimientos>)se.createQuery("FROM Movimientos").list(); 
 	        for(Integer i = 0; i< movimientosClientes.size(); i++) { 
 	            if(movimientosClientes.get(i).getUsuario().getIdNroDeCuenta() ==  idCuenta) {
@@ -31,18 +30,19 @@ public class MovimientoDao {
         catch (HibernateException he){
 	        he.printStackTrace();
 	    }
-        ch.cerrarSession();
-        return result;
+        finally {
+	        ConfigHibernate.cerrarSessionFactory();
+        }
+	        return result;
     }
     
     public static String insertarMovimiento(Movimientos mov) { 
-    	try {
-	    	ConfigHibernate ch = new ConfigHibernate();       
-	        Session se = ch.abrirConexion(); 
+    	try {  
+	        Session se = ConfigHibernate.obtenerSessionFactory().openSession(); 
 	        se.beginTransaction();
 	        se.save(mov);
 	        se.getTransaction().commit();
-	        ch.cerrarSession();
+	        ConfigHibernate.cerrarSessionFactory();
 	    	return "OK";
     	}
     	catch (HibernateException he){

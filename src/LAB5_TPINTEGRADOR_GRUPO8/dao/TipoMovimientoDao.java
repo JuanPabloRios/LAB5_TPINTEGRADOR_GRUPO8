@@ -12,10 +12,9 @@ public class TipoMovimientoDao {
 	
 	public static TipoMovimiento obtenerTipoMovimientoPorNombre(String tipoMovimiento) { 
         try{
-        	ConfigHibernate ch = new ConfigHibernate();
-	        Session se = ch.abrirConexion(); 
+        	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
 	        List<TipoMovimiento> ltpMovimiento = (List<TipoMovimiento>)se.createQuery("FROM TipoMovimiento").list();   
-	        ch.cerrarSession(); 
+	        ConfigHibernate.cerrarSessionFactory();
 	        for(Integer i = 0; i< ltpMovimiento.size(); i++) {  
 	            if(ltpMovimiento.get(i).getDescripcion().equals(tipoMovimiento)) { 
 	            	return ltpMovimiento.get(i); 

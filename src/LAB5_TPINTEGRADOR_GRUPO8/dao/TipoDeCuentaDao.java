@@ -11,10 +11,10 @@ import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate;
 public class TipoDeCuentaDao {
 	public static TiposDeCuentas obtenerTipoCuentaPorNombre(String tipoCuenta) { 
         try{
-        	ConfigHibernate ch = new ConfigHibernate();
-	        Session se = ch.abrirConexion(); 
+        
+	        Session se = ConfigHibernate.obtenerSessionFactory().openSession();
 	        List<TiposDeCuentas> ltpCuenta = (List<TiposDeCuentas>)se.createQuery("FROM TiposDeCuentas").list();   
-	        ch.cerrarSession();
+	     
 	        TiposDeCuentas tpCuenta = new TiposDeCuentas(); 
 	        for(Integer i = 0; i< ltpCuenta.size(); i++) {  
 	            if(ltpCuenta.get(i).getDescripcion().equals(tipoCuenta)) { 
@@ -29,6 +29,9 @@ public class TipoDeCuentaDao {
         catch (Exception ex){
 	        ex.printStackTrace();
 	    }
+        finally {
+        	ConfigHibernate.cerrarSessionFactory();
+        }
 		return null;
     }
 }

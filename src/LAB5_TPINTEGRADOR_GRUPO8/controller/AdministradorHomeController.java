@@ -5,6 +5,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import LAB5_TPINTEGRADOR_GRUPO8.dao.CuentaDao;
 import LAB5_TPINTEGRADOR_GRUPO8.dao.UsuarioDao;
+import LAB5_TPINTEGRADOR_GRUPO8.service.LocalidadService;
 
 //Controlador de la vista AdministradorHome
 @Controller
@@ -15,8 +16,10 @@ public class AdministradorHomeController {
         ModelAndView mv = new ModelAndView();
         mv.addObject("idUsuario",idUsuario); 
         mv.addObject("cliente", UsuarioDao.obtenerUsuarioPorID(idUsuario)); 
+        System.out.println(UsuarioDao.obtenerUsuarioPorID(idUsuario).toString());
         mv.addObject("listaCuentas", CuentaDao.obtenerTodasLasCuentasDeClientePorId(idUsuario)); 
         mv.addObject("nombreCuenta",nombreCuenta); 
+        mv.addObject("localidadesXProvincia", LocalidadService.obtenerLocalidadesXProvincia());   
         mv.setViewName("ABMCliente");
         return mv;
     }
@@ -25,6 +28,7 @@ public class AdministradorHomeController {
     public ModelAndView crearNuevoCliente(String nombreCuenta) { 
         ModelAndView mv = new ModelAndView();
         mv.addObject("nombreCuenta",nombreCuenta);
+        mv.addObject("localidadesXProvincia", LocalidadService.obtenerLocalidadesXProvincia());   
         mv.setViewName("ABMCliente");
         return mv;
     }

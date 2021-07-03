@@ -1,6 +1,12 @@
 <%@page import="java.util.ArrayList" %>
 <%@page import="LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario" %> 
 <%@page import="LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas" %>  
+<%@page import="LAB5_TPINTEGRADOR_GRUPO8.entidad.Provincia" %>  
+<%@page import="LAB5_TPINTEGRADOR_GRUPO8.entidad.Localidad" %>  
+<%@page import="java.util.Map" %>  
+<%@page import="java.util.HashMap" %>  
+<%@page import="java.util.List" %>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -118,20 +124,14 @@
 							  	</div>
 							  	<div class="column"> 
 							  		<label for="provinciaCliente">Provincia:</label>
-									<select name="provinciaCliente" id="provinciaCliente">
-									  	<option value="1">Buenos Aires</option>
-									  	<option value="2">Cordoba</option>
-									  	<option value="3">Formosa</option> 
+									<select name="provinciaCliente" id="provinciaCliente" onchange="provChange(this)"> 
 									</select> 
 							  	</div>
 							</div>
 							<div class="row"> 
 							  	<div class="column"> 
 							  		<label for="localidadCliente">Localidad:</label>
-									<select name="localidadCliente" id="localidadCliente">
-									  	<option value="1">Don Torcuato</option>
-									  	<option value="2">San Miguel</option>
-									  	<option value="3">Pacheco</option> 
+									<select name="localidadCliente" id="localidadCliente"> 
 									</select> 
 							  	</div>
 							</div>
@@ -201,21 +201,15 @@
 									<input type="text" id="direccionCliente" name="direccionCliente" value="${cliente.getDireccion()}" required="required"></input>
 							  	</div>
 							  	<div class="column"> 
-							  		<label for="provinciaCliente">Provincia:</label>
-									<select name="provinciaCliente" id="provinciaCliente">
-									  	<option value="1">Buenos Aires</option>
-									  	<option value="2">Cordoba</option>
-									  	<option value="3">Formosa</option> 
+							  		<label for="provinciaCliente" >Provincia:</label>
+									<select name="provinciaCliente" id="provinciaCliente" onchange="provChange(this)"> 
 									</select> 
 							  	</div>
 							</div>
 							<div class="row"> 
 							  	<div class="column"> 
 							  		<label for="localidadCliente">Localidad:</label>
-									<select name="localidadCliente" id="localidadCliente">
-									  	<option value="1">Don Torcuato</option>
-									  	<option value="2">San Miguel</option>
-									  	<option value="3">Pacheco</option> 
+									<select name="localidadCliente" id="localidadCliente"> 
 									</select> 
 							  	</div>
 							</div>
@@ -247,16 +241,11 @@
 						  </tr>
 					 	</thead>
 	       				<tbody> 
-	       				<% 
-							ArrayList<Cuentas> cuentasCliente = null;
-						  
-							if(request.getAttribute("listaCuentas")!=null)
-							{
+	       				<%  ArrayList<Cuentas> cuentasCliente = null; 
+							if(request.getAttribute("listaCuentas")!=null) {
 								cuentasCliente = (ArrayList<Cuentas>)request.getAttribute("listaCuentas");
-							}		
-						  %>
-							
-							<%  if(cuentasCliente!=null)
+							} 
+							if(cuentasCliente!=null)
 								for(Cuentas ci : cuentasCliente) { %>
 							<tr> 
 								<td>
@@ -286,6 +275,57 @@
 	    		<script>console.log("ENTRAMOS EN EL IF"); $().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
 	    	<%} %>
 	    </div>
+	     
+	    <% if(request.getAttribute("localidadesXProvincia")!=null) {
+	    	Map<Provincia,List<Localidad>> localidadesXProvincia = (Map<Provincia,List<Localidad>>)request.getAttribute("localidadesXProvincia"); %>
+    		<script type="text/javascript"> 
+    		
+    			var selectedProvId = null;
+    			var selectedLocId = null;
+    			var selecttedLoc = null;
+    		<% if(request.getAttribute("cliente")!=null) { %>  
+    			selectedLocId = <%=cliente.getLocalidad().getIdLocalidad()%>
+    		<% }%>
+	    		var localidadesPorProv = {};
+	    		
+	    		<%for(Provincia prov : localidadesXProvincia.keySet()){%>
+				   	var provincia = { nombre:"<%=prov.getNombre()%>", id : <%=prov.getIdProvincia()%> }; 
+				   	var localidades = [];
+				   	var selected = "";
+				    <%for(Localidad loc : localidadesXProvincia.get(prov)){ %> 
+				    	var localLit = { nombre: "<%=loc.getNombre()%>", id :<%=loc.getIdLocalidad()%>, provId : provincia.id  };
+			    		localidades.push(localLit);
+				    	if(selectedLocId && selectedLocId == localLit.id){
+				    		selected = "selected";
+				    		selectedProvId = provincia.id;
+				    	} 
+					<%}%>
+				   	$('#provinciaCliente').append("<option "+selected+" value="+provincia.id+">"+provincia.nombre+"</option>");
+				   	
+					localidadesPorProv[<%=prov.getIdProvincia()%>] = localidades; 
+					if(selected == "selected"){ 
+						$("#provinciaCliente").val(<%=prov.getIdProvincia()%>)
+						provChange($("#provinciaCliente")[0]);
+					}
+					selected = "";
+				<%}%>
+				
+				function provChange(element) { 
+					console.log('Triggers change');
+					$('#localidadCliente').find('option').remove().end();
+					var localidades = localidadesPorProv[element.value];  
+					for(var i = 0; i < localidades.length; i++){
+						var selected = "";
+					   	if(selectedLocId && selectedLocId == localidades[i].id){
+					   		selected = "selected";
+					   		selecttedLoc = localidades[i];
+					   		console.log(selected);
+					   	}
+						$('#localidadCliente').append("<option "+selected+" value="+localidades[i].id+">"+localidades[i].nombre+"</option>");
+					}
+				}
+    		</script> 
+	   <%}%>
 	    <script type="text/javascript">
 		    $(document).ready( function () {
 		        $('#tablaCuentas').DataTable({

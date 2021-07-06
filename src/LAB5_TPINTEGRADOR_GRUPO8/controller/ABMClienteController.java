@@ -85,7 +85,7 @@ public class ABMClienteController {
      
     @RequestMapping("editCliente.html")
     public ModelAndView editarCliente(String nombreCuenta,Integer idUsuario, String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
-										String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
+										String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, Integer localidadCliente,
 										String nombreUsuario, String contrasenia) {
         ModelAndView mv = new ModelAndView(); 
         

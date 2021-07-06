@@ -63,11 +63,11 @@ public class CuentaDao {
     
     public static Cuentas obtenerCuentaPorId(Integer idCuenta) {
     	try {
-    	ConfigHibernate config = new ConfigHibernate();
-        Session session = config.abrirConexion(); 
+
+        Session session = ConfigHibernate.obtenerSessionFactory().openSession();
     	session.beginTransaction();
     	Cuentas cuenta = (Cuentas)session.get(Cuentas.class,idCuenta); 
-    	config.cerrarSession();
+    	
     	return cuenta;
     	}
     	catch(HibernateException he){
@@ -76,6 +76,9 @@ public class CuentaDao {
     	catch(Exception ex){
         	ex.printStackTrace();
         }
+    	finally {
+    		ConfigHibernate.cerrarSessionFactory();
+    	}
 		return null;
     }
     
@@ -98,13 +101,13 @@ public class CuentaDao {
     }
     
     public static String eliminarCuenta(Cuentas cu){   	
-    	try{ConfigHibernate config = new ConfigHibernate(); 
-	    	Session session = config.abrirConexion();
+    	try{
+	    	Session session = ConfigHibernate.obtenerSessionFactory().openSession();
 	    	session.beginTransaction(); 
 	    	cu.setEstado(false);
 	    	session.update(cu); 
 	    	session.getTransaction().commit(); 
-	    	config.cerrarSession();
+	    	
     	}
     	catch (HibernateException he){
 	        he.printStackTrace();
@@ -112,13 +115,16 @@ public class CuentaDao {
         catch (Exception ex){
 	        ex.printStackTrace();
 	    }
+    	finally {
+    	ConfigHibernate.cerrarSessionFactory();
+    	}
 		return null;
     }
     
     public static String actualizarCuenta(Cuentas ca) { 
-     	ConfigHibernate config = new ConfigHibernate();
+
     	try {
-    		Session session = config.abrirConexion(); 
+    		Session session = ConfigHibernate.obtenerSessionFactory().openSession();
     		session.beginTransaction();
     		session.update(ca); 
     		session.getTransaction().commit(); 
@@ -132,19 +138,28 @@ public class CuentaDao {
         	return "Ocurrio una excepcion durante la Modificacion";
         }
     	finally{
-    		config.cerrarSession();
+    		ConfigHibernate.cerrarSessionFactory();
     	}
     	return "OK";
     }
 
 	public static String insertarCuenta(Cuentas cuenta) {
-	
-    	ConfigHibernate config = new ConfigHibernate(); 
-    	Session session = config.abrirConexion();
+	try {
+    	Session session = ConfigHibernate.obtenerSessionFactory().openSession();
     	session.beginTransaction();  
     	session.save(cuenta);  
     	session.getTransaction().commit(); 
-    	config.cerrarSession();
+    	ConfigHibernate.cerrarSessionFactory();
+	}
+	catch (HibernateException he){
+        he.printStackTrace();
+    } 
+    catch (Exception ex){
+        ex.printStackTrace();
+    }
+	finally{
+		ConfigHibernate.cerrarSessionFactory();
+	}
         return null;
 	}
     

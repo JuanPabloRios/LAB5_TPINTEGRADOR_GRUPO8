@@ -159,7 +159,7 @@
 							   %>
 						  		<label for="fechaCuenta">Fecha de creacion:</label>
 								<input type="date" id="fechaCuenta" name="fechaCuenta" value="<%=d%>" disabled="true"></input>
-								<input type="hidden" id="fechaCuenta" name="fechaCuenta" value="${cuenta.getFechaCreacion()}"></input>
+								<input type="hidden" id="fechaCuenta" name="fechaCuenta" value="<%=d%>"></input>
 						  	</div>
 						  	<div class="column">
 						  		<label for="CBU">CBU:</label>

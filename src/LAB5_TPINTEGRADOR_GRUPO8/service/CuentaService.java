@@ -47,13 +47,15 @@ public class CuentaService {
 		    }
 	    } 
 	    
-		public static String crearCuenta(Double saldo, String CBU, Date fechaCuenta,TiposDeCuentas tpCuenta,Integer numeroCuenta, Usuario usuario ){ 
+		public static String crearCuenta(Double saldo, String CBU, Date fechaCuenta,TiposDeCuentas tpCuenta,Integer numeroCuenta, Integer idUsuario ){ 
 	    	try{
 		    	Boolean limiteCantCuentas = CuentaService.limiteCuentas(); // FALTA ESTO!!! y qeu el saldo inicial es $10.000
 		    	
 		    	if(!limiteCantCuentas) {
 		    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
 		            Cuentas cuenta = (Cuentas)appContext.getBean("cuenta"); 
+		            Usuario usuario= UsuarioDao.obtenerUsuarioPorID(idUsuario);
+		           
 		        	
 		        	cuenta.setSaldo(saldo);
 		        	cuenta.setCBU(CBU);

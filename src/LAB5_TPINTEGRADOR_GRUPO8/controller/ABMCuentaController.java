@@ -91,14 +91,13 @@ public class ABMCuentaController {
 
 //guardarCuenta.html 
 @RequestMapping("guardarCuenta.html")
-public ModelAndView guardarCuenta(String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta ) {
+public ModelAndView guardarCuenta(Integer idUsuario, String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta ) {
     ModelAndView mv = new ModelAndView(); 
     mv.addObject("nombreCuenta",nombreCuenta);
     TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta);
   
-	Usuario usuario = null;// ME FALTA EL USUARIO !!!!!
 	
-	String result = CuentaService.crearCuenta(saldo, CBU,fechaCuenta, tpCuentas, numeroCuenta,usuario );
+	String result = CuentaService.crearCuenta(saldo, CBU,fechaCuenta, tpCuentas, numeroCuenta,idUsuario );
    
     if(result.equalsIgnoreCase("OK")) {
     	mv.addObject("informarCuentaCreada",true);
@@ -114,7 +113,6 @@ public ModelAndView guardarCuenta(String nombreCuenta, Double saldo, String CBU,
     	cuenta.setTipoCuenta(tpCuentas);
     	cuenta.setFechaCreacion(fechaCuenta);
 
-    	
     	mv.addObject("cliente",cuenta);
     	mv.addObject("informarError",true);
     	mv.addObject("mensajeError",result); 

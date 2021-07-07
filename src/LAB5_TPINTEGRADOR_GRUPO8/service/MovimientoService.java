@@ -19,8 +19,10 @@ public class MovimientoService {
 	   public static String transferenciaCuenta( Double Monto, Integer CuentaDestino, Integer CuentaOrigen, String cbu){ 
 	    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
 	    		Cuentas cOrigen = CuentaDao.obtenerCuentaPorId(CuentaOrigen);
+		        System.out.println("CON CBU " + cbu);
+
 	    		if(cOrigen.getSaldo() >= Monto) {
-				   if(cbu.isEmpty()) { 
+				   if(cbu.isEmpty() && CuentaDestino != 0) { 
 
 				        TipoMovimiento debito = TipoMovimientoDao.obtenerTipoMovimientoPorNombre("DEBITO");
 				        TipoMovimiento credito = TipoMovimientoDao.obtenerTipoMovimientoPorNombre("CREDITO");
@@ -76,7 +78,9 @@ public class MovimientoService {
 				        
 				        Cuentas cCbuDestino = CuentaDao.obtenerCuentaPorCBU(cbu);
 				        Double mTotal = cCbuDestino.getSaldo() + Monto; 
-				    	
+				        
+				        System.out.println("CON CBU " + cCbuDestino.getIdNroDeCuenta());
+				        
 				        Movimientos mDestino = new Movimientos();
 				        mDestino.setDescripcion("Transferencia recibida " + CuentaOrigen); 
 				        mDestino.setTipoMovimiento(credito);
@@ -85,6 +89,7 @@ public class MovimientoService {
 				        mDestino.setDetalle("Movimiento ");
 				        mDestino.setUsuario(cCbuDestino); 
 				    	
+				        
 				        
 				        cCbuDestino.setSaldo(mTotal);
 				        MovimientoDao.insertarMovimiento(mOrigen);

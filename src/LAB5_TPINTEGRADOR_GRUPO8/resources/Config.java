@@ -110,6 +110,7 @@ public class Config {
 		Cuentas cuentaDolares = new Cuentas();
 		cuentaDolares.setFechaCreacion(new Date(System.currentTimeMillis()));
 		cuentaDolares.setTipoCuenta(TipoCuentaDolares());
+		cuentaDolares.setEstado(true);
 		return cuentaDolares;
 	}
 	
@@ -118,6 +119,7 @@ public class Config {
 		Cuentas cuentaPesos = new Cuentas();
 		cuentaPesos.setFechaCreacion(new Date(System.currentTimeMillis()));
 		cuentaPesos.setTipoCuenta(TipoCuentaPesos());
+		cuentaPesos.setEstado(true);
 		return cuentaPesos;
 	}
 	

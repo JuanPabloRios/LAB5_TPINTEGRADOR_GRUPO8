@@ -97,19 +97,19 @@
 		    	    <%if(request.getAttribute("informarEliminadoCorrecto")!=null)
 	    	{  	
 	    	%>
-	    <script>console.log("ENTRAMOS EN EL IF"); $().toastmessage('showSuccessToast', "Usuario eliminado correctamente.");</script>
+	    <script>$().toastmessage('showSuccessToast', "Usuario eliminado correctamente.");</script>
 	    	<%}
 	    %>
 	    		    	    <%if(request.getAttribute("informarUsuarioCreado")!=null)
 	    	{  	
 	    	%>
-	    <script>console.log("ENTRAMOS EN EL IF"); $().toastmessage('showSuccessToast', "Usuario creado correctamente.");</script>
+	    <script> $().toastmessage('showSuccessToast', "Usuario creado correctamente.");</script>
 	    	<%}
 	    %>
 	      <%if(request.getAttribute("informarUsuarioEditado")!=null)
 	    	{  	
 	    	%>
-	    <script>console.log("ENTRAMOS EN EL IF"); $().toastmessage('showSuccessToast', "Usuario editado correctamente.");</script>
+	    		<script>$().toastmessage('showSuccessToast', "Usuario editado correctamente.");</script>
 	    	<%}
 	    %>
 		    <script type="text/javascript">

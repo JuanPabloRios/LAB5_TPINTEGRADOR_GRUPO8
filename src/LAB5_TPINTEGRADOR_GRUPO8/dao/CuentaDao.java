@@ -44,7 +44,7 @@ public class CuentaDao {
         List<Cuentas> result = new ArrayList<>();
         try {
         	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
-            List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
+            List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas AS C WHERE C.estado = 1").list();
 	        for(Integer i = 0; i < cuentasClientes.size(); i++) {  
 	        	result.add(cuentasClientes.get(i)); 
 	        }

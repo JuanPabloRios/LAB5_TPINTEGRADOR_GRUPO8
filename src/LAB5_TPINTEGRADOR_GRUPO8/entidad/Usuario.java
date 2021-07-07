@@ -54,6 +54,10 @@ public class Usuario implements Serializable{
 	public String getNombre() {
 		return nombre;
 	}
+	
+	public String getApellidoYNombre() {
+		return this.apellido + ", "+this.nombre;
+	}
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;

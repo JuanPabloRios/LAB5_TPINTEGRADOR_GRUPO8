@@ -29,17 +29,31 @@ public class CuentaService {
 	    CuentaDao.eliminarCuenta(cuenta);
     }
 	 
-	  public static String editarCuenta(Integer numeroCuenta, Double saldo , TiposDeCuentas tipoCuenta){ 
+	  public static String editarCuenta(Integer numeroCuenta, Double saldo , TiposDeCuentas tipoCuenta, Integer idUsuario ){ 
 	    	try{ 
-		     	Cuentas ca = CuentaDao.obtenerCuentaPorId(numeroCuenta);	 
-		    	if(!ca.getSaldo().equals(saldo)) { 
+		     	Cuentas ca = CuentaDao.obtenerCuentaPorId(numeroCuenta);
+		     	Usuario us = UsuarioDao.obtenerUsuarioPorID(idUsuario);
+		     	
+		    	Boolean actualizar = false;
+		    	
+		     	if(!ca.getSaldo().equals(saldo)) { 
 		    		ca.setSaldo(saldo);
+		    		actualizar = true;
 		    	}
+		    	
 		    	if(ca.getTipoCuenta().getDescripcion() != tipoCuenta.getDescripcion()) {
 		    		ca.setTipoCuenta(tipoCuenta);
+		    		actualizar = true;
 		    	}
-
-		    	CuentaDao.actualizarCuenta(ca); 
+		    	
+		    	if(ca.getUsuario().getIdusuario() != us.getIdusuario()) {
+		    		ca.setUsuario(us);
+		    		actualizar = true;
+		    	}
+		    	
+		    	if(actualizar) {
+			    	CuentaDao.actualizarCuenta(ca); 
+		    	}
 	        	return "OK";
 		    }catch (HibernateException he){
 		        he.printStackTrace();
@@ -49,7 +63,7 @@ public class CuentaService {
 	    
 		public static String crearCuenta(Double saldo, String CBU, Date fechaCuenta,TiposDeCuentas tpCuenta,Integer numeroCuenta, Integer idUsuario ){ 
 	    	try{
-		    	Boolean limiteCantCuentas = CuentaService.limiteCuentas(); // FALTA ESTO!!! y qeu el saldo inicial es $10.000
+		    	Boolean limiteCantCuentas = false; // = CuentaService.limiteCuentas(); // FALTA ESTO!!! y qeu el saldo inicial es $10.000
 		    	
 		    	if(!limiteCantCuentas) {
 		    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 

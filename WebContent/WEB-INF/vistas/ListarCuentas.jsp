@@ -14,6 +14,8 @@
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="estilos/AdministradorHome.css" rel="StyleSheet" type="text/css"> 
+		<script src="estilos/toast/javascript/jquery.toastmessage.js"></script>
+		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css">	
 	</head>
 	<body>
 		<div class="mainContainer">
@@ -96,6 +98,12 @@
 		            <div>LAB5 UTN Grupo 8 2021</div> 
 			    </div>
 		    </div>
+		    <%if(request.getAttribute("informarEliminadoCorrecto")!=null) { %>
+	    		<script>$().toastmessage('showSuccessToast', "Cuenta eliminada correctamente.");</script>
+	    	<%} if(request.getAttribute("informarGuardadoCorrecto")!=null) { %>
+	    		<script> $().toastmessage('showSuccessToast', "Cuenta guardada correctamente.");</script>
+	    	<%}%>
+	    	
 		    <script type="text/javascript">
 			    $(document).ready( function () {
 			        $('#tablaCuenta').DataTable({

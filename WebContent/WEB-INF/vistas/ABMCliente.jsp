@@ -311,17 +311,15 @@
 					}
 					selected = "";
 				<%}%>
-				//Y ANTE CUALQUIE CAMBIO DE LA LISTA DE PROVINCIAS MODIFICAMOS LA LISTA DE LOCALIDADES
-				function provChange(element) { 
-					console.log('Triggers change');
+				//Y ANTE CUALQUIER CAMBIO DE LA LISTA DE PROVINCIAS MODIFICAMOS LA LISTA DE LOCALIDADES
+				function provChange(element) {  
 					$('#localidadCliente').find('option').remove().end();
 					var localidades = localidadesPorProv[element.value];  
 					for(var i = 0; i < localidades.length; i++){
 						var selected = "";
 					   	if(selectedLocId && selectedLocId == localidades[i].id){
 					   		selected = "selected";
-					   		selecttedLoc = localidades[i];
-					   		console.log(selected);
+					   		selecttedLoc = localidades[i]; 
 					   	}
 						$('#localidadCliente').append("<option "+selected+" value="+localidades[i].id+">"+localidades[i].nombre+"</option>");
 					}

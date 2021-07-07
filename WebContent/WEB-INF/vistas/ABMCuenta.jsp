@@ -16,9 +16,8 @@
 		<link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="StyleSheet" type="text/css"> 
 		<link href="estilos/AdministradorHome.css" rel="StyleSheet" type="text/css"> 
 		<link href="estilos/ABMCliente.css" rel="StyleSheet" type="text/css">  
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css"> 
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+    	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
+    	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>  
 		<script src="estilos/toast/javascript/jquery.toastmessage.js"></script>
@@ -59,10 +58,9 @@
 					<div class="tituloPagina">ABM Cuenta</div>  
 					<% if(request.getAttribute("cuenta")!=null) { %>
 					<div class="botonPrincipalContainer">
-						<form method="post" action="eliminarCuenta.html">
-				  			<input class="button btnNuevoCliente" type="submit" title="Eliminar cuenta" value="Eliminar Cuenta"></input> 
-				  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
-				  			<input type="hidden" name="idUsuario" value="${idUsuario}" >
+						<form id="formDelete" method="post" action="eliminarCuenta.html">
+				  			<input class="button btnNuevoCliente" type="button" title="Eliminar cuenta" value="Eliminar Cuenta" id="delete_button"></input> 
+				  			<input type="hidden" name="idNroDeCuenta" value="${cuenta.getIdNroDeCuenta()}" > 
 				  		</form>
 				  	</div>
 				  	<% } %> 
@@ -77,7 +75,7 @@
 									<div style="max-width:150px;">
 										<input class="button btnNuevoCliente asignarCliente" id="asignarCliente" type="button" title="Asignar cliente" value="Asignar cliente"></input>   
 					  				</div> 
-					  				<div style="flex: 2; padding-left: 17px;"><input type="text" id="ususarioAsignadoLabel" disabled="true"></input></div>
+					  				<div style="flex: 2; padding-left: 17px;"><input type="text" id="ususarioAsignadoLabel" value="${cuenta.getUsuario().getApellidoYNombre()}" disabled="true"></input></div>
 								</div> 
 						  	</div>  
 						  	<div class="column">
@@ -102,7 +100,7 @@
 							<div class="column"> 
 								<label for="tipoCuenta">Tipo de Cuenta:</label>
 								<select name="tipoCuenta" id="tipoCuenta">
-								  	<option value="Caja de Ahorro Pesos">Caja Ahorro Pesos</option>
+								  	<option value="Caja de Ahorro en Pesos">Caja Ahorro Pesos</option>
 								  	<option value="Caja de Ahorro en Dolares">Caja Ahorro Dolares</option>
 								</select> 
 						  	</div> 
@@ -123,7 +121,7 @@
 						  	<div class="column" style="display:flex; justify-content: flex-end;">
 						  		<input class="button btnSave" title="Guardar" value="Guardar" id="update_button" style="margin-top:10px;"></input>  
 								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
-								<input class="idUserSelected" type="hidden" name="idUsuario"></input>
+								<input class="idUserSelected" type="hidden" name="idUsuario" value="${cuenta.getUsuario().getIdusuario()}"></input>
 						  	</div>
 						</div> 
 					</form>
@@ -151,10 +149,7 @@
 						  	<%
 							long millis=System.currentTimeMillis();
 							
-							java.sql.Date d=new java.sql.Date(millis);
-							
-
-							
+							java.sql.Date d=new java.sql.Date(millis); 
 							
 							   %>
 						  		<label for="fechaCuenta">Fecha de creacion:</label>
@@ -173,7 +168,7 @@
 								<label for="tipoCuenta">Tipo de Cuenta:</label>
 								<select name="tipoCuenta" id="tipoCuenta">
 
-								  	<option value="Caja de Ahorro Pesos">Caja Ahorro Pesos</option>
+								  	<option value="Caja de Ahorro en Pesos">Caja Ahorro Pesos</option>
 								  	<option value="Caja de Ahorro en Dolares">Caja Ahorro Dolares</option>
 								  
 								</select> 
@@ -190,7 +185,7 @@
 							<div class="column"> 
 						  	</div> 
 						  	<div class="column" style="display:flex; justify-content: flex-end;"> 
-								<input class="idUserSelected" type="hidden" name="idUsuario"></input> 
+								<input class="idUserSelected" type="hidden" value="${cuenta.getUsuario().getIdusuario()}" name="idUsuario"></input> 
 						  		<input class="button btnSave" title="Guardar" value="Guardar" id="create_button" style="margin-top:10px;"></input>  
 								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input> 
 						  	</div>
@@ -219,6 +214,11 @@
                  </tbody>
             </table>
          </div> 
+         <%if(request.getAttribute("cuenta")!=null) { %>
+			 <script type="text/javascript">
+			 	$("#tipoCuenta").val("<%=cuenta.getTipoCuenta().getDescripcion()%>");
+			 </script>
+		<% } %>
 	    <script type="text/javascript">
 	    function seleccionerCliente(elemento){ 
 	    	let idUsuario = elemento.dataset.usuarioid;
@@ -228,9 +228,10 @@
 	    	let usersSelectedInput = $(".idUserSelected");
 	    	for(let i = 0; i<usersSelectedInput.length; i++){
 	    		usersSelectedInput.val(idUsuario);
+	    		console.log("asignado a i "+i);
 	    	} 
-	    	$( "#dialog" ).dialog( "close" );
-	    	console.log("ID " + idUsuario + " Nombre "+ nombreUsuario + " Apellido " + apellidoUsuario); 
+	    	console.log($(".idUserSelected").val());
+	    	$( "#dialog" ).dialog( "close" );  
 	    }
 	    $(document).ready( function () {
             $('#tablaClientes').DataTable({ 
@@ -254,6 +255,8 @@
                 }
             });
         } );
+	    
+	    //USAMOS AJAX PARA TRAER LA LISTA DE USUARIOS PARA ASIGNAR LA CUENTA
 	    $(function() {
 	    	   $(".asignarCliente").click(function(){
 	    		   $.ajax({ 
@@ -291,6 +294,28 @@
 	    	   });
 	    	});
 	    
+	  //USAMOS JQUERY PARA COMFIRMAR LAS ACCIONES QUE GENERAN CAMBIOS EN LA BASE DE DATOS
+	    $(function() {
+	    	   $("#delete_button").click(function(){
+	    		   $.confirm({
+	    			    title: 'Eliminar',
+	    			    content: 'Realmente desea eliminar la cuenta?',
+	    			    buttons: {
+	    			        confirm: {
+	    			        	text:"Eliminar",
+	    			        	action: function () {
+	    			        		$('#formDelete').submit();
+	    			        	}
+	    			        },
+	    			        cancel: {
+	    			        	text:"Cancelar",
+	    			        	action:function () {}
+	    			        }
+	    			    }
+	    			    
+	    			});
+	    	   });
+	    	});
 	    
 	    
 	    $(function() {

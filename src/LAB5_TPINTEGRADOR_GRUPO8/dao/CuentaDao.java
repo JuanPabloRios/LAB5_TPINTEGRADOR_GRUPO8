@@ -86,7 +86,7 @@ public class CuentaDao {
         try {
         	List<Cuentas> cuentas = CuentaDao.obtenerTodasLasCuentas();
 	        for(Integer i = 0; i< cuentas.size(); i++) { 
-	            if(cbu.equals(cuentas.get(i).getCBU())) {
+	            if(cbu.contains(cuentas.get(i).getCBU())) {
 	                return cuentas.get(i);
 	            }
 	        }

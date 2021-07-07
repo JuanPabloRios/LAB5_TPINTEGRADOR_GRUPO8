@@ -69,7 +69,7 @@
 				</div>
 				<div style="margin-bottom: 10px;">
 				<% if(request.getAttribute("idUsuario")!=null) { %>
-					<form id="formUpdate" method="post" action="editCliente.html">
+					<form id="formUpdate" method="post" action="editCliente.html" onsubmit="return validarForm();">
 						<div id="datosPersonales">
 							<div class="row">
 								<div class="column">
@@ -84,7 +84,7 @@
 							<div class="row">
 								<div class="column"> 
 									<label for="dniCliente">DNI:</label>
-									<input type="number" id="dniCliente" name="dniCliente" value="${cliente.getDNI()}" pattern="[0-9]." maxlength="10" required="required"></input>
+									<input type="number" id="dniCliente" name="dniCliente" value="${cliente.getDNI()}" pattern="[0-9]." min="1" max="999999999" required="required"></input>
 							  	</div>
 							  	<div class="column"> 
 							  		<label for="fechaNacimientoCliente">Fecha de Nacimiento:</label>
@@ -111,7 +111,7 @@
 									<input type="text" id="nombreUsuario" name="nombreUsuario" value="${cliente.getUsuario()}" required="required"></input>
 							  	</div>
 							  	<div class="column">
-							    	<label for="contrasenia">ContraseÃ±a:</label>
+							    	<label for="contrasenia">Contraseña:</label>
 									<input type="text" id="contrasenia" name="contrasenia" value="${cliente.getContrasenia()}" required="required"></input>
 							  	</div>
 							</div>
@@ -147,7 +147,7 @@
 						<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
 					</form>
 				<% }else{ %>
-				<form id="formCreate" method="post" action="guardarCliente.html">
+				<form id="formCreate" method="post" action="guardarCliente.html" onsubmit="return validarForm();">
 						<div id="datosPersonales">
 							<div class="row">
 								<div class="column">
@@ -162,7 +162,7 @@
 							<div class="row">
 								<div class="column"> 
 									<label for="dniCliente">DNI:</label>
-									<input type="number" id="dniCliente" name="dniCliente" value="${cliente.getDNI()}" required="required"></input>
+									<input type="number" id="dniCliente" name="dniCliente" value="${cliente.getDNI()}" min="1" max="999999999" required="required"></input>
 							  	</div>
 							  	<div class="column"> 
 							  		<label for="fechaNacimientoCliente">Fecha de Nacimiento:</label>
@@ -189,7 +189,7 @@
 									<input type="text" id="nombreUsuario" name="nombreUsuario" value="${cliente.getUsuario()}" required="required"></input>
 							  	</div>
 							  	<div class="column">
-							    	<label for="contrasenia">ContraseÃ±a:</label>
+							    	<label for="contrasenia">Contraseña:</label>
 									<input type="text" id="contrasenia" name="contrasenia" value="${cliente.getContrasenia()}" required="required"></input>
 							  	</div>
 							</div>
@@ -270,16 +270,18 @@
 			<div class="footer"> 
 	            <div>LAB5 UTN Grupo 8 2021</div> 
 		    </div>
+		    
 		    <%if(request.getAttribute("informarError")!=null) { 
+		    	//EN CASO DE ERROR AL CARGAR LA PAGINA INFORMAMOS DE EL MISMO
 		    	String errorMessage = (String)request.getAttribute("mensajeError"); %>
-	    		<script>console.log("ENTRAMOS EN EL IF"); $().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
+	    		<script>$().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
 	    	<%} %>
 	    </div>
 	     
 	    <% if(request.getAttribute("localidadesXProvincia")!=null) {
 	    	Map<Provincia,List<Localidad>> localidadesXProvincia = (Map<Provincia,List<Localidad>>)request.getAttribute("localidadesXProvincia"); %>
     		<script type="text/javascript"> 
-    		
+    			//MEDIANTE DISTINTOS METODOS DE JAVASCRIPT PRIMERO CARGAMOS LA LISTA DE PROVINCIAS
     			var selectedProvId = null;
     			var selectedLocId = null;
     			var selecttedLoc = null;
@@ -309,7 +311,7 @@
 					}
 					selected = "";
 				<%}%>
-				
+				//Y ANTE CUALQUIE CAMBIO DE LA LISTA DE PROVINCIAS MODIFICAMOS LA LISTA DE LOCALIDADES
 				function provChange(element) { 
 					console.log('Triggers change');
 					$('#localidadCliente').find('option').remove().end();
@@ -327,6 +329,70 @@
     		</script> 
 	   <%}%>
 	    <script type="text/javascript">
+	    	var letters = /^[a-zA-Z\s]*$/;
+	    	var numbers = /^[0-9]+$/;
+	    	var fechas = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/;
+	    	var contrasenia = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+	    	//USAMOS REGULAR EXPRESSIONS PARA VALIDAR EL FORMULARIO ANTES DE ENVIAR
+	    	function validarForm(){ 
+	    		if(!letters.test($('#nombreCliente').val()) || $('#nombreCliente').val() == undefined || $('#nombreCliente').val() == null || $('#nombreCliente').val().trim() == ""){ //
+	    			$().toastmessage('showErrorToast', "Modifique el nombre, no puede estar vacio y solo puede contener letras");
+	    		    return false;
+	    		} 
+	    		if(!letters.test($('#apellidoCliente').val()) || $('#apellidoCliente').val() == undefined || $('#apellidoCliente').val() == null || $('#apellidoCliente').val().trim() == ""){ //
+	    			$().toastmessage('showErrorToast', "Modifique el apellido, no puede estar vacio y solo puede contener letras");
+	    		    return false;
+	    		}
+	    		if(!numbers.test($('#dniCliente').val()) || $('#dniCliente').val() == undefined || $('#dniCliente').val() == null || $('#dniCliente').val().trim() == "" || $('#dniCliente').val() < 1 || $('#dniCliente').val() > 999999999){ //
+	    			$().toastmessage('showErrorToast', "Modifique el DNI, no puede estar vacio y solo puede contener numeros del 1 al 999999999");
+	    		    return false;
+	    		}
+	    		
+	    		if(!fechas.test($('#fechaNacimientoCliente').val()) || $('#fechaNacimientoCliente').val() == undefined || $('#fechaNacimientoCliente').val() == null || $('#fechaNacimientoCliente').val().trim() == "" ){ //
+	    			$().toastmessage('showErrorToast', "Modifique la fecha de nacimiento, no puede estar vacia o incompleta");
+	    		    return false;
+	    		}
+
+	    		let fechaActual = new Date();
+	    		let fechaNac = new Date($('#fechaNacimientoCliente').val());
+	    		if(fechaNac > fechaActual ){
+	    			$().toastmessage('showErrorToast', "Modifique la fecha de nacimiento, no puede ser mayor a hoy");
+	    		    return false;
+	    		}
+	    		
+	    		if(!letters.test($('#nacionalidadCliente').val()) || $('#nacionalidadCliente').val() == undefined || $('#nacionalidadCliente').val() == null || $('#nacionalidadCliente').val().trim() == ""){ //
+	    			$().toastmessage('showErrorToast', "Modifique la nacionalidad, no puede estar vacio y solo puede contener letras");
+	    		    return false;
+	    		}
+	    		
+	    		if( $('#nombreUsuario').val() == undefined || $('#nombreUsuario').val() == null || $('#nombreUsuario').val().trim() == "" || $('#nombreUsuario').val().trim().length < 6){ //
+	    			$().toastmessage('showErrorToast', "Modifique el nombre de usuario, no puede estar vacio y debe contener 6 caracteres como minimo");
+	    		    return false;
+	    		} 
+	    		
+	    		if(!contrasenia.test($('#contrasenia').val()) || $('#contrasenia').val() == undefined || $('#contrasenia').val() == null || $('#contrasenia').val().trim() == "" || $('#contrasenia').val().trim().length < 8){ //
+	    			$().toastmessage('showErrorToast', "Modifique la contraseña, no puede estar vacia y debe contener al menos 8 caracteres, al menos 1 letra mayuscula, al menos 1 letra minuscula y al menos un numero");
+	    		    return false;
+	    		}
+	    		
+	    		if( $('#direccionCliente').val() == undefined || $('#direccionCliente').val() == null || $('#direccionCliente').val().trim() == "" || $('#direccionCliente').val().trim().length < 4){ //
+	    			$().toastmessage('showErrorToast', "Modifique la direccion, no puede estar vacia y debe contener al menos 4 caracteres");
+	    		    return false;
+	    		}
+	    		
+	    		if( $('#provinciaCliente').val() == undefined || $('#provinciaCliente').val() == null || $('#provinciaCliente').val().trim() == ""){ //
+	    			$().toastmessage('showErrorToast', "Modifique la provincia, no puede estar vacia");
+	    		    return false;
+	    		}
+	    		
+	    		if( $('#localidadCliente').val() == undefined || $('#localidadCliente').val() == null || $('#localidadCliente').val().trim() == ""){ //
+	    			$().toastmessage('showErrorToast', "Modifique la localidad, no puede estar vacia");
+	    		    return false;
+	    		}
+	    		
+	    		return true;
+	    	}
+	    	//USAMOS JQUERY DATATABLE PARA FORMATEAR EL ESTILO Y LA FUNCIONALIDAD DE PAGINADO Y BUSQUEDA DE LAS TABLAS
 		    $(document).ready( function () {
 		        $('#tablaCuentas').DataTable({
 		        	"searching": false,
@@ -351,7 +417,7 @@
 		            }
 		        });
 		    } );
-		    
+		    //USAMOS JQUERY PARA COMFIRMAR LAS ACCIONES QUE GENERAN CAMBIOS EN LA BASE DE DATOS
 		    $(function() {
 		    	   $("#delete_button").click(function(){
 		    		   $.confirm({
@@ -373,7 +439,7 @@
 		    			});
 		    	   });
 		    	});
-		    
+		  //USAMOS JQUERY PARA COMFIRMAR LAS ACCIONES QUE GENERAN CAMBIOS EN LA BASE DE DATOS
 		    $(function() {
 		    	   $("#update_button").click(function(){
 		    		   $.confirm({
@@ -395,7 +461,7 @@
 		    			});
 		    	   });
 		    	});
-		    
+		  //USAMOS JQUERY PARA COMFIRMAR LAS ACCIONES QUE GENERAN CAMBIOS EN LA BASE DE DATOS
 		    $(function() {
 		    	   $("#create_button").click(function(){
 		    		   $.confirm({

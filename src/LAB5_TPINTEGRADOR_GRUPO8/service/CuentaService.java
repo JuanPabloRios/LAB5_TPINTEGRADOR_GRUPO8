@@ -2,6 +2,7 @@ package LAB5_TPINTEGRADOR_GRUPO8.service;
 
 
 import java.sql.Date;
+import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -76,11 +77,8 @@ public class CuentaService {
 
 			Usuario usuario= UsuarioDao.obtenerUsuarioPorID(idUsuario);
 			
-			String v= UsuarioDao.
-			if() {
-
-
-
+			int cantCuentas= CuentaDao.obtenerTodasLasCuentasDeClientePorId(idUsuario).size();
+			if(cantCuentas < 4) {
 				return "OK";
 			}else return "el usuario no puede tener mas de 4 cuentas";
 		}catch(HibernateException he){

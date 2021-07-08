@@ -67,7 +67,7 @@
 				</div>
 				<div style="margin-bottom: 10px;">
 				<% if(request.getAttribute("cuenta")!=null) { %>
-					<form id="formUpdate" method="post" action="editCuenta.html"> 
+					<form id="formUpdate" method="post" action="editCuenta.html" onsubmit="return validarForm();"> 
 						<div class="row">
 							<div class="column" > 
 								<label for="asignarCliente">Cliente seleccionado:</label>
@@ -107,10 +107,10 @@
 						  	<div class="column">
 						  		<label for="saldo">Saldo:</label>
 						  		<%if(request.getAttribute("cuenta")==null) { %>
-									<input type="text" id="saldo" name="saldo" value="${cuenta.getSaldo()}" disabled="true"></input>
+									<input type="number" id="saldo" name="saldo" value="${cuenta.getSaldo()}" disabled="true"></input>
 								<% } %>
 								<%if(request.getAttribute("cuenta")!=null) { %>
-									<input type="text" id="saldo" name="saldo" value="${cuenta.getSaldo()}"></input>
+									<input type="number" id="saldo" name="saldo" value="${cuenta.getSaldo()}"></input>
 								<% } %>
 						  	</div>
 						</div>  
@@ -127,7 +127,7 @@
 					</form>
 					
 					<% }else{ %>
-					<form id="formCreate" method="post" action="guardarCuenta.html"> 
+					<form id="formCreate" method="post" action="guardarCuenta.html" onsubmit="return validarForm();"> 
 						<div class="row">
 							<div class="column" > 
 								<label for="asignarCliente">Cliente seleccionado:</label>
@@ -176,7 +176,7 @@
 						  	<div class="column">
 						  		<label for="saldo">Saldo:</label>
 
-									<input type="text" id="saldo" name="saldo" value="${cuenta.getSaldo()}" disabled="true"></input>
+									<input type="number" id="saldo" name="saldo" value="${cuenta.getSaldo()}" disabled="true"></input>
 
 						  	</div>
 						</div>  
@@ -219,7 +219,18 @@
 			 	$("#tipoCuenta").val("<%=cuenta.getTipoCuenta().getDescripcion()%>");
 			 </script>
 		<% } %>
-	    <script type="text/javascript">
+	    <script type="text/javascript"> 
+    	var numbers = /^\d+\.?\d*$/; 
+    	//USAMOS REGULAR EXPRESSIONS PARA VALIDAR EL FORMULARIO ANTES DE ENVIAR
+    	function validarForm(){  
+    		if(!numbers.test($('#saldo').val()) || $('#saldo').val() == undefined || $('#saldo').val() == null || $('#saldo').val().trim() == "" || $('#dniCliente').val() > 999999999){ //
+    			$().toastmessage('showErrorToast', "Modifique el DNI, no puede estar vacio y solo puede contener numeros del 1 al 999999999");
+    		    return false;
+    		} 
+    		
+    		return true;
+    	}
+    	
 	    function seleccionerCliente(elemento){ 
 	    	let idUsuario = elemento.dataset.usuarioid;
 	    	let nombreUsuario = elemento.dataset.nombreusuario;

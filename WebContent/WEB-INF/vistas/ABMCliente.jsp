@@ -277,7 +277,11 @@
 	    		<script>$().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
 	    	<%} %>
 	    </div>
-	     
+	     <%if(request.getAttribute("cliente")!=null) { %>
+			 <script type="text/javascript">
+			 	$("#sexoCliente").val("<%=cliente.getSexo()%>");
+			 </script>
+		<% } %>
 	    <% if(request.getAttribute("localidadesXProvincia")!=null) {
 	    	Map<Provincia,List<Localidad>> localidadesXProvincia = (Map<Provincia,List<Localidad>>)request.getAttribute("localidadesXProvincia"); %>
     		<script type="text/javascript"> 
@@ -327,7 +331,7 @@
     		</script> 
 	   <%}%>
 	    <script type="text/javascript">
-	    	var letters = /^[a-zA-Z\s]*$/;
+	    	var letters = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
 	    	var numbers = /^[0-9]+$/;
 	    	var fechas = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/;
 	    	var contrasenia = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;

@@ -22,7 +22,10 @@ public class CuentaDao {
             List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
 	        for(Integer i = 0; i< cuentasClientes.size(); i++) { 
 	            if(cuentasClientes.get(i).getUsuario().getIdusuario() ==  usuarioId) {
+	                se.beginTransaction();
 	                cuentasClientes.get(i).setEstado(false);
+	                se.update(cuentasClientes.get(i)); 
+	    	    	se.getTransaction().commit(); 
 	            }
 	        }
         }

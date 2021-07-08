@@ -14,12 +14,35 @@ import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate; 
 
 public class CuentaDao {
-
-    public static List<Cuentas> obtenerTodasLasCuentasDeClientePorId(Integer usuarioId){ 
-        ConfigHibernate ch = new ConfigHibernate();
+	public static List<Cuentas> eliminarTodasLasCuentasDeClientePorId(Integer usuarioId){ 
+        
         List<Cuentas> result = new ArrayList<>();
         try {
-        	Session se = ch.abrirConexion(); 
+        	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
+            List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
+	        for(Integer i = 0; i< cuentasClientes.size(); i++) { 
+	            if(cuentasClientes.get(i).getUsuario().getIdusuario() ==  usuarioId) {
+	                cuentasClientes.get(i).setEstado(false);
+	            }
+	        }
+        }
+        catch(HibernateException he){
+        	he.printStackTrace();
+        }
+        catch(Exception ex){
+        	ex.printStackTrace();
+        }
+        finally {
+        	ConfigHibernate.cerrarSessionFactory();
+        }
+        return result;
+    }
+	
+    public static List<Cuentas> obtenerTodasLasCuentasDeClientePorId(Integer usuarioId){ 
+         
+        List<Cuentas> result = new ArrayList<>();
+        try {
+        	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
             List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
 	        for(Integer i = 0; i< cuentasClientes.size(); i++) { 
 	            if(cuentasClientes.get(i).getUsuario().getIdusuario() ==  usuarioId) {
@@ -34,18 +57,17 @@ public class CuentaDao {
         	ex.printStackTrace();
         }
         finally {
-        ch.cerrarSession();
+        	ConfigHibernate.cerrarSessionFactory();
         }
         return result;
     }
     
-    //FALTA EL CAMPO ESTADO EN LAS CUENTAS
-    public static List<Cuentas> obtenerTodasLasCuentas(){ 
-        ConfigHibernate ch = new ConfigHibernate();
+    
+    public static List<Cuentas> obtenerTodasLasCuentas(){  
         List<Cuentas> result = new ArrayList<>();
         try {
-        	Session se = ch.abrirConexion(); 
-            List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
+        	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
+            List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas AS C WHERE C.estado = 1").list();
 	        for(Integer i = 0; i < cuentasClientes.size(); i++) {  
 	        	result.add(cuentasClientes.get(i)); 
 	        }
@@ -57,18 +79,18 @@ public class CuentaDao {
         	ex.printStackTrace();
         }
         finally {
-        ch.cerrarSession();
+        	ConfigHibernate.cerrarSessionFactory();
         }
         return result;
     }
     
     public static Cuentas obtenerCuentaPorId(Integer idCuenta) {
     	try {
-    	ConfigHibernate config = new ConfigHibernate();
-        Session session = config.abrirConexion(); 
+
+        Session session = ConfigHibernate.obtenerSessionFactory().openSession();
     	session.beginTransaction();
     	Cuentas cuenta = (Cuentas)session.get(Cuentas.class,idCuenta); 
-    	config.cerrarSession();
+    	
     	return cuenta;
     	}
     	catch(HibernateException he){
@@ -77,6 +99,9 @@ public class CuentaDao {
     	catch(Exception ex){
         	ex.printStackTrace();
         }
+    	finally {
+    		ConfigHibernate.cerrarSessionFactory();
+    	}
 		return null;
     }
     
@@ -84,7 +109,7 @@ public class CuentaDao {
         try {
         	List<Cuentas> cuentas = CuentaDao.obtenerTodasLasCuentas();
 	        for(Integer i = 0; i< cuentas.size(); i++) { 
-	            if(cbu.equals(cuentas.get(i).getCBU())) {
+	            if(cbu.contains(cuentas.get(i).getCBU())) {
 	                return cuentas.get(i);
 	            }
 	        }
@@ -98,10 +123,31 @@ public class CuentaDao {
         return null;
     }
     
+    public static String eliminarCuenta(Cuentas cu){   	
+    	try{
+	    	Session session = ConfigHibernate.obtenerSessionFactory().openSession();
+	    	session.beginTransaction(); 
+	    	cu.setEstado(false);
+	    	session.update(cu); 
+	    	session.getTransaction().commit(); 
+	    	
+    	}
+    	catch (HibernateException he){
+	        he.printStackTrace();
+	    } 
+        catch (Exception ex){
+	        ex.printStackTrace();
+	    }
+    	finally {
+    	ConfigHibernate.cerrarSessionFactory();
+    	}
+		return null;
+    }
+    
     public static String actualizarCuenta(Cuentas ca) { 
-     	ConfigHibernate config = new ConfigHibernate();
+
     	try {
-    		Session session = config.abrirConexion(); 
+    		Session session = ConfigHibernate.obtenerSessionFactory().openSession();
     		session.beginTransaction();
     		session.update(ca); 
     		session.getTransaction().commit(); 
@@ -115,9 +161,29 @@ public class CuentaDao {
         	return "Ocurrio una excepcion durante la Modificacion";
         }
     	finally{
-    		config.cerrarSession();
+    		ConfigHibernate.cerrarSessionFactory();
     	}
     	return "OK";
     }
+
+	public static String insertarCuenta(Cuentas cuenta) {
+	try {
+    	Session session = ConfigHibernate.obtenerSessionFactory().openSession();
+    	session.beginTransaction();  
+    	session.save(cuenta);  
+    	session.getTransaction().commit(); 
+    	ConfigHibernate.cerrarSessionFactory();
+	}
+	catch (HibernateException he){
+        he.printStackTrace();
+    } 
+    catch (Exception ex){
+        ex.printStackTrace();
+    }
+	finally{
+		ConfigHibernate.cerrarSessionFactory();
+	}
+        return null;
+	}
     
 }

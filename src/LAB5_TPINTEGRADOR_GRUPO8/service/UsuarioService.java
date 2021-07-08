@@ -19,6 +19,7 @@ public class UsuarioService {
     public static void eliminarUsuarioPorId(Integer idUsuario){ 
     	Usuario usuario = UsuarioDao.obtenerUsuarioPorID(idUsuario);     	
 	    UsuarioDao.eliminarUsuario(usuario);
+	    CuentaService.eliminarTodasLasCuentasDeClientePorId(idUsuario);
     }	
     
     //FALTA AGREGAR EL CAMPO DE LOCALIDAD Y PROVINCIA

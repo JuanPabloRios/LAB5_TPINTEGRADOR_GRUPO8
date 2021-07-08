@@ -14,7 +14,33 @@ import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate; 
 
 public class CuentaDao {
-
+	public static List<Cuentas> eliminarTodasLasCuentasDeClientePorId(Integer usuarioId){ 
+        
+        List<Cuentas> result = new ArrayList<>();
+        try {
+        	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
+            List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
+	        for(Integer i = 0; i< cuentasClientes.size(); i++) { 
+	            if(cuentasClientes.get(i).getUsuario().getIdusuario() ==  usuarioId) {
+	                se.beginTransaction();
+	                cuentasClientes.get(i).setEstado(false);
+	                se.update(cuentasClientes.get(i)); 
+	    	    	se.getTransaction().commit(); 
+	            }
+	        }
+        }
+        catch(HibernateException he){
+        	he.printStackTrace();
+        }
+        catch(Exception ex){
+        	ex.printStackTrace();
+        }
+        finally {
+        	ConfigHibernate.cerrarSessionFactory();
+        }
+        return result;
+    }
+	
     public static List<Cuentas> obtenerTodasLasCuentasDeClientePorId(Integer usuarioId){ 
          
         List<Cuentas> result = new ArrayList<>();

@@ -23,6 +23,7 @@ public class TransferenciaController {
     public ModelAndView transferenciaCuentaPropia(String nombreCuenta, Integer idUsuario, Double Monto, Integer CuentaDestino, Integer CuentaOrigen, String cbu , RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("nombreCuenta",nombreCuenta); 
+        	
         System.out.println("TODOS LOS DATOS SOLICITADOS  " + idUsuario+" "+Monto +" "+CuentaDestino +" "+CuentaOrigen +" "+cbu );
         String result = MovimientoService.transferenciaCuenta( Monto, CuentaDestino, CuentaOrigen, cbu);
         System.out.println("RESULT " + result);

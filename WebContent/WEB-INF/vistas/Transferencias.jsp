@@ -99,7 +99,7 @@
 								
 					    <%  } %>
 
-								<option value="Otros">Cuentas de terceros por CBU</option>
+								<option value="0">Cuentas de terceros por CBU</option>
 							</select> 
 						</div> 
 					</div> 
@@ -115,7 +115,7 @@
 						<script>
 							function checkTerceros(element){
 								console.log(element.value);
-								if(element.value == 'Otros'){
+								if(element.value == '0'){
 									$('#cbuContainer').show();
 								} else {
 									$('#cbuContainer').hide();

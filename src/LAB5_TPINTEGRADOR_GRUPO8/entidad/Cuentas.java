@@ -32,6 +32,8 @@ public class Cuentas implements Serializable{
 	
 	private Double saldo;
 	
+	private Boolean estado;
+	
 	
 	@OneToOne
 	@JoinColumn(name="idUsuario_c")
@@ -80,6 +82,14 @@ public class Cuentas implements Serializable{
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
 	}
 
 	@Override

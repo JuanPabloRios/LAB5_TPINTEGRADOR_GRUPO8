@@ -23,12 +23,12 @@ import LAB5_TPINTEGRADOR_GRUPO8.dao.TipoDeUsuarioDao;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate;
 
 public class CuentaService {
-	 
+	  
 	public static void eliminarTodasLasCuentasDeClientePorId(Integer idUsuario){ 
     	CuentaDao.eliminarTodasLasCuentasDeClientePorId(idUsuario);     	
-    }
-	
-	public static void eliminarCuentaPorId(Integer idNroDeCuenta){ 
+    } 
+  
+    public static void eliminarCuentaPorId(Integer idNroDeCuenta){  
     	Cuentas cuenta = CuentaDao.obtenerCuentaPorId(idNroDeCuenta);     	
 	    CuentaDao.eliminarCuenta(cuenta);
     }

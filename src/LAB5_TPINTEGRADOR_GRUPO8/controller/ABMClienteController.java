@@ -6,6 +6,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import LAB5_TPINTEGRADOR_GRUPO8.dao.UsuarioDao;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
@@ -29,7 +30,7 @@ public class ABMClienteController {
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("nombreCuenta",nombreCuenta);
         //ACA BUSCAR TODAS LAS CUENTAS Y AGREGARLAS AL MODELO
-        mv.setViewName("ACA VA EL NOMBRE DE LA VISTA PARA LISTAR CENTAS");
+        mv.setViewName("ACA VA EL NOMBRE DE LA VISTA PARA LISTAR CUENTAS");
         return mv;
     }
 
@@ -49,19 +50,18 @@ public class ABMClienteController {
     //guardarCliente.html 
     @RequestMapping("guardarCliente.html")
     public ModelAndView guardarCliente(String nombreCuenta, String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
-    									String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
-    									String nombreUsuario, String contrasenia) {
+    									String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, Integer localidadCliente,
+    									String nombreUsuario, String contrasenia, RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("nombreCuenta",nombreCuenta);
-
+        System.out.println("@@ localidadCliente "+ localidadCliente + " @@ provinciaCliente "+ provinciaCliente);
         String result = UsuarioService.crearUsuario(nombreCliente, apellidoCliente, dniCliente, fechaNacimientoCliente, 
 				nacionalidadCliente, direccionCliente, sexoCliente, provinciaCliente, localidadCliente,
 				nombreUsuario, contrasenia);
        
-        if(result.equalsIgnoreCase("OK")) {
-        	mv.addObject("informarUsuarioCreado",true);
-        	mv.addObject("listaClientes",UsuarioDao.obtenerTodosLosClientes()); 
-        	mv.setViewName("AdministradorHome");
+        if(result.equalsIgnoreCase("OK")) { 
+        	redirectAttributes.addFlashAttribute("informarUsuarioCreado", true);  
+    	    return new ModelAndView("redirect:regirigirAListadoDeClientes.html");
         } else {
         	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
         	Usuario cliente = (Usuario)appContext.getBean("UsuarioCliente"); 
@@ -79,13 +79,13 @@ public class ABMClienteController {
         	mv.addObject("mensajeError",result); 
         	mv.setViewName("ABMCliente"); 
         	((ConfigurableApplicationContext)appContext).close();
-        }  
-        return mv;
+        	return mv;
+        }   
     }
      
     @RequestMapping("editCliente.html")
     public ModelAndView editarCliente(String nombreCuenta,Integer idUsuario, String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
-										String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, String localidadCliente,
+										String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, Integer localidadCliente,
 										String nombreUsuario, String contrasenia) {
         ModelAndView mv = new ModelAndView(); 
         

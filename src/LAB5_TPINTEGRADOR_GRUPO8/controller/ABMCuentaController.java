@@ -16,6 +16,7 @@ import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeCuentas;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
 import LAB5_TPINTEGRADOR_GRUPO8.service.CuentaService;
+import LAB5_TPINTEGRADOR_GRUPO8.service.UsuarioService;
 
 import java.util.List; 
 import org.springframework.stereotype.Controller;
@@ -38,20 +39,31 @@ public class ABMCuentaController {
 	    List<Usuario> res = UsuarioDao.obtenerTodosLosClientes();
         return mapper.writeValueAsString(res);
     }
+	
+    @RequestMapping("eliminarCuenta.html")
+    public ModelAndView eliminarCuenta(Integer idNroDeCuenta) {
+        ModelAndView mv = new ModelAndView(); 
+        CuentaService.eliminarCuentaPorId(idNroDeCuenta); 
+		mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
+        mv.addObject("informarEliminadoCorrecto",true);  
+		mv.setViewName("ListarCuentas");
+        return mv;
+    }
 	 
 	@RequestMapping("editCuenta.html")
-    public ModelAndView editarCuenta(String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta) {
+    public ModelAndView editarCuenta(String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta, Integer idUsuario) {
         ModelAndView mv = new ModelAndView(); 
         
-        mv.addObject("nombreCuenta",nombreCuenta); 
+        mv.addObject("nombreCuenta",nombreCuenta);  
         TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta);
         
-        String result = CuentaService.editarCuenta(numeroCuenta, saldo, tpCuentas ); 
+        String result = CuentaService.editarCuenta(numeroCuenta, saldo, tpCuentas, idUsuario ); 
 
         if(result.equalsIgnoreCase("OK")) {
 			
+
 	        mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
-	        mv.addObject("informarCuentaEditada",true);
+	        mv.addObject("informarGuardadoCorrecto",true);
 	        mv.addObject("nombreCuenta",nombreCuenta); 
 	        mv.setViewName("ListarCuentas");
         } else {
@@ -74,4 +86,39 @@ public class ABMCuentaController {
 		
         return mv;
     } 
+
+
+
+//guardarCuenta.html 
+@RequestMapping("guardarCuenta.html")
+public ModelAndView guardarCuenta(Integer idUsuario, String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta ) {
+    ModelAndView mv = new ModelAndView(); 
+    mv.addObject("nombreCuenta",nombreCuenta);
+    TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta);
+  
+	
+	String result = CuentaService.crearCuenta(saldo, CBU,fechaCuenta, tpCuentas, numeroCuenta,idUsuario );
+   
+    if(result.equalsIgnoreCase("OK")) {
+    	mv.addObject("informarGuardadoCorrecto",true);
+    	mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
+    	 mv.addObject("nombreCuenta",nombreCuenta); 
+    	mv.setViewName("ListarCuentas");
+    } else {
+    	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
+    	Cuentas cuenta = (Cuentas)appContext.getBean("cuenta"); 
+    	
+    	cuenta.setSaldo(saldo);
+    	cuenta.setCBU(CBU);
+    	cuenta.setTipoCuenta(tpCuentas);
+    	cuenta.setFechaCreacion(fechaCuenta);
+
+    	mv.addObject("cliente",cuenta);
+    	mv.addObject("informarError",true);
+    	mv.addObject("mensajeError",result); 
+    	mv.setViewName("ABMCuenta"); 
+    	((ConfigurableApplicationContext)appContext).close();
+    }  
+    return mv;
+}
 }

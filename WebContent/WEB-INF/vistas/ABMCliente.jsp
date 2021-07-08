@@ -1,6 +1,12 @@
 <%@page import="java.util.ArrayList" %>
 <%@page import="LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario" %> 
 <%@page import="LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas" %>  
+<%@page import="LAB5_TPINTEGRADOR_GRUPO8.entidad.Provincia" %>  
+<%@page import="LAB5_TPINTEGRADOR_GRUPO8.entidad.Localidad" %>  
+<%@page import="java.util.Map" %>  
+<%@page import="java.util.HashMap" %>  
+<%@page import="java.util.List" %>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -63,22 +69,22 @@
 				</div>
 				<div style="margin-bottom: 10px;">
 				<% if(request.getAttribute("idUsuario")!=null) { %>
-					<form id="formUpdate" method="post" action="editCliente.html">
+					<form id="formUpdate" method="post" action="editCliente.html" onsubmit="return validarForm();">
 						<div id="datosPersonales">
 							<div class="row">
 								<div class="column">
 							    	<label for="nombreCliente">Nombre:</label>
-									<input type="text" id="nombreCliente" name="nombreCliente" value="${cliente.getNombre()}" required="required"></input>
+									<input type="text" id="nombreCliente" name="nombreCliente" value="${cliente.getNombre()}" pattern="[a-zA-Z]" required="required"></input>
 							  	</div>
 							  	<div class="column">
 							    	<label for="apellidoCliente">Apellido:</label>
-									<input type="text" id="apellidoCliente" name="apellidoCliente" value="${cliente.getApellido()}" required="required"></input>
+									<input type="text" id="apellidoCliente" name="apellidoCliente" value="${cliente.getApellido()}" pattern="[a-zA-Z]" required="required"></input>
 							  	</div>
 							</div>
 							<div class="row">
 								<div class="column"> 
 									<label for="dniCliente">DNI:</label>
-									<input type="number" id="dniCliente" name="dniCliente" value="${cliente.getDNI()}" required="required"></input>
+									<input type="number" id="dniCliente" name="dniCliente" value="${cliente.getDNI()}" pattern="[0-9]." min="1" max="999999999" required="required"></input>
 							  	</div>
 							  	<div class="column"> 
 							  		<label for="fechaNacimientoCliente">Fecha de Nacimiento:</label>
@@ -96,7 +102,7 @@
 							  	</div> 
 							  	<div class="column">
 							  		<label for="nacionalidadCliente">Nacionalidad:</label>
-									<input type="text" id="nacionalidadCliente" name="nacionalidadCliente" value="${cliente.getNacionalidad()}" required="required"></input>
+									<input type="text" id="nacionalidadCliente" name="nacionalidadCliente" value="${cliente.getNacionalidad()}" pattern="[a-zA-Z]" required="required"></input>
 							  	</div>
 							</div>
 							<div class="row">
@@ -118,20 +124,14 @@
 							  	</div>
 							  	<div class="column"> 
 							  		<label for="provinciaCliente">Provincia:</label>
-									<select name="provinciaCliente" id="provinciaCliente">
-									  	<option value="1">Buenos Aires</option>
-									  	<option value="2">Cordoba</option>
-									  	<option value="3">Formosa</option> 
+									<select name="provinciaCliente" id="provinciaCliente" onchange="provChange(this)"> 
 									</select> 
 							  	</div>
 							</div>
 							<div class="row"> 
 							  	<div class="column"> 
 							  		<label for="localidadCliente">Localidad:</label>
-									<select name="localidadCliente" id="localidadCliente">
-									  	<option value="1">Don Torcuato</option>
-									  	<option value="2">San Miguel</option>
-									  	<option value="3">Pacheco</option> 
+									<select name="localidadCliente" id="localidadCliente"> 
 									</select> 
 							  	</div>
 							</div>
@@ -147,7 +147,7 @@
 						<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
 					</form>
 				<% }else{ %>
-				<form id="formCreate" method="post" action="guardarCliente.html">
+				<form id="formCreate" method="post" action="guardarCliente.html" onsubmit="return validarForm();">
 						<div id="datosPersonales">
 							<div class="row">
 								<div class="column">
@@ -162,7 +162,7 @@
 							<div class="row">
 								<div class="column"> 
 									<label for="dniCliente">DNI:</label>
-									<input type="number" id="dniCliente" name="dniCliente" value="${cliente.getDNI()}" required="required"></input>
+									<input type="number" id="dniCliente" name="dniCliente" value="${cliente.getDNI()}" min="1" max="999999999" required="required"></input>
 							  	</div>
 							  	<div class="column"> 
 							  		<label for="fechaNacimientoCliente">Fecha de Nacimiento:</label>
@@ -201,21 +201,15 @@
 									<input type="text" id="direccionCliente" name="direccionCliente" value="${cliente.getDireccion()}" required="required"></input>
 							  	</div>
 							  	<div class="column"> 
-							  		<label for="provinciaCliente">Provincia:</label>
-									<select name="provinciaCliente" id="provinciaCliente">
-									  	<option value="1">Buenos Aires</option>
-									  	<option value="2">Cordoba</option>
-									  	<option value="3">Formosa</option> 
+							  		<label for="provinciaCliente" >Provincia:</label>
+									<select name="provinciaCliente" id="provinciaCliente" onchange="provChange(this)"> 
 									</select> 
 							  	</div>
 							</div>
 							<div class="row"> 
 							  	<div class="column"> 
 							  		<label for="localidadCliente">Localidad:</label>
-									<select name="localidadCliente" id="localidadCliente">
-									  	<option value="1">Don Torcuato</option>
-									  	<option value="2">San Miguel</option>
-									  	<option value="3">Pacheco</option> 
+									<select name="localidadCliente" id="localidadCliente"> 
 									</select> 
 							  	</div>
 							</div>
@@ -247,16 +241,11 @@
 						  </tr>
 					 	</thead>
 	       				<tbody> 
-	       				<% 
-							ArrayList<Cuentas> cuentasCliente = null;
-						  
-							if(request.getAttribute("listaCuentas")!=null)
-							{
+	       				<%  ArrayList<Cuentas> cuentasCliente = null; 
+							if(request.getAttribute("listaCuentas")!=null) {
 								cuentasCliente = (ArrayList<Cuentas>)request.getAttribute("listaCuentas");
-							}		
-						  %>
-							
-							<%  if(cuentasCliente!=null)
+							} 
+							if(cuentasCliente!=null)
 								for(Cuentas ci : cuentasCliente) { %>
 							<tr> 
 								<td>
@@ -281,12 +270,127 @@
 			<div class="footer"> 
 	            <div>LAB5 UTN Grupo 8 2021</div> 
 		    </div>
+		    
 		    <%if(request.getAttribute("informarError")!=null) { 
+		    	//EN CASO DE ERROR AL CARGAR LA PAGINA INFORMAMOS DE EL MISMO
 		    	String errorMessage = (String)request.getAttribute("mensajeError"); %>
-	    		<script>console.log("ENTRAMOS EN EL IF"); $().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
+	    		<script>$().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
 	    	<%} %>
 	    </div>
+	     
+	    <% if(request.getAttribute("localidadesXProvincia")!=null) {
+	    	Map<Provincia,List<Localidad>> localidadesXProvincia = (Map<Provincia,List<Localidad>>)request.getAttribute("localidadesXProvincia"); %>
+    		<script type="text/javascript"> 
+    			//MEDIANTE DISTINTOS METODOS DE JAVASCRIPT PRIMERO CARGAMOS LA LISTA DE PROVINCIAS
+    			var selectedProvId = null;
+    			var selectedLocId = null;
+    			var selecttedLoc = null;
+    		<% if(request.getAttribute("cliente")!=null) { %>  
+    			selectedLocId = <%=cliente.getLocalidad().getIdLocalidad()%>
+    		<% }%>
+	    		var localidadesPorProv = {};
+	    		
+	    		<%for(Provincia prov : localidadesXProvincia.keySet()){%>
+				   	var provincia = { nombre:"<%=prov.getNombre()%>", id : <%=prov.getIdProvincia()%> }; 
+				   	var localidades = [];
+				   	var selected = "";
+				    <%for(Localidad loc : localidadesXProvincia.get(prov)){ %> 
+				    	var localLit = { nombre: "<%=loc.getNombre()%>", id :<%=loc.getIdLocalidad()%>, provId : provincia.id  };
+			    		localidades.push(localLit);
+				    	if(selectedLocId && selectedLocId == localLit.id){
+				    		selected = "selected";
+				    		selectedProvId = provincia.id;
+				    	} 
+					<%}%>
+				   	$('#provinciaCliente').append("<option "+selected+" value="+provincia.id+">"+provincia.nombre+"</option>");
+				   	
+					localidadesPorProv[<%=prov.getIdProvincia()%>] = localidades; 
+					if(selected == "selected"){ 
+						$("#provinciaCliente").val(<%=prov.getIdProvincia()%>)
+						provChange($("#provinciaCliente")[0]);
+					}
+					selected = "";
+				<%}%>
+				//Y ANTE CUALQUIER CAMBIO DE LA LISTA DE PROVINCIAS MODIFICAMOS LA LISTA DE LOCALIDADES
+				function provChange(element) {  
+					$('#localidadCliente').find('option').remove().end();
+					var localidades = localidadesPorProv[element.value];  
+					for(var i = 0; i < localidades.length; i++){
+						var selected = "";
+					   	if(selectedLocId && selectedLocId == localidades[i].id){
+					   		selected = "selected";
+					   		selecttedLoc = localidades[i]; 
+					   	}
+						$('#localidadCliente').append("<option "+selected+" value="+localidades[i].id+">"+localidades[i].nombre+"</option>");
+					}
+				}
+    		</script> 
+	   <%}%>
 	    <script type="text/javascript">
+	    	var letters = /^[a-zA-Z\s]*$/;
+	    	var numbers = /^[0-9]+$/;
+	    	var fechas = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/;
+	    	var contrasenia = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+	    	//USAMOS REGULAR EXPRESSIONS PARA VALIDAR EL FORMULARIO ANTES DE ENVIAR
+	    	function validarForm(){ 
+	    		if(!letters.test($('#nombreCliente').val()) || $('#nombreCliente').val() == undefined || $('#nombreCliente').val() == null || $('#nombreCliente').val().trim() == ""){ //
+	    			$().toastmessage('showErrorToast', "Modifique el nombre, no puede estar vacio y solo puede contener letras");
+	    		    return false;
+	    		} 
+	    		if(!letters.test($('#apellidoCliente').val()) || $('#apellidoCliente').val() == undefined || $('#apellidoCliente').val() == null || $('#apellidoCliente').val().trim() == ""){ //
+	    			$().toastmessage('showErrorToast', "Modifique el apellido, no puede estar vacio y solo puede contener letras");
+	    		    return false;
+	    		}
+	    		if(!numbers.test($('#dniCliente').val()) || $('#dniCliente').val() == undefined || $('#dniCliente').val() == null || $('#dniCliente').val().trim() == "" || $('#dniCliente').val() < 1 || $('#dniCliente').val() > 999999999){ //
+	    			$().toastmessage('showErrorToast', "Modifique el DNI, no puede estar vacio y solo puede contener numeros del 1 al 999999999");
+	    		    return false;
+	    		}
+	    		
+	    		if(!fechas.test($('#fechaNacimientoCliente').val()) || $('#fechaNacimientoCliente').val() == undefined || $('#fechaNacimientoCliente').val() == null || $('#fechaNacimientoCliente').val().trim() == "" ){ //
+	    			$().toastmessage('showErrorToast', "Modifique la fecha de nacimiento, no puede estar vacia o incompleta");
+	    		    return false;
+	    		}
+
+	    		let fechaActual = new Date();
+	    		let fechaNac = new Date($('#fechaNacimientoCliente').val());
+	    		if(fechaNac > fechaActual ){
+	    			$().toastmessage('showErrorToast', "Modifique la fecha de nacimiento, no puede ser mayor a hoy");
+	    		    return false;
+	    		}
+	    		
+	    		if(!letters.test($('#nacionalidadCliente').val()) || $('#nacionalidadCliente').val() == undefined || $('#nacionalidadCliente').val() == null || $('#nacionalidadCliente').val().trim() == ""){ //
+	    			$().toastmessage('showErrorToast', "Modifique la nacionalidad, no puede estar vacio y solo puede contener letras");
+	    		    return false;
+	    		}
+	    		
+	    		if( $('#nombreUsuario').val() == undefined || $('#nombreUsuario').val() == null || $('#nombreUsuario').val().trim() == "" || $('#nombreUsuario').val().trim().length < 6){ //
+	    			$().toastmessage('showErrorToast', "Modifique el nombre de usuario, no puede estar vacio y debe contener 6 caracteres como minimo");
+	    		    return false;
+	    		} 
+	    		
+	    		if(!contrasenia.test($('#contrasenia').val()) || $('#contrasenia').val() == undefined || $('#contrasenia').val() == null || $('#contrasenia').val().trim() == "" || $('#contrasenia').val().trim().length < 8){ //
+	    			$().toastmessage('showErrorToast', "Modifique la contraseña, no puede estar vacia y debe contener al menos 8 caracteres, al menos 1 letra mayuscula, al menos 1 letra minuscula y al menos un numero");
+	    		    return false;
+	    		}
+	    		
+	    		if( $('#direccionCliente').val() == undefined || $('#direccionCliente').val() == null || $('#direccionCliente').val().trim() == "" || $('#direccionCliente').val().trim().length < 4){ //
+	    			$().toastmessage('showErrorToast', "Modifique la direccion, no puede estar vacia y debe contener al menos 4 caracteres");
+	    		    return false;
+	    		}
+	    		
+	    		if( $('#provinciaCliente').val() == undefined || $('#provinciaCliente').val() == null || $('#provinciaCliente').val().trim() == ""){ //
+	    			$().toastmessage('showErrorToast', "Modifique la provincia, no puede estar vacia");
+	    		    return false;
+	    		}
+	    		
+	    		if( $('#localidadCliente').val() == undefined || $('#localidadCliente').val() == null || $('#localidadCliente').val().trim() == ""){ //
+	    			$().toastmessage('showErrorToast', "Modifique la localidad, no puede estar vacia");
+	    		    return false;
+	    		}
+	    		
+	    		return true;
+	    	}
+	    	//USAMOS JQUERY DATATABLE PARA FORMATEAR EL ESTILO Y LA FUNCIONALIDAD DE PAGINADO Y BUSQUEDA DE LAS TABLAS
 		    $(document).ready( function () {
 		        $('#tablaCuentas').DataTable({
 		        	"searching": false,
@@ -311,7 +415,7 @@
 		            }
 		        });
 		    } );
-		    
+		    //USAMOS JQUERY PARA COMFIRMAR LAS ACCIONES QUE GENERAN CAMBIOS EN LA BASE DE DATOS
 		    $(function() {
 		    	   $("#delete_button").click(function(){
 		    		   $.confirm({
@@ -333,7 +437,7 @@
 		    			});
 		    	   });
 		    	});
-		    
+		  //USAMOS JQUERY PARA COMFIRMAR LAS ACCIONES QUE GENERAN CAMBIOS EN LA BASE DE DATOS
 		    $(function() {
 		    	   $("#update_button").click(function(){
 		    		   $.confirm({
@@ -355,7 +459,7 @@
 		    			});
 		    	   });
 		    	});
-		    
+		  //USAMOS JQUERY PARA COMFIRMAR LAS ACCIONES QUE GENERAN CAMBIOS EN LA BASE DE DATOS
 		    $(function() {
 		    	   $("#create_button").click(function(){
 		    		   $.confirm({

@@ -17,10 +17,8 @@ public class UsuarioDao {
     //DEVUELVE UNA LISTA CON TODOS LOS USUARIOS DE LA BASE DE DATOS
     public static List<Usuario> obtenerTodosLosUsarios(){ 
         try{
-        	ConfigHibernate ch = new ConfigHibernate();
-	        Session se = ch.abrirConexion(); 
+	        Session se = ConfigHibernate.obtenerSessionFactory().openSession(); 
 	        List<Usuario> result = (List<Usuario>)se.createQuery("FROM Usuario").list(); 
-	        ch.cerrarSession();
 	        return result;
         }
         catch (HibernateException he){
@@ -29,15 +27,18 @@ public class UsuarioDao {
         catch (Exception ex){
 	        ex.printStackTrace();
 	    }
+        finally {
+        	ConfigHibernate.cerrarSessionFactory();
+        }
 		return null;
     }
     
     //DEVUELVE UNA LISTA CON TODOS LOS USUARIOS TIPO CLIENTE CON ESTADO TRUE
     public static List<Usuario> obtenerTodosLosClientes(){ 
-        ConfigHibernate ch = new ConfigHibernate();
+
         List<Usuario> result = new ArrayList<>();
         try{
-        	Session se = ch.abrirConexion(); 
+        	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
 	        List<Usuario> usuarios = (List<Usuario>)se.createQuery("FROM Usuario").list(); 
 	        for(Integer i = 0; i< usuarios.size(); i++) { 
 	            if(usuarios.get(i).getTipoDeUsuario().getDescripcion().equals("Cliente") && usuarios.get(i).getEstado()) {
@@ -51,7 +52,9 @@ public class UsuarioDao {
         catch (Exception ex){
 	        ex.printStackTrace();
 	    }
-        ch.cerrarSession();
+        finally {
+        	ConfigHibernate.cerrarSessionFactory();
+        }
         return result;
     }
     
@@ -76,13 +79,13 @@ public class UsuarioDao {
     
   //DEVUELVE EL USUARIO CON EL MISMO NOMBRE SI NO DEVUELVE NULL
     public static String eliminarUsuario(Usuario user){   	
-    	try{ConfigHibernate config = new ConfigHibernate(); 
-	    	Session session = config.abrirConexion();
+    	try{
+	    	Session session = ConfigHibernate.obtenerSessionFactory().openSession();
 	    	session.beginTransaction(); 
 	    	user.setEstado(false);
 	    	session.update(user); 
 	    	session.getTransaction().commit(); 
-	    	config.cerrarSession();
+	    	ConfigHibernate.cerrarSessionFactory();
     	}
     	catch (HibernateException he){
 	        he.printStackTrace();
@@ -95,12 +98,11 @@ public class UsuarioDao {
     
     public static String insertarUsuario(Usuario user){   	
     	try {
-	    	ConfigHibernate config = new ConfigHibernate(); 
-	    	Session session = config.abrirConexion();
+	    	Session session = ConfigHibernate.obtenerSessionFactory().openSession();
 	    	session.beginTransaction();  
 	    	session.save(user);  
 	    	session.getTransaction().commit(); 
-	    	config.cerrarSession();
+	    	ConfigHibernate.cerrarSessionFactory();
     	}
     	catch (HibernateException he){
 	        he.printStackTrace();
@@ -113,12 +115,11 @@ public class UsuarioDao {
     
     public static String actualizarUsuario(Usuario user){   	
     	try {
-	    	ConfigHibernate config = new ConfigHibernate(); 
-	    	Session session = config.abrirConexion();
+	    	Session session = ConfigHibernate.obtenerSessionFactory().openSession();
 	    	session.beginTransaction();  
 	    	session.update(user);  
 	    	session.getTransaction().commit(); 
-	    	config.cerrarSession();
+	    	ConfigHibernate.cerrarSessionFactory();
     	}
     	catch (HibernateException he){
 	        he.printStackTrace();
@@ -131,11 +132,10 @@ public class UsuarioDao {
     
     public static Usuario obtenerUsuarioPorDNI(Integer DNI){ 
     	try {
-	    	ConfigHibernate config = new ConfigHibernate();
-	    	Session session = config.abrirConexion(); 
+	    	Session session = ConfigHibernate.obtenerSessionFactory().openSession();
 	    	session.beginTransaction(); 
 	    	List<Usuario> usuarios = (List<Usuario>)session.createQuery("FROM Usuario").list(); 
-	    	config.cerrarSession();
+	    	ConfigHibernate.cerrarSessionFactory();
 	        for(Integer i = 0; i< usuarios.size(); i++) { 
 	            if(usuarios.get(i).getTipoDeUsuario().getDescripcion().equals("Cliente") && usuarios.get(i).getEstado() && usuarios.get(i).getDNI() == DNI ) {
 	                return usuarios.get(i);
@@ -155,11 +155,10 @@ public class UsuarioDao {
     //DEVUELVE EL USUARIO CON EL MISMO ID
     public static Usuario obtenerUsuarioPorID(Integer idUsuario){ 
     	try {
-	    	ConfigHibernate config = new ConfigHibernate();
-	    	Session session = config.abrirConexion(); 
+	    	Session session = ConfigHibernate.obtenerSessionFactory().openSession();
 	    	session.beginTransaction();
 	    	Usuario usuario = (Usuario)session.get(Usuario.class,idUsuario); 
-	    	config.cerrarSession();
+	    	ConfigHibernate.cerrarSessionFactory();
 	    	return usuario;
     	}
     	catch (HibernateException he){

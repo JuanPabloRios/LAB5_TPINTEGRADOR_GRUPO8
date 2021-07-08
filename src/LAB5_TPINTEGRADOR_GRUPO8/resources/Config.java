@@ -5,11 +5,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope; 
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas;
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.Localidad;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Movimientos;
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.Provincia;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TipoMovimiento;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeCuentas;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.TiposDeUsuarios;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
+//ESTA ES LA CLASE DE CONFIGURACION QUE USAMOS CON SPRINGCORE
+//Seria nuesto IoC Container. Es el encargado de instanciar los elementos.
 
 //Con el tag configuration le decimos a Spring Core que este va a ser un config file
 @Configuration
@@ -36,6 +40,18 @@ public class Config {
 		admin.setTipoDeUsuario(TipoDeUsuarioAdministrador());
 		admin.setEstado(true);
 		return admin;
+	}
+	
+	@Bean @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Provincia nuevaProvincia() {
+		Provincia prov = new Provincia(); 
+		return prov;
+	}
+	
+	@Bean @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Localidad nuevaLocalidad() {
+		Localidad loc = new Localidad(); 
+		return loc;
 	}
 	
 	@Bean @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -94,6 +110,7 @@ public class Config {
 		Cuentas cuentaDolares = new Cuentas();
 		cuentaDolares.setFechaCreacion(new Date(System.currentTimeMillis()));
 		cuentaDolares.setTipoCuenta(TipoCuentaDolares());
+		cuentaDolares.setEstado(true);
 		return cuentaDolares;
 	}
 	
@@ -102,6 +119,7 @@ public class Config {
 		Cuentas cuentaPesos = new Cuentas();
 		cuentaPesos.setFechaCreacion(new Date(System.currentTimeMillis()));
 		cuentaPesos.setTipoCuenta(TipoCuentaPesos());
+		cuentaPesos.setEstado(true);
 		return cuentaPesos;
 	}
 	

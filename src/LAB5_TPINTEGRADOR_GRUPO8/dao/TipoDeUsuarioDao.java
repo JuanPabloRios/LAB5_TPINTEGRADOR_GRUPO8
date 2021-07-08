@@ -12,9 +12,9 @@ public class TipoDeUsuarioDao {
 	public static TiposDeUsuarios obtenerTipoUsuarioPorNombre(String tipoUsuario) { 
         try {
 			ConfigHibernate ch = new ConfigHibernate();
-	        Session se = ch.abrirConexion(); 
+			Session se = ConfigHibernate.obtenerSessionFactory().openSession(); 
 	        List<TiposDeUsuarios> ltpUsuario = (List<TiposDeUsuarios>)se.createQuery("FROM TiposDeUsuarios").list();   
-	        ch.cerrarSession();
+	        ch.cerrarSessionFactory();
 	        TiposDeUsuarios tpUsuario = new TiposDeUsuarios(); 
 	        for(Integer i = 0; i< ltpUsuario.size(); i++) {  
 	            if(ltpUsuario.get(i).getDescripcion().equals(tipoUsuario)) { 

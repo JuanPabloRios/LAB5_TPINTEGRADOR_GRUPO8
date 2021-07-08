@@ -2775,67 +2775,67 @@ public class DataCreator {
             
             //CUENTAS-------------------------------------------------
             Cuentas cuenta1 = (Cuentas)appContext.getBean("NuevaCuentaDolares"); 
-            cuenta1.setCBU("3254039485938472");  
+            cuenta1.setCBU("0010001411100000000018");  
             cuenta1.setUsuario(cliente1);
             cuenta1.setSaldo(10000.00);
             se.save(cuenta1);
             
             Cuentas cuenta2 = (Cuentas)appContext.getBean("NuevaCuentaPesos"); 
-            cuenta2.setCBU("3254039485938473");  
+            cuenta2.setCBU("0010001411100000000025");  
             cuenta2.setUsuario(cliente1);
             cuenta2.setSaldo(10000.00);
             se.save(cuenta2);
             
             Cuentas cuenta3 = (Cuentas)appContext.getBean("NuevaCuentaPesos"); 
-            cuenta3.setCBU("3254039485938474");  
+            cuenta3.setCBU("0010001411100000000032");  
             cuenta3.setUsuario(cliente1);
             cuenta3.setSaldo(10000.00);
             se.save(cuenta3);
             
             Cuentas cuenta4 = (Cuentas)appContext.getBean("NuevaCuentaPesos"); 
-            cuenta4.setCBU("3254039485938475");  
+            cuenta4.setCBU("0010001411100000000049");  
             cuenta4.setUsuario(cliente2);
             cuenta4.setSaldo(10000.00);
             se.save(cuenta4);
             
             Cuentas cuenta5 = (Cuentas)appContext.getBean("NuevaCuentaDolares"); 
-            cuenta5.setCBU("3254039485938476");  
+            cuenta5.setCBU("0010001411100000000056");  
             cuenta5.setUsuario(cliente3);
             cuenta5.setSaldo(10000.00);
             se.save(cuenta5);
             
             Cuentas cuenta6 = (Cuentas)appContext.getBean("NuevaCuentaDolares"); 
-            cuenta6.setCBU("3254039485938477");  
+            cuenta6.setCBU("0010001411100000000063");  
             cuenta6.setUsuario(cliente4);
             cuenta6.setSaldo(10000.00);
             se.save(cuenta6);
             
             Cuentas cuenta7 = (Cuentas)appContext.getBean("NuevaCuentaPesos"); 
-            cuenta7.setCBU("3254039485938478");  
+            cuenta7.setCBU("0010001411100000000070");  
             cuenta7.setUsuario(cliente4);
             cuenta7.setSaldo(10000.00);
             se.save(cuenta7);
             
             Cuentas cuenta8 = (Cuentas)appContext.getBean("NuevaCuentaPesos"); 
-            cuenta8.setCBU("3254039485938479");  
+            cuenta8.setCBU("0010001411100000000087");  
             cuenta8.setUsuario(cliente5);
             cuenta8.setSaldo(10000.00);
             se.save(cuenta8);
             
             Cuentas cuenta9 = (Cuentas)appContext.getBean("NuevaCuentaDolares"); 
-            cuenta9.setCBU("3254039485938480");  
+            cuenta9.setCBU("0010001411100000000094");  
             cuenta9.setUsuario(cliente5);
             cuenta9.setSaldo(10000.00);
             se.save(cuenta9);
             
             Cuentas cuenta10 = (Cuentas)appContext.getBean("NuevaCuentaPesos"); 
-            cuenta10.setCBU("3254039485938481");  
+            cuenta10.setCBU("0010001411100000000100");  
             cuenta10.setUsuario(cliente5);
             cuenta10.setSaldo(10000.00);
             se.save(cuenta10);
             
             Cuentas cuenta11 = (Cuentas)appContext.getBean("NuevaCuentaPesos"); 
-            cuenta11.setCBU("3254039485938482");  
+            cuenta11.setCBU("0010001411100000000117");  
             cuenta11.setUsuario(cliente6);
             cuenta11.setSaldo(10000.00);
             se.save(cuenta11);

@@ -27,6 +27,14 @@ public class CuentaService {
 	public static void eliminarTodasLasCuentasDeClientePorId(Integer idUsuario){ 
     	CuentaDao.eliminarTodasLasCuentasDeClientePorId(idUsuario);     	
     } 
+	
+	public static Boolean existeCBU(String cbu){ 
+    	Cuentas cu = CuentaDao.obtenerCuentaPorCBU(cbu);  
+    	if(cu != null) {
+    		return true;
+    	}
+    	return false;
+    } 
   
     public static void eliminarCuentaPorId(Integer idNroDeCuenta){  
     	Cuentas cuenta = CuentaDao.obtenerCuentaPorId(idNroDeCuenta);     	

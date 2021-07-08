@@ -24,7 +24,7 @@ public class HomeClienteController {
     }
 	 
 	@RequestMapping("irATransferencia.html")
-    public ModelAndView redirigirATransferencia(String nombreCuenta, Integer idUsuario) {
+    public ModelAndView redirigirATransferencia(String nombreCuenta, Integer idUsuario) { 
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("nombreCuenta",nombreCuenta); 
         mv.addObject("cuentas", CuentaDao.obtenerTodasLasCuentasDeClientePorId(idUsuario));

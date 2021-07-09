@@ -56,6 +56,7 @@ public class ABMCuentaController {
         
         mv.addObject("nombreCuenta",nombreCuenta);  
         TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta);
+
         
         String result = CuentaService.editarCuenta(numeroCuenta, saldo, tpCuentas, idUsuario ); 
 
@@ -70,7 +71,7 @@ public class ABMCuentaController {
         	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
         	Cuentas cuenta = (Cuentas)appContext.getBean("cuenta"); 
         	
-        	cuenta.setSaldo(saldo);;
+        	cuenta.setSaldo(saldo);
         	cuenta.setCBU(CBU);
         	cuenta.setTipoCuenta(tpCuentas);
         	cuenta.setFechaCreacion(fechaCuenta);
@@ -96,7 +97,20 @@ public ModelAndView guardarCuenta(Integer idUsuario, String nombreCuenta, Double
     mv.addObject("nombreCuenta",nombreCuenta);
     TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta);
   
-	
+    
+    ///Aca seria necesario 1ero chequear el limite de 4 cuentas y si se puede traer traer un numero de cuenta y un CBU
+    ///fijarse en la BD el ultimo numero de cuenta y cbu y agregarles 1, y si no hay ninguna cuenta crear un CBU (podrian ser 11 ceros y un 1 )
+    
+    String validacion1= CuentaService.limiteCuentas(idUsuario);
+    
+    if() {
+    	
+    }
+    
+    
+    
+    
+    
 	String result = CuentaService.crearCuenta(saldo, CBU,fechaCuenta, tpCuentas, numeroCuenta,idUsuario );
    
     if(result.equalsIgnoreCase("OK")) {

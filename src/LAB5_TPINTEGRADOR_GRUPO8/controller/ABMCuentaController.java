@@ -45,26 +45,26 @@ public class ABMCuentaController {
         ModelAndView mv = new ModelAndView(); 
         CuentaService.eliminarCuentaPorId(idNroDeCuenta); 
 		mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
-        mv.addObject("informarEliminadoCorrecto",true);
-		mv.setViewName("AdministradorHome");
+        mv.addObject("informarEliminadoCorrecto",true);  
+		mv.setViewName("ListarCuentas");
         return mv;
     }
 	 
 	@RequestMapping("editCuenta.html")
-    public ModelAndView editarCuenta(String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta) {
+    public ModelAndView editarCuenta(String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta, Integer idUsuario) {
         ModelAndView mv = new ModelAndView(); 
         
-        mv.addObject("nombreCuenta",nombreCuenta); 
+        mv.addObject("nombreCuenta",nombreCuenta);  
         TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta);
 
         
-        String result = CuentaService.editarCuenta(numeroCuenta, saldo, tpCuentas ); 
+        String result = CuentaService.editarCuenta(numeroCuenta, saldo, tpCuentas, idUsuario ); 
 
         if(result.equalsIgnoreCase("OK")) {
 			
 
 	        mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
-	        mv.addObject("informarCuentaEditada",true);
+	        mv.addObject("informarGuardadoCorrecto",true);
 	        mv.addObject("nombreCuenta",nombreCuenta); 
 	        mv.setViewName("ListarCuentas");
         } else {
@@ -114,7 +114,7 @@ public ModelAndView guardarCuenta(Integer idUsuario, String nombreCuenta, Double
 	String result = CuentaService.crearCuenta(saldo, CBU,fechaCuenta, tpCuentas, numeroCuenta,idUsuario );
    
     if(result.equalsIgnoreCase("OK")) {
-    	mv.addObject("informarCuentaCreada",true);
+    	mv.addObject("informarGuardadoCorrecto",true);
     	mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
     	 mv.addObject("nombreCuenta",nombreCuenta); 
     	mv.setViewName("ListarCuentas");

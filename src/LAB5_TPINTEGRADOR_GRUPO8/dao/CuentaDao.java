@@ -14,7 +14,34 @@ import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.ConfigHibernate; 
 
 public class CuentaDao {
-
+	
+	public static List<Cuentas> eliminarTodasLasCuentasDeClientePorId(Integer usuarioId){ 
+        
+        List<Cuentas> result = new ArrayList<>();
+        try {
+        	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
+            List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
+	        for(Integer i = 0; i< cuentasClientes.size(); i++) { 
+	            if(cuentasClientes.get(i).getUsuario().getIdusuario() ==  usuarioId) {
+	                se.beginTransaction();
+	                cuentasClientes.get(i).setEstado(false);
+	                se.update(cuentasClientes.get(i));  
+	            }
+	        }
+	        se.getTransaction().commit(); 
+        }
+        catch(HibernateException he){
+        	he.printStackTrace();
+        }
+        catch(Exception ex){
+        	ex.printStackTrace();
+        }
+        finally {
+        	ConfigHibernate.cerrarSessionFactory();
+        }
+        return result;
+    }
+	
     public static List<Cuentas> obtenerTodasLasCuentasDeClientePorId(Integer usuarioId){ 
          
         List<Cuentas> result = new ArrayList<>();
@@ -44,7 +71,7 @@ public class CuentaDao {
         List<Cuentas> result = new ArrayList<>();
         try {
         	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
-            List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
+            List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas AS C WHERE C.estado = 1").list();
 	        for(Integer i = 0; i < cuentasClientes.size(); i++) {  
 	        	result.add(cuentasClientes.get(i)); 
 	        }
@@ -59,6 +86,26 @@ public class CuentaDao {
         	ConfigHibernate.cerrarSessionFactory();
         }
         return result;
+    }
+    
+    public static Integer obtenerUltimoIdDeCuenta(){  
+        List<Cuentas> result = new ArrayList<>();
+        try {
+        	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
+        	 String sql = "SELECT max( i.idNroDeCuenta ) FROM Cuentas i";
+        	 Integer lastId = (Integer) se.createQuery( sql ).uniqueResult(); 
+            return lastId;
+        }
+        catch(HibernateException he){
+        	he.printStackTrace();
+        }
+        catch(Exception ex){
+        	ex.printStackTrace();
+        }
+        finally {
+        	ConfigHibernate.cerrarSessionFactory();
+        }
+        return null;
     }
     
     public static Cuentas obtenerCuentaPorId(Integer idCuenta) {
@@ -84,12 +131,12 @@ public class CuentaDao {
     
     public static Cuentas obtenerCuentaPorCBU(String cbu){ 
         try {
-        	List<Cuentas> cuentas = CuentaDao.obtenerTodasLasCuentas();
-	        for(Integer i = 0; i< cuentas.size(); i++) { 
-	            if(cbu.equals(cuentas.get(i).getCBU())) {
-	                return cuentas.get(i);
-	            }
+        	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
+            List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas AS C WHERE C.estado = 1 AND C.CBU = \'"+cbu+"\'").list();
+	        if(cuentasClientes.size() > 0) {
+	        	return cuentasClientes.get(0);
 	        }
+	        return null; 
         }
         catch(HibernateException he){
         	he.printStackTrace();

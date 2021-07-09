@@ -46,7 +46,7 @@
 				</div>
 			</div> 
 			<div class="content">
-			<form id="formTransfer" method="post" action="transferenciaCuenta.html"> 
+			<form id="formTransfer" method="post" action="transferenciaCuenta.html" onsubmit="return validarForm();"> 
 				<div class="tituloPaginaContainer">
 					<div class="tituloPagina">Realizar transferencia</div>   
 				</div>
@@ -66,10 +66,8 @@
 						  %>
 							
 						<%  if(cuentasCliente!=null)
-								for(Cuentas ci : cuentasCliente) { %>
-	
-							    <option value="<%=ci.getIdNroDeCuenta()%>">Nro. De Cuenta: <%=ci.getIdNroDeCuenta()%> CBU: <%=ci.getCBU()%></option>
-
+								for(Cuentas ci : cuentasCliente) { %> 
+							    <option value="<%=ci.getIdNroDeCuenta()%>">Nro: <%=ci.getIdNroDeCuenta()%> CBU: <%=ci.getCBU()%>  Saldo:$ <%=ci.getSaldo() %> </option> 
 					    <%  } %>
 
 							</select> 
@@ -95,11 +93,11 @@
 						<%  if(cuentasClient!=null)
 								for(Cuentas ci : cuentasClient) { %>
 	
-							    <option value="<%=ci.getIdNroDeCuenta()%>">Nro. De Cuenta: <%=ci.getIdNroDeCuenta()%> CBU: <%=ci.getCBU()%></option>
+							    <option value="<%=ci.getIdNroDeCuenta()%>">Nro: <%=ci.getIdNroDeCuenta()%> CBU: <%=ci.getCBU()%> Saldo:$ <%=ci.getSaldo() %> </option>
 								
 					    <%  } %>
 
-								<option value="Otros">Cuentas de terceros por CBU</option>
+								<option value="0">Otros por CBU</option>
 							</select> 
 						</div> 
 					</div> 
@@ -110,38 +108,24 @@
 					<div class="column" >
 						<div id="cbuContainer" style="display:none;">
 							<label for="cbu">Ingrese el CBU de la cuenta destino:</label> 
-							<input type="text" id="cbu" name="cbu" value="" minlength="22" maxlength="22" onkeypress="return validateCBU(event);" >
-						</div>
-						<script>
-							function checkTerceros(element){
-								console.log(element.value);
-								if(element.value == 'Otros'){
-									$('#cbuContainer').show();
-								} else {
-									$('#cbuContainer').hide();
-								}
-							}
-						</script> 
+							<input type="text" id="cbu" name="cbu" value="">
+						</div>  
 					</div> 
 					<div class="column" >
 					</div> 
 				</div>
 				<div class="row">
 					<div class="column" >
-						<label for="nombreCliente">Ingrese el monto a transferir:</label>  
-
-						<input type="number" id="Monto" name="Monto" value="" required="required" onkeypress="return validate(this,event);"> 
-
+						<label for="nombreCliente">Ingrese el monto a transferir:</label>
+						<input type="number" id="Monto" name="Monto" value="" required="required" >
 					</div> 
 					<div class="column"style="display:flex; justify-content: flex-end;" >
 						<div >
 					  		<input class="button btnSave" title="Transferir" value="Transferir" id="transfer_button" style="margin-top:10px;"></input>  
 							<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
-							<input type="hidden" name="idUsuario" value="<%=cliente.getIdusuario()%>" >
-							
+							<input type="hidden" name="idUsuario" value="<%=cliente.getIdusuario()%>"> 
 					  	</div>
-					</div> 
-				
+					</div>
 				</div>
 				</form>
 			</div>
@@ -151,10 +135,49 @@
 	    </div>
    		<%if(request.getAttribute("informarError")!=null) { 
 	    	String errorMessage = (String)request.getAttribute("mensajeError"); %>
-    		<script>console.log("ENTRAMOS EN EL IF"); $().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
+    		<script>$().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
     	<%} %>
 	    
 	    <script type="text/javascript">
+	    	var porCBU = false;
+	    	var numbers = /^[0-9]+$/;
+	    	
+	    	function validarForm(){ 
+	    		if( !porCBU && $('#CuentaOrigen').val() == $('#CuentaDestino').val()){
+	    			$().toastmessage('showErrorToast', "No se puede transferir a la misma cuenta.");
+	    			return false;
+	    		} 
+	    		
+	    		if(porCBU && !numbers.test($('#cbu').val()) || $('#cbu').val() == undefined || $('#cbu').val() == null || $('#cbu').val().trim() == ""){
+	    			$().toastmessage('showErrorToast', "El CBU solo debe contener numeros y no puede estar vacio.");
+	    			return false;
+	    		} 
+	    		
+	    		if(porCBU && !validarCBU($('#cbu').val()+'')){
+	    			$().toastmessage('showErrorToast', "El CBU ingresado no es valido");
+	    			return false;
+	    		}
+	    		
+	    		if( !numbers.test($('#Monto').val()) || $('#Monto').val() == undefined || $('#Monto').val() == null || $('#Monto').val().trim() == "" || $('#Monto').val() < 1 ){
+	    			$().toastmessage('showErrorToast', "El monto debe ser como minimo 1 y solo debe contener numeros");
+	    			return false;
+	    		}
+	    		
+	    		
+	    		return true;
+	    	}
+	    	
+
+			function checkTerceros(element){ 
+				if(element.value == '0'){
+					$('#cbuContainer').show();
+					porCBU = true;
+				} else {
+					$('#cbuContainer').hide();
+					porCBU = false;
+				}
+			}
+	    	
 		    $(document).ready( function () {
 		        $('#tablaCuentas').DataTable({
 		        	"searching": false,
@@ -201,45 +224,46 @@
 		    			    
 		    			});
 		    	   });
-		    	});
-
-
-
-
+		    	}); 
 		    
-		    function validate(el, evt) {
-		    	   var charCode = (evt.which) ? evt.which : event.keyCode
-		    	    if (charCode != 45 && charCode != 8 && (charCode != 46) && (charCode < 48 || charCode > 57))
-		    	        return false;
-		    	    if (charCode == 46) {
-		    	        if ((el.value) && (el.value.indexOf('.') >= 0))
-		    	            return false;
-		    	        else
-		    	            return true;
-		    	    }
-		    	    return true;
-		    	    var charCode = (evt.which) ? evt.which : event.keyCode;
-		    	    var number = evt.value.split('.');
-		    	    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-		    	        return false;
-		    	    }
-		    	};
 		    	
-		    	function validateCBU(evt){
-    
+		    	function validarLargoCBU(cbu) {
+		    	  if (cbu.length != 22) { return false }
+		    		return true
+		    	}
 
-    var code = (evt.which) ? evt.which : evt.keyCode;
-    
-    if(code==8) {
-      return true;
-    } else if(code>=48 && code<=57) { 
-      return true;
-    } else{ 
-      return false;
-    }
-}
-		    	
-		    	
+		    	function validarCodigoBanco(codigo) {
+			    	 if (codigo.length != 8) { return false }
+			    	 var banco = codigo.substr(0,3)
+			    	 var digitoVerificador1 = codigo[3]
+			    	 var sucursal = codigo.substr(4,3)
+			    	 var digitoVerificador2 = codigo[7]
+	
+			    	 var suma = banco[0] * 7 + banco[1] * 1 + banco[2] * 3 + digitoVerificador1 * 9 + sucursal[0] * 7 + sucursal[1] * 1 + sucursal[2] * 3
+	
+			    	 var diferencia = (10 - suma % 10) 
+						console.log('digitoVerificador2 ' + digitoVerificador2);
+						console.log('diferencia ' + diferencia);
+			    	 return diferencia == digitoVerificador2
+		    	}
+
+		    	function validarCuenta(cuenta) {
+			    	 if (cuenta.length != 14) { return false }
+			    	 var digitoVerificador = cuenta[13]
+			    	 var suma = cuenta[0] * 3 + cuenta[1] * 9 + cuenta[2] * 7 + cuenta[3] * 1 + cuenta[4] * 3 + cuenta[5] * 9 + cuenta[6] * 7 + cuenta[7] * 1 + cuenta[8] * 3 + cuenta[9] * 9 + cuenta[10] * 7 + cuenta[11] * 1 + cuenta[12] * 3
+			    	 var diferencia = (10 - suma % 10)
+						console.log('digitoVerificador ' + digitoVerificador);
+						console.log('diferencia ' + diferencia);
+			    	 return diferencia == digitoVerificador
+		    	}
+
+		    	function validarCBU(cbu) {
+		    		console.log(validarLargoCBU(cbu));
+		    		console.log(validarCodigoBanco(cbu.substr(0,8)));
+		    		console.log(validarCuenta(cbu.substr(8,14)));
+		    		
+		    	 	return validarLargoCBU(cbu) && validarCodigoBanco(cbu.substr(0,8)) && validarCuenta(cbu.substr(8,14))
+		    	}
 		   </script>
 	</body>
 </html>

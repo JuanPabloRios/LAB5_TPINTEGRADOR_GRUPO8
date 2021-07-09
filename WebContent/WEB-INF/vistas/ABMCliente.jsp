@@ -277,7 +277,11 @@
 	    		<script>$().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
 	    	<%} %>
 	    </div>
-	     
+	     <%if(request.getAttribute("cliente")!=null) { %>
+			 <script type="text/javascript">
+			 	$("#sexoCliente").val("<%=cliente.getSexo()%>");
+			 </script>
+		<% } %>
 	    <% if(request.getAttribute("localidadesXProvincia")!=null) {
 	    	Map<Provincia,List<Localidad>> localidadesXProvincia = (Map<Provincia,List<Localidad>>)request.getAttribute("localidadesXProvincia"); %>
     		<script type="text/javascript"> 
@@ -311,17 +315,15 @@
 					}
 					selected = "";
 				<%}%>
-				//Y ANTE CUALQUIE CAMBIO DE LA LISTA DE PROVINCIAS MODIFICAMOS LA LISTA DE LOCALIDADES
-				function provChange(element) { 
-					console.log('Triggers change');
+				//Y ANTE CUALQUIER CAMBIO DE LA LISTA DE PROVINCIAS MODIFICAMOS LA LISTA DE LOCALIDADES
+				function provChange(element) {  
 					$('#localidadCliente').find('option').remove().end();
 					var localidades = localidadesPorProv[element.value];  
 					for(var i = 0; i < localidades.length; i++){
 						var selected = "";
 					   	if(selectedLocId && selectedLocId == localidades[i].id){
 					   		selected = "selected";
-					   		selecttedLoc = localidades[i];
-					   		console.log(selected);
+					   		selecttedLoc = localidades[i]; 
 					   	}
 						$('#localidadCliente').append("<option "+selected+" value="+localidades[i].id+">"+localidades[i].nombre+"</option>");
 					}
@@ -329,7 +331,7 @@
     		</script> 
 	   <%}%>
 	    <script type="text/javascript">
-	    	var letters = /^[a-zA-Z\s]*$/;
+	    	var letters = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
 	    	var numbers = /^[0-9]+$/;
 	    	var fechas = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/;
 	    	var contrasenia = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;

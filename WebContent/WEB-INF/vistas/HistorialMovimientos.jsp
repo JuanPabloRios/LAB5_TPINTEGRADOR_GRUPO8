@@ -55,7 +55,7 @@
 			<table id="tablaCuentas" class="table table-striped table-bordered" style="width:100%;">
 					<thead>
 					  <tr>  
-					    <th>FECHA</th>
+					    <th style="width: 146px;">FECHA</th>
 					    <th>TIPO</th>
 					    <th>IMPORTE</th>
 					    <th>DETALLE</th>  
@@ -74,9 +74,14 @@
 							<%  if(movimiento!=null)
 								for(Movimientos m : movimiento) { %>
 							<tr>
-							    <td><%=m.getFecha()%></td>
-							    <td><%=m.getTipoMovimiento().getDescripcion()%></td>
-							    <td><%=m.getImporte()%></td>
+							    <td><%=m.getFecha()%></td> 
+						    	<td><%=m.getTipoMovimiento().getDescripcion()%></td> 
+						    	
+							    <%  if(m.getTipoMovimiento().getDescripcion().equals("DEBITO")){ %> 
+							    	<td>&#45; <%=m.getImporte()%></td>
+							     <%  } else { %> 
+							    	<td><%=m.getImporte()%></td>
+							     <%  } %> 
 							    <td><%=m.getDetalle()%></td>							    
 						  	</tr> 
 					   <%  } %> 

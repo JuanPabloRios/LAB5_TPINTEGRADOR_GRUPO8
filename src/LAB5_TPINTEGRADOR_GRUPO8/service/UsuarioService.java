@@ -26,8 +26,9 @@ public class UsuarioService {
     public static String crearUsuario(String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
     	String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, Integer localidadCliente,
 		String nombreUsuario, String contrasenia){ 
-    	Boolean existe = UsuarioService.existeDNI(dniCliente); 
-	    	if(!existe) {
+	Boolean existeN = UsuarioService.existeNombreUsuario(nombreUsuario);
+    	Boolean existeD = UsuarioService.existeDNI(dniCliente); 
+	    	if(!existeN && !existeD) {
 	    		Localidad loc = LocalidadService.obtenerLocalidadPorId(localidadCliente);
 	    		
 	    		ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
@@ -46,7 +47,9 @@ public class UsuarioService {
 	            UsuarioDao.insertarUsuario(us);
 	        	((ConfigurableApplicationContext)appContext).close();
 	        	return "OK";
-	    	} else {
+	    	} else if(existeN == true) {
+	    		return "El Nombre de Usuario ingresado ya existe";
+	    	} else if(existeD == true) {
 	    		return "El DNI ingresado ya existe";
 	    	}
     }
@@ -56,10 +59,11 @@ public class UsuarioService {
     public static String editarUsuario(Integer idUsuario, String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
 			String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, Integer localidadCliente,
 			String nombreUsuario, String contrasenia){ 
-    		Boolean existe = UsuarioService.existeDNI(dniCliente); 
+		Boolean existeN = UsuarioService.existeNombreUsuario(nombreUsuario);
+    		Boolean existeD = UsuarioService.existeDNI(dniCliente); 
     		Usuario us = UsuarioDao.obtenerUsuarioPorID(idUsuario); 
     		Localidad loc = LocalidadService.obtenerLocalidadPorId(localidadCliente);
-	    	if(!existe) { 
+	    	if(!existeN && !existeD) { 
 		    	if(!us.getNombre().contains(nombreCliente)) { 
 		    		us.setNombre(nombreCliente);
 		    	}
@@ -94,7 +98,7 @@ public class UsuarioService {
 		    	}
 		    	UsuarioDao.actualizarUsuario(us); 
 	        	return "OK";
-	    	} else if(us.getDNI() == dniCliente) {
+	    	} else if(us.getUsuario().contains(nombreUsuario) || us.getDNI() == dniCliente) {
 		    	if(!us.getNombre().contains(nombreCliente)) { 
 		    		us.setNombre(nombreCliente);
 		    	}
@@ -129,11 +133,22 @@ public class UsuarioService {
 		    	}
 		    	UsuarioDao.actualizarUsuario(us); 
 	        	return "OK";
-	    	}else {
+	    	} else if(existeN == true) {
+	    		return "El Nombre de Usuario ingresado ya existe";
+	    	} else if(existeD == true) {
 	    		return "El DNI ingresado ya existe";
 	    	}
     }	
-    
+
+  //Busca si existe el nombre de usuario en la lista USUARIOS, DEVUELVE true si hay una copia y false si no la hay.
+    public static Boolean existeNombreUsuario (String nombreUsuario){ 
+    	Usuario us = UsuarioDao.obtenerUsuarioPorNombreDeUsuario(nombreUsuario);
+    	if(us != null) {
+    		return true;
+    	}
+    	return false;
+    }	    
+
   //DEVUELVE true si se puede crear y false si no, por encontrar el DNI ya entre los USUARIOS
     public static Boolean existeDNI (Integer dniUsuario){ 
     	Usuario us = UsuarioDao.obtenerUsuarioPorDNI(dniUsuario);

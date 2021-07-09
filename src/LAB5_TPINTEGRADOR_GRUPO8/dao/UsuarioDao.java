@@ -63,7 +63,7 @@ public class UsuarioDao {
         try {
 	    	List<Usuario> usuarios = UsuarioDao.obtenerTodosLosUsarios(); 
 	        for(Integer i = 0; i< usuarios.size(); i++) { 
-	            if(nombreUsuario.equals(usuarios.get(i).getUsuario())) {
+	            if(nombreUsuario.equals(usuarios.get(i).getUsuario()) && usuarios.get(i).getEstado() == true) {
 	                return usuarios.get(i);
 	            }
 	        }

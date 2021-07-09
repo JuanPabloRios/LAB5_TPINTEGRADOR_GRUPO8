@@ -74,8 +74,6 @@ public class CuentaService {
 
 	public static String limiteCuentas(Integer idUsuario) {
 		try {
-
-			Usuario usuario= UsuarioDao.obtenerUsuarioPorID(idUsuario);
 			
 			int cantCuentas= CuentaDao.obtenerTodasLasCuentasDeClientePorId(idUsuario).size();
 			if(cantCuentas < 4) {

@@ -57,9 +57,9 @@ public class ABMCuentaController {
         TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta); 
         Usuario us = UsuarioDao.obtenerUsuarioPorID(idUsuario);
         Boolean puedeCrear = CuentaService.limiteCuentas(idUsuario); 
+        Cuentas cu = CuentaDao.obtenerCuentaPorId(numeroCuenta);
 	    if(puedeCrear) {
-	    	String result = CuentaService.editarCuenta(numeroCuenta, saldo, tpCuentas, idUsuario ); 
-
+	    	String result = CuentaService.editarCuenta(numeroCuenta, saldo, tpCuentas, idUsuario );  
 	        if(result.equalsIgnoreCase("OK")) { 
 		        mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
 		        mv.addObject("informarGuardadoCorrecto",true);
@@ -72,7 +72,9 @@ public class ABMCuentaController {
 	        	cuenta.setCBU(CBU);
 	        	cuenta.setTipoCuenta(tpCuentas);
 	        	cuenta.setFechaCreacion(fechaCuenta); 
-	        	mv.addObject("cliente",cuenta);
+	        	mv.addObject("cuenta",cu);
+	        	mv.addObject("idUsuarioAsignado",cu.getUsuario().getIdusuario());
+		    	mv.addObject("apellidoYNombre",cu.getUsuario().getApellidoYNombre()); 
 	        	mv.addObject("informarError",true);
 	        	mv.addObject("mensajeError",result); 
 	        	mv.setViewName("ABMCuenta"); 
@@ -84,10 +86,10 @@ public class ABMCuentaController {
 	    	cuenta.setSaldo(10000.00);
     		mv.addObject("newCBU",CBU);
 	    	cuenta.setTipoCuenta(tpCuentas); 
-	    	mv.addObject("cliente",cuenta);
+	    	mv.addObject("cuenta",cu);
 	    	mv.addObject("informarError",true); 
-        	mv.addObject("idUsuarioAsignado",us.getIdusuario());
-	    	mv.addObject("apellidoYNombre",us.getApellidoYNombre()); 
+        	mv.addObject("idUsuarioAsignado",cu.getUsuario().getIdusuario());
+	    	mv.addObject("apellidoYNombre",cu.getUsuario().getApellidoYNombre()); 
 	    	mv.addObject("mensajeError","El Cliente ya tiene 4 cuentas"); 
 	    	mv.setViewName("ABMCuenta"); 
 	    	((ConfigurableApplicationContext)appContext).close();

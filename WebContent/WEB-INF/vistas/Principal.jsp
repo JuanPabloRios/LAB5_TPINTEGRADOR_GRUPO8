@@ -15,7 +15,7 @@
 			
 			<div class="content">
 				<div class="login-form">
-					<form action="redirigirLogin.html" method="post" onsubmit="return error();">
+					<form action="redirigirLogin.html" method="post">
 						<div class="title" >
 							<h2>Banking App</h2>
 							<h4>Ingresar</h4>

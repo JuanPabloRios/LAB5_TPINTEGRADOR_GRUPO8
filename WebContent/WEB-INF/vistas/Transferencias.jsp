@@ -19,6 +19,20 @@
 		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css">	
 	</head>
 	<body> 
+		<div id="loading" 
+		style="position: fixed;
+  				display: flex;
+  				justify-content: center;
+  				align-items: center;
+  				width: 100%;
+  				height: 100%;
+				  top: 0;
+				  left: 0;
+				  opacity: 0.7;
+				  background-color: #fff;
+				  z-index: 99;">
+		  <img id="loading-image" src="estilos/Ajux_loader.gif" alt="Loading..." />
+		</div>
 			<% 
 				Usuario cliente = new Usuario();
 				if(request.getAttribute("cliente")!=null) {
@@ -29,7 +43,7 @@
 				<div class="controlesUsuario">
 					<div>Banking App</div>
 					<div style="display:flex; flex-direction:row;"> 
-						<form method="post" action="irAClienteHome.html">
+						<form method="post" action="irAClienteHome.html" onsubmit="$('#loading').show();">
 							<input type="submit" title="Home" value="Home" class="button btnHeader"></input>
 							<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 							<input type="hidden" name="idUsuario" value="<%=cliente.getIdusuario()%>" >
@@ -39,7 +53,7 @@
 				<div class="controlesUsuario">
 					<div>${nombreCuenta}</div>
 					<div class="salirContainer">
-						<form method="post" action="salir.html">
+						<form method="post" action="salir.html" onsubmit="$('#loading').show();">
 							<input type="submit" title="Salir" value="Salir" class="button btnHeader"></input>
 						</form>
 					</div>
@@ -135,7 +149,7 @@
 	    </div>
    		<%if(request.getAttribute("informarError")!=null) { 
 	    	String errorMessage = (String)request.getAttribute("mensajeError"); %>
-    		<script>$().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
+    		<script>$().toastmessage('showErrorToast', "<%=errorMessage%>"); $('#loading').hide();</script>
     	<%} %>
 	    
 	    <script type="text/javascript">
@@ -145,21 +159,25 @@
 	    	function validarForm(){ 
 	    		if( !porCBU && $('#CuentaOrigen').val() == $('#CuentaDestino').val()){
 	    			$().toastmessage('showErrorToast', "No se puede transferir a la misma cuenta.");
+	    			$('#loading').hide();
 	    			return false;
 	    		} 
 	    		
 	    		if(porCBU && (!numbers.test($('#cbu').val()) || $('#cbu').val() == undefined || $('#cbu').val() == null || $('#cbu').val().trim() == "")){
 	    			$().toastmessage('showErrorToast', "El CBU solo debe contener numeros y no puede estar vacio.");
+	    			$('#loading').hide();
 	    			return false;
 	    		} 
 	    		
 	    		if(porCBU && !validarCBU($('#cbu').val()+'')){
 	    			$().toastmessage('showErrorToast', "El CBU ingresado no es valido");
+	    			$('#loading').hide();
 	    			return false;
 	    		}
 	    		
 	    		if( !numbers.test($('#Monto').val()) || $('#Monto').val() == undefined || $('#Monto').val() == null || $('#Monto').val().trim() == "" || $('#Monto').val() < 1 ){
 	    			$().toastmessage('showErrorToast', "El monto debe ser como minimo 1 y solo debe contener numeros");
+	    			$('#loading').hide();
 	    			return false;
 	    		}
 	    		
@@ -179,28 +197,7 @@
 			}
 	    	
 		    $(document).ready( function () {
-		        $('#tablaCuentas').DataTable({
-		        	"searching": false,
-		        	"paging": false,
-		        	"language": {
-		                "lengthMenu": "Mostrar _MENU_ por pagina",
-		                "zeroRecords": "No hay resultados",
-		                "info": "Pagina _PAGE_ de _PAGES_",
-		                "infoEmpty": "No hay registros para mostrar",
-		                "infoFiltered": "( filtrados de un total de _MAX_)",
-		                "search":"Buscar: ",
-		                "paginate": {
-		                    "first":      "Primera",
-		                    "last":       "Ultima",
-		                    "next":       "Siguiente",
-		                    "previous":   "Anterior"
-		                },
-		                "aria": {
-		                    "sortAscending":  ": Activar para ordenar de manera ascendente",
-		                    "sortDescending": ": Activar para ordenar de manera descendente"
-		                }
-		            }
-		        });
+		    	$('#loading').hide();
 		    } );
 		    
 
@@ -213,6 +210,7 @@
 		    			        confirm: {
 		    			        	text:"transferir",
 		    			        	action: function () {
+		    			        		$('#loading').show();
 		    			        		$('#formTransfer').submit();
 		    			        	}
 		    			        },

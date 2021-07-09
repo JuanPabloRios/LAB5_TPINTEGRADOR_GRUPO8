@@ -18,6 +18,21 @@
 		<link href="estilos/ABMCliente.css" rel="StyleSheet" type="text/css">  
 	</head>
 	<body>
+		<div id="loading" 
+			style="position: fixed;
+  				display: flex;
+  				justify-content: center;
+  				align-items: center;
+  				width: 100%;
+  				height: 100%;
+				  top: 0;
+				  left: 0;
+				  opacity: 0.7;
+				  background-color: #fff;
+				  z-index: 99;">
+		  <img id="loading-image" src="estilos/Ajux_loader.gif" alt="Loading..." />
+		</div>
+		<div class="mainContainer">
 		<% 
 			Cuentas cuenta = new Cuentas();
 			if(request.getAttribute("cuenta")!=null) {
@@ -29,7 +44,7 @@
 				<div class="controlesUsuario">
 					<div>Banking App</div>
 					<div style="display:flex; flex-direction:row;"> 
-						<form method="post" action="irAClienteHome.html">
+						<form method="post" action="irAClienteHome.html" onsubmit="$('#loading').show();">
 							<input type="submit" title="Home" value="Home" class="button btnHeader"></input>
 							<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 							<input type="hidden" name="idUsuario" value="<%=cuenta.getUsuario().getIdusuario()%>" >
@@ -39,7 +54,7 @@
 				<div class="controlesUsuario">
 					<div>${nombreCuenta}</div>
 					<div class="salirContainer">
-						<form method="post" action="salir.html">
+						<form method="post" action="salir.html" onsubmit="$('#loading').show();">
 							<input type="submit" title="Salir" value="Salir" class="button btnHeader"></input>
 						</form>
 					</div>
@@ -94,7 +109,8 @@
 			</div> 
 	   	</div>
 		    <script type="text/javascript">
-			    $(document).ready( function () {
+			    $(document).ready( function () { 
+			    	$('#loading').hide();
 			        $('#tablaCuentas').DataTable({
 			        	"searching": true,
 			        	"paging": true,

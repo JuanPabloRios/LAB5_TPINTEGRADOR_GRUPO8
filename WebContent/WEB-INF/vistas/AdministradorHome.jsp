@@ -19,13 +19,27 @@
 		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css">	
 	</head>
 	<body>
+		<div id="loading" 
+			style="position: fixed;
+  				display: flex;
+  				justify-content: center;
+  				align-items: center;
+  				width: 100%;
+  				height: 100%;
+				  top: 0;
+				  left: 0;
+				  opacity: 0.7;
+				  background-color: #fff;
+				  z-index: 99;">
+		  <img id="loading-image" src="estilos/Ajux_loader.gif" alt="Loading..." />
+		</div>
 		<div class="mainContainer">
 			
 				<div class="header">
 					<div class="controlesUsuario">
 						<div>Banking App</div>
 						<div> 
-							<form method="post" action="redirigirListadoCuentas.html">
+							<form method="post" action="redirigirListadoCuentas.html" onsubmit="$('#loading').show();">
 								<input type="submit" title="Cuentas" value="Cuentas" class="button btnHeader"></input>
 								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 							</form>
@@ -34,7 +48,7 @@
 					<div class="controlesUsuario">
 						<div>${nombreCuenta}</div>
 						<div class="salirContainer">
-							<form method="post" action="salir.html">
+							<form method="post" action="salir.html" onsubmit="$('#loading').show();">
 								<input type="submit" title="Salir" value="Salir" class="button btnHeader"></input>
 							</form>
 						</div>
@@ -45,7 +59,7 @@
 					<div class="tituloPaginaContainer">
 						<div class="tituloPagina">Clientes</div> 
 						<div class="botonPrincipalContainer">
-							<form method="post" action="crearNuevoCliente.html">
+							<form method="post" action="crearNuevoCliente.html" onsubmit="$('#loading').show();">
 					  			<input class="button btnNuevoCliente" type="submit" title="Nuevo Cliente" value="Nuevo Cliente"></input> 
 					  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 					  		</form>
@@ -75,7 +89,7 @@
 								for(Usuario c : clientes) { %>
 							<tr>
 							  	<td>
-							  		<form method="post" action="editarCliente.html">
+							  		<form method="post" action="editarCliente.html" onsubmit="$('#loading').show();">
 							  			<input class="button" type="submit" value="Editar / Eliminar"></input>
 							  			<input type="hidden" name="idUsuario" value="<%=c.getIdusuario() %>" >
 							  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
@@ -113,7 +127,9 @@
 	    	<%}
 	    %>
 		    <script type="text/javascript">
+		    
 			    $(document).ready( function () {
+			    	$('#loading').hide();
 			        $('#tablaClientes').DataTable({
 			        	"language": {
 			                "lengthMenu": "Mostrar _MENU_ por pagina",

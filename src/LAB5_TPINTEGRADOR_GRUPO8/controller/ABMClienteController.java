@@ -1,5 +1,7 @@
 package LAB5_TPINTEGRADOR_GRUPO8.controller; 
-import java.sql.Date; 
+import java.sql.Date;
+import java.util.List;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -8,9 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import LAB5_TPINTEGRADOR_GRUPO8.dao.CuentaDao;
 import LAB5_TPINTEGRADOR_GRUPO8.dao.UsuarioDao;
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.Cuentas;
+import LAB5_TPINTEGRADOR_GRUPO8.entidad.Localidad;
 import LAB5_TPINTEGRADOR_GRUPO8.entidad.Usuario;
 import LAB5_TPINTEGRADOR_GRUPO8.resources.Config;
+import LAB5_TPINTEGRADOR_GRUPO8.service.LocalidadService;
 import LAB5_TPINTEGRADOR_GRUPO8.service.UsuarioService;
 
 @Controller
@@ -53,12 +59,11 @@ public class ABMClienteController {
     									String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, Integer localidadCliente,
     									String nombreUsuario, String contrasenia, RedirectAttributes redirectAttributes) {
         ModelAndView mv = new ModelAndView(); 
-        mv.addObject("nombreCuenta",nombreCuenta);
-        System.out.println("@@ localidadCliente "+ localidadCliente + " @@ provinciaCliente "+ provinciaCliente);
+        mv.addObject("nombreCuenta",nombreCuenta); 
         String result = UsuarioService.crearUsuario(nombreCliente, apellidoCliente, dniCliente, fechaNacimientoCliente, 
 				nacionalidadCliente, direccionCliente, sexoCliente, provinciaCliente, localidadCliente,
 				nombreUsuario, contrasenia);
-       
+        Localidad loc = LocalidadService.obtenerLocalidadPorId(localidadCliente);
         if(result.equalsIgnoreCase("OK")) { 
         	redirectAttributes.addFlashAttribute("informarUsuarioCreado", true);  
     	    return new ModelAndView("redirect:regirigirAListadoDeClientes.html");
@@ -73,6 +78,7 @@ public class ABMClienteController {
         	cliente.setDNI(dniCliente); 
         	cliente.setNacionalidad(nacionalidadCliente);
         	cliente.setSexo(sexoCliente);
+        	cliente.setLocalidad(loc); 
         	cliente.setFecha_de_nacimiento(fechaNacimientoCliente); 
         	mv.addObject("cliente",cliente);
         	mv.addObject("informarError",true);
@@ -90,7 +96,9 @@ public class ABMClienteController {
         ModelAndView mv = new ModelAndView(); 
         
         mv.addObject("nombreCuenta",nombreCuenta); 
-        
+
+        List<Cuentas> cu = CuentaDao.obtenerTodasLasCuentasDeClientePorId(idUsuario);
+        Localidad loc = LocalidadService.obtenerLocalidadPorId(localidadCliente);
         String result = UsuarioService.editarUsuario(idUsuario, nombreCliente, apellidoCliente, dniCliente, fechaNacimientoCliente, 
 				nacionalidadCliente, direccionCliente, sexoCliente, provinciaCliente, localidadCliente,
 				nombreUsuario, contrasenia); 
@@ -110,9 +118,10 @@ public class ABMClienteController {
         	cliente.setDireccion(direccionCliente);
         	cliente.setDNI(dniCliente); 
         	cliente.setNacionalidad(nacionalidadCliente);
+        	cliente.setLocalidad(loc); 
         	cliente.setSexo(sexoCliente);
-        	cliente.setFecha_de_nacimiento(fechaNacimientoCliente); 
-        	
+        	cliente.setFecha_de_nacimiento(fechaNacimientoCliente);  
+        	mv.addObject("listaCuentas",cu);
         	mv.addObject("cliente",cliente);
         	mv.addObject("informarError",true);
         	mv.addObject("mensajeError",result); 

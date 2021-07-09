@@ -24,6 +24,20 @@
 		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css"> 
 	</head>
 	<body>  
+		<div id="loading" 
+			style="position: fixed;
+  				display: flex;
+  				justify-content: center;
+  				align-items: center;
+  				width: 100%;
+  				height: 100%;
+				  top: 0;
+				  left: 0;
+				  opacity: 0.7;
+				  background-color: #fff;
+				  z-index: 99;">
+		  <img id="loading-image" src="estilos/Ajux_loader.gif" alt="Loading..." />
+		</div>
 		<div class="mainContainer"> 
 			<div class="header">
 				<div class="controlesUsuario">
@@ -211,7 +225,10 @@
          <%if(request.getAttribute("informarError")!=null) { 
 		    	//EN CASO DE ERROR AL CARGAR LA PAGINA INFORMAMOS DE EL MISMO
 		    	String errorMessage = (String)request.getAttribute("mensajeError"); %>
-	    		<script>$().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
+	    		<script>
+	    			$().toastmessage('showErrorToast', "<%=errorMessage%>"); 
+        			$('#loading').hide();
+        		</script>
 	    	<%} %>
          <%if(request.getAttribute("cuenta")!=null) { %>
 			 <script type="text/javascript">
@@ -225,11 +242,13 @@
     	function validarForm(){  
     		if(!numbers.test($('#saldo').val()) || $('#saldo').val() == undefined || $('#saldo').val() == null || $('#saldo').val().trim() == "" || $('#dniCliente').val() > 999999999){ //
     			$().toastmessage('showErrorToast', "Modifique el DNI, no puede estar vacio y solo puede contener numeros del 1 al 999999999");
+    			$('#loading').hide();
     		    return false;
     		}  
     		
     		if( $('#idUserSelected').val() == undefined || $('#idUserSelected').val() == null || $('#idUserSelected').val() == 'null' || $('#idUserSelected').val().trim() == ""){ //
     			$().toastmessage('showErrorToast', "Debe seleccionar un usuario");
+    			$('#loading').hide();
     		    return false;
     		} 
     		
@@ -246,6 +265,7 @@
 	    }
 	    var table;
 	    $(document).ready( function () {
+	    	$('#loading').hide();
 	    	table = $('#tablaClientes').DataTable({ 
                 "language": {
                     "lengthMenu": "Mostrar _MENU_ por pagina",
@@ -319,6 +339,7 @@
 	    			        confirm: {
 	    			        	text:"Eliminar",
 	    			        	action: function () {
+	    			        		$('#loading').show();
 	    			        		$('#formDelete').submit();
 	    			        	}
 	    			        },
@@ -342,6 +363,7 @@
 	    			        confirm: {
 	    			        	text:"Modificar",
 	    			        	action: function () {
+	    			        		$('#loading').show();
 	    			        		$('#formUpdate').submit();
 	    			        	}
 	    			        },
@@ -364,6 +386,7 @@
 	    			        confirm: {
 	    			        	text:"Crear",
 	    			        	action: function () {
+	    			        		$('#loading').show();
 	    			        		$('#formCreate').submit();
 	    			        	}
 	    			        },

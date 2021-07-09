@@ -422,7 +422,8 @@
 	    	}
 	    	//USAMOS JQUERY DATATABLE PARA FORMATEAR EL ESTILO Y LA FUNCIONALIDAD DE PAGINADO Y BUSQUEDA DE LAS TABLAS
 		    $(document).ready( function () {
-		    	$('#loading').hide();
+		    	$('#loading').hide(); 
+				provChange($("#provinciaCliente")[0]);
 		        $('#tablaCuentas').DataTable({
 		        	"searching": false,
 		        	"paging": false,

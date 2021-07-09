@@ -15,6 +15,7 @@ public class ListarCuentasController {
 		DataCreator.createData();
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("nombreCuenta",nombreCuenta);
+		mv.addObject("newCBU",Utils.generarCBU());
 		mv.setViewName("ABMCuenta");
 		return mv;
 	}

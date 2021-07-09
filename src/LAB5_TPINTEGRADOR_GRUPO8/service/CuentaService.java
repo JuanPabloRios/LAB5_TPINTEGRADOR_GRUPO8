@@ -72,9 +72,7 @@ public class CuentaService {
 		        he.printStackTrace();
 		        return "Ocurrio una excepcion durante la Modificacion";
 		    }
-	    } 
-	    
-
+	    }  
 
 	public static String editarCuenta(Integer numeroCuenta, Double saldo , TiposDeCuentas tipoCuenta){ 
 		try{ 
@@ -94,43 +92,38 @@ public class CuentaService {
 		}
 	} 
 
-	public static String crearCuenta(Double saldo, String CBU, Date fechaCuenta,TiposDeCuentas tpCuenta,Integer numeroCuenta, Integer idUsuario ){ 
+	public static String crearCuenta(Double saldo, String CBU, Date fechaCuenta,TiposDeCuentas tpCuenta,Integer idUsuario ){ 
 		try{
 
 			ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
 			Cuentas cuenta = (Cuentas)appContext.getBean("cuenta"); 
-			Usuario usuario= UsuarioDao.obtenerUsuarioPorID(idUsuario);
-
-
+			Usuario usuario= UsuarioDao.obtenerUsuarioPorID(idUsuario);  
 			cuenta.setSaldo(saldo);
 			cuenta.setCBU(CBU);
+			cuenta.setEstado(true);
 			cuenta.setTipoCuenta(tpCuenta);
 			cuenta.setFechaCreacion(fechaCuenta);
 			cuenta.setUsuario(usuario);
 			CuentaDao.insertarCuenta(cuenta);
 			((ConfigurableApplicationContext)appContext).close();
-			return "OK";
-
+			return "OK"; 
 		}catch (HibernateException he){
 			he.printStackTrace();
 			return "Ocurrio una excepcion durante el guardado";
-		} 
-
+		}  
 	}
 
-	public static String limiteCuentas(Integer idUsuario) {
-		try {
-			
+	public static Boolean limiteCuentas(Integer idUsuario) {
+		try { 
 			int cantCuentas= CuentaDao.obtenerTodasLasCuentasDeClientePorId(idUsuario).size();
 			if(cantCuentas < 4) {
-				return "OK";
-			}else return "el usuario no puede tener mas de 4 cuentas";
+				return true;
+			}
+			return false; 
 		}catch(HibernateException he){
-			he.printStackTrace();
-			return "Ocurrio una excepcion durante validacion de cantidad de cuentas";
-		}
-
-
+			he.printStackTrace(); 
+		}  
+		return false;
 	}
 
 }

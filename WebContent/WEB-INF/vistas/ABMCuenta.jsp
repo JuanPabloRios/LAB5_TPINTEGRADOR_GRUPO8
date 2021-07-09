@@ -23,7 +23,7 @@
 		<script src="estilos/toast/javascript/jquery.toastmessage.js"></script>
 		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css"> 
 	</head>
-	<body> 
+	<body>  
 		<div class="mainContainer"> 
 			<div class="header">
 				<div class="controlesUsuario">
@@ -87,12 +87,12 @@
 						<div class="row">
 						  	<div class="column">
 						  		<label for="fechaCuenta">Fecha de creacion:</label>
-								<input type="date" id="fechaCuenta" name="fechaCuenta" value="${cuenta.getFechaCreacion()}" disabled="true"></input>
+								<input type="date" name="fechaCuenta" value="${cuenta.getFechaCreacion()}" disabled="true"></input>
 								<input type="hidden" id="fechaCuenta" name="fechaCuenta" value="${cuenta.getFechaCreacion()}"></input>
 						  	</div>
 						  	<div class="column">
 						  		<label for="CBU">CBU:</label>
-								<input type="text" id="CBU" name="CBU" value="${cuenta.getCBU()}" disabled=true></input>
+								<input type="text" name="CBU" value="${cuenta.getCBU()}" disabled=true></input>
 								<input type="hidden" id="CBU" name="CBU" value="${cuenta.getCBU()}"></input>
 						  	</div> 
 						</div>
@@ -105,13 +105,8 @@
 								</select> 
 						  	</div> 
 						  	<div class="column">
-						  		<label for="saldo">Saldo:</label>
-						  		<%if(request.getAttribute("cuenta")==null) { %>
-									<input type="number" id="saldo" name="saldo" value="${cuenta.getSaldo()}" disabled="true"></input>
-								<% } %>
-								<%if(request.getAttribute("cuenta")!=null) { %>
-									<input type="number" id="saldo" name="saldo" value="${cuenta.getSaldo()}"></input>
-								<% } %>
+						  		<label for="saldo">Saldo:</label> 
+								<input type="number" id="saldo" name="saldo" value="${cuenta.getSaldo()}"></input> 
 						  	</div>
 						</div>  
 						
@@ -121,12 +116,23 @@
 						  	<div class="column" style="display:flex; justify-content: flex-end;">
 						  		<input class="button btnSave" title="Guardar" value="Guardar" id="update_button" style="margin-top:10px;"></input>  
 								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input>
-								<input class="idUserSelected" type="hidden" name="idUsuario" value="${cuenta.getUsuario().getIdusuario()}"></input>
+								<input id="idUserSelected" type="hidden" name="idUsuario" value="${cuenta.getUsuario().getIdusuario()}"></input>
 						  	</div>
 						</div> 
 					</form>
 					
-					<% }else{ %>
+					<% }else{ 
+					
+					String nuevoCBU = (String)request.getAttribute("newCBU");
+					String apellidoYNombre = "";
+					if(request.getAttribute("apellidoYNombre") != null){
+						apellidoYNombre = (String)request.getAttribute("apellidoYNombre"); 
+					}
+					Integer idUsuarioAsignado = null;		 
+					if(request.getAttribute("idUsuarioAsignado") != null){
+						idUsuarioAsignado = (Integer)request.getAttribute("idUsuarioAsignado"); 
+					}
+					%>
 					<form id="formCreate" method="post" action="guardarCuenta.html" onsubmit="return validarForm();"> 
 						<div class="row">
 							<div class="column" > 
@@ -135,31 +141,21 @@
 									<div style="max-width:150px;">
 										<input class="button btnNuevoCliente asignarCliente" id="asignarCliente" type="button" title="Asignar cliente" value="Asignar cliente"></input>   
 					  				</div> 
-					  				<div style="flex: 2; padding-left: 17px;"><input type="text" id="ususarioAsignadoLabel" disabled="true"></input></div>
+					  				<div style="flex: 2; padding-left: 17px;"><input type="text" id="ususarioAsignadoLabel" value="<%=apellidoYNombre%>" disabled="true"></input></div>
 								</div> 
 						  	</div>  
-						  	<div class="column">
-						  		<label for="numeroCuenta">Numero de cuenta:</label>
-								<input type="text" id="numeroCuenta" name="numeroCuenta" value="${cuenta.getIdNroDeCuenta()}" disabled="true"></input>
-								<input type="hidden" id="numeroCuenta" name="numeroCuenta" value="${cuenta.getIdNroDeCuenta()}"></input>
+						  	<div class="column"> 
+								<input type="hidden" id="numeroCuenta" name="numeroCuenta" value=""></input>
 						  	</div>
 						</div>
 						<div class="row">
-						  	<div class="column">
-						  	<%
-							long millis=System.currentTimeMillis();
-							
-							java.sql.Date d=new java.sql.Date(millis); 
-							
-							   %>
-						  		<label for="fechaCuenta">Fecha de creacion:</label>
-								<input type="date" id="fechaCuenta" name="fechaCuenta" value="<%=d%>" disabled="true"></input>
-								<input type="hidden" id="fechaCuenta" name="fechaCuenta" value="<%=d%>"></input>
+						  	<div class="column"> 
+						  		<label for="CBU">CBU:</label>
+								<input type="text" name="CBU" value="<%=nuevoCBU%>" disabled="true"></input>
+								<input type="hidden" id="CBU" name="CBU" value="<%=nuevoCBU%>"></input> 
 						  	</div>
 						  	<div class="column">
-						  		<label for="CBU">CBU:</label>
-								<input type="text" id="CBU" name="CBU" value="${cuenta.getCBU()}" disabled="true"></input>
-								<input type="hidden" id="CBU" name="CBU" value="${cuenta.getCBU()}"></input>
+						  		
 						  	</div> 
 						</div>
 
@@ -174,10 +170,8 @@
 								</select> 
 						  	</div> 
 						  	<div class="column">
-						  		<label for="saldo">Saldo:</label>
-
-									<input type="number" id="saldo" name="saldo" value="${cuenta.getSaldo()}" disabled="true"></input>
-
+						  		<label for="saldo">Saldo:</label> 
+									<input type="number" id="saldo" name="saldo" value="10000" disabled="true"></input> 
 						  	</div>
 						</div>  
 						
@@ -185,7 +179,7 @@
 							<div class="column"> 
 						  	</div> 
 						  	<div class="column" style="display:flex; justify-content: flex-end;"> 
-								<input class="idUserSelected" type="hidden" value="${cuenta.getUsuario().getIdusuario()}" name="idUsuario"></input> 
+								<input id="idUserSelected" type="hidden" value="<%=idUsuarioAsignado%>" name="idUsuario"></input> 
 						  		<input class="button btnSave" title="Guardar" value="Guardar" id="create_button" style="margin-top:10px;"></input>  
 								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}"></input> 
 						  	</div>
@@ -199,23 +193,29 @@
 	    </div>  
 	</div>  
 	<div id="dialog" title="Seleccionar Cliente" style="display:none;">
-            <h3>Clientes</h3> 
-             <table id="tablaClientes" class="table table-striped table-bordered" style="width:100%">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>APELLIDO</th>
-                    <th>NOMBRE</th>
-                    <th>DNI</th>
-                    <th>DIRECCION</th>
-                  </tr>
-                 </thead> 
-                 <tbody> 
-                 </tbody>
-            </table>
-         </div> 
+        <h3>Clientes</h3> 
+         <table id="tablaClientes" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+              <tr>
+                <th></th>
+                <th>APELLIDO</th>
+                <th>NOMBRE</th>
+                <th>DNI</th>
+                <th>DIRECCION</th>
+              </tr>
+             </thead> 
+             <tbody> 
+             </tbody>
+        </table>
+     </div> 
+         <%if(request.getAttribute("informarError")!=null) { 
+		    	//EN CASO DE ERROR AL CARGAR LA PAGINA INFORMAMOS DE EL MISMO
+		    	String errorMessage = (String)request.getAttribute("mensajeError"); %>
+	    		<script>$().toastmessage('showErrorToast', "<%=errorMessage%>");</script>
+	    	<%} %>
          <%if(request.getAttribute("cuenta")!=null) { %>
 			 <script type="text/javascript">
+			 	//Auto populamos la picklist the tipo de cuenta
 			 	$("#tipoCuenta").val("<%=cuenta.getTipoCuenta().getDescripcion()%>");
 			 </script>
 		<% } %>
@@ -225,6 +225,11 @@
     	function validarForm(){  
     		if(!numbers.test($('#saldo').val()) || $('#saldo').val() == undefined || $('#saldo').val() == null || $('#saldo').val().trim() == "" || $('#dniCliente').val() > 999999999){ //
     			$().toastmessage('showErrorToast', "Modifique el DNI, no puede estar vacio y solo puede contener numeros del 1 al 999999999");
+    		    return false;
+    		}  
+    		
+    		if( $('#idUserSelected').val() == undefined || $('#idUserSelected').val() == null || $('#idUserSelected').val() == 'null' || $('#idUserSelected').val().trim() == ""){ //
+    			$().toastmessage('showErrorToast', "Debe seleccionar un usuario");
     		    return false;
     		} 
     		
@@ -236,16 +241,12 @@
 	    	let nombreUsuario = elemento.dataset.nombreusuario;
 	    	let apellidoUsuario = elemento.dataset.apellidousuario;
 	    	$("#ususarioAsignadoLabel").val(apellidoUsuario + ', ' + nombreUsuario);
-	    	let usersSelectedInput = $(".idUserSelected");
-	    	for(let i = 0; i<usersSelectedInput.length; i++){
-	    		usersSelectedInput.val(idUsuario);
-	    		console.log("asignado a i "+i);
-	    	} 
-	    	console.log($(".idUserSelected").val());
-	    	$( "#dialog" ).dialog( "close" );  
+	    	$("#idUserSelected").val(idUsuario); 
+	    	$("#dialog").dialog("close");  
 	    }
+	    var table;
 	    $(document).ready( function () {
-            $('#tablaClientes').DataTable({ 
+	    	table = $('#tablaClientes').DataTable({ 
                 "language": {
                     "lengthMenu": "Mostrar _MENU_ por pagina",
                     "zeroRecords": "No hay resultados",
@@ -277,13 +278,16 @@
 	    		        url: "obtenerClientes.html", 
 	    		        success: function(response)
 	    		        { 
-	    		        	let rows = JSON.parse(response);
-	    		        	let table = $("#tablaClientes").find('tbody'); 
+	    		        	let rows = JSON.parse(response); 
 	    		        	for(let i = 0; i< rows.length; i++){
 	    		        		let cliente = rows[i];
-								let row = '<tr><td><input class="button" type="submit" data-usuarioid="'+cliente.idusuario+'" data-nombreusuario="'+cliente.nombre+'" data-apellidousuario="'+cliente.apellido+'" value="Seleccionar" onclick="seleccionerCliente(this)"></input></td>'+
-								' <td>'+cliente.apellido+'</td> <td>'+cliente.nombre+'</td> <td>'+cliente.dni+'</td> <td>'+cliente.direccion+'</td></tr>';
-	    		        		table.append(row);
+	    		        		let thisRow = [];
+	    		        		thisRow.push('<input class="button" type="submit" data-usuarioid="'+cliente.idusuario+'" data-nombreusuario="'+cliente.nombre+'" data-apellidousuario="'+cliente.apellido+'" value="Seleccionar" onclick="seleccionerCliente(this)"></input>');
+	    		        		thisRow.push(cliente.apellido);
+	    		        		thisRow.push(cliente.nombre);
+	    		        		thisRow.push(cliente.dni);
+	    		        		thisRow.push(cliente.direccion); 
+								table.row.add(thisRow).draw();
 	    		        	} 
 	    		        	$( function() {
 	    		                $( "#dialog" ).dialog({ 
@@ -352,7 +356,7 @@
 	    	});
 	    
 	    $(function() {
-	    	   $("#create_button").click(function(){
+	    	   $("#create_button").click(function(){ 
 	    		   $.confirm({
 	    			    title: 'Crear',
 	    			    content: 'Realmente desea crear la cuenta?',

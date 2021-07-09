@@ -22,8 +22,7 @@ public class LocalidadService {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		}
-		System.out.println("@@ Localidades size "+result.size());
+		} 
 		return result;
 	}
 	

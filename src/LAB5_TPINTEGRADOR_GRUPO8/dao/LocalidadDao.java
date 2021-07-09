@@ -15,7 +15,7 @@ public class LocalidadDao {
         List<Localidad> result = new ArrayList<>();
         try {
 	        Session se = ConfigHibernate.obtenerSessionFactory().openSession(); 
-	        result = (List<Localidad>)se.createQuery("FROM Localidad").list();  
+	        result = (List<Localidad>)se.createQuery("FROM Localidad AS l ORDER BY l.provincia, l.nombre").list();  
         }
         catch (HibernateException he){
 	        he.printStackTrace();

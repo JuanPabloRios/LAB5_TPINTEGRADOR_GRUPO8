@@ -2650,7 +2650,7 @@ public class DataCreator {
             cliente1.setNombre("Ezequiel");
             cliente1.setApellido("Rios");
             cliente1.setUsuario("Ezequiel");   
-            cliente1.setContrasenia("Rios");
+            cliente1.setContrasenia("Rios1234");
             cliente1.setDireccion("Callao 1425");
             cliente1.setDNI(32444555); 
             cliente1.setNacionalidad("Argentina");
@@ -2663,7 +2663,7 @@ public class DataCreator {
             cliente2.setNombre("Rocio");
             cliente2.setApellido("Favre");
             cliente2.setUsuario("Rocio");   
-            cliente2.setContrasenia("Favre");
+            cliente2.setContrasenia("Favre1234");
             cliente2.setDireccion("Rivadavia 3541");
             cliente2.setDNI(34253492); 
             cliente2.setNacionalidad("Argentina");
@@ -2676,7 +2676,7 @@ public class DataCreator {
             cliente3.setNombre("Nicolas");
             cliente3.setApellido("Azpiazu");
             cliente3.setUsuario("Nicolas");   
-            cliente3.setContrasenia("Azpiazu");
+            cliente3.setContrasenia("Azpiazu1234");
             cliente3.setDireccion("Av. San Martin 3323");
             cliente3.setDNI(43456343); 
             cliente3.setNacionalidad("Argentina");
@@ -2689,7 +2689,7 @@ public class DataCreator {
             cliente4.setNombre("Matias");
             cliente4.setApellido("Saura");
             cliente4.setUsuario("Matías");   
-            cliente4.setContrasenia("Saura");
+            cliente4.setContrasenia("Saura1234");
             cliente4.setDireccion("Los Alamos 879B");
             cliente4.setDNI(4597080); 
             cliente4.setNacionalidad("Argentina");
@@ -2702,7 +2702,7 @@ public class DataCreator {
             cliente5.setNombre("Alfredo Modesto");
             cliente5.setApellido("Gomez");
             cliente5.setUsuario("Alfredo");   
-            cliente5.setContrasenia("Gomez");
+            cliente5.setContrasenia("Gomez1234");
             cliente5.setDireccion("Ayacucho 132 ");
             cliente5.setDNI(97834659); 
             cliente5.setLocalidad(localidadesToInsert.get(12));
@@ -2715,7 +2715,7 @@ public class DataCreator {
             cliente6.setNombre("Carla");
             cliente6.setApellido("Coello Rodriguez");
             cliente6.setUsuario("Carla");   
-            cliente6.setContrasenia("Coello Rodriguez");
+            cliente6.setContrasenia("Coello1234");
             cliente6.setDireccion("Av F De L Cruz 3469 PB 5");
             cliente6.setDNI(23456975); 
             cliente6.setNacionalidad("Colombia");
@@ -2728,7 +2728,7 @@ public class DataCreator {
             cliente7.setNombre("Vanesa");
             cliente7.setApellido("Echenique Rivadeneira");
             cliente7.setUsuario("Vanesa");   
-            cliente7.setContrasenia("Echenique Rivadeneira");
+            cliente7.setContrasenia("Echenique1234");
             cliente7.setDireccion("Sesquicent 1185 ");
             cliente7.setDNI(56834984); 
             cliente7.setNacionalidad("Argentina");
@@ -2741,7 +2741,7 @@ public class DataCreator {
             cliente8.setNombre("Roman");
             cliente8.setApellido("Andueza Aramburu");
             cliente8.setUsuario("Roman");   
-            cliente8.setContrasenia("Andueza Aramburu");
+            cliente8.setContrasenia("Andueza1234");
             cliente8.setDireccion("Cjal Tribulato 1867");
             cliente8.setDNI(41234987); 
             cliente8.setNacionalidad("Brasil");
@@ -2754,7 +2754,7 @@ public class DataCreator {
             cliente9.setNombre("Antonio");
             cliente9.setApellido("Lopez");
             cliente9.setUsuario("Antonio");   
-            cliente9.setContrasenia("Lopez");
+            cliente9.setContrasenia("Lopez1234");
             cliente9.setDireccion("11 De Set 4376 PB B");
             cliente9.setDNI(23947586); 
             cliente9.setNacionalidad("Argentina");

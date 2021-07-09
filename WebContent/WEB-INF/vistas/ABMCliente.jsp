@@ -25,6 +25,20 @@
 		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css">	
 	</head>
 	<body> 
+		<div id="loading" 
+		style="position: fixed;
+  				display: flex;
+  				justify-content: center;
+  				align-items: center;
+  				width: 100%;
+  				height: 100%;
+				  top: 0;
+				  left: 0;
+				  opacity: 0.7;
+				  background-color: #fff;
+				  z-index: 99;">
+		  <img id="loading-image" src="estilos/Ajux_loader.gif" alt="Loading..." />
+		</div>
 		<div class="mainContainer"> 
 			<div class="header">
 				<div class="controlesUsuario">
@@ -331,6 +345,7 @@
     		</script> 
 	   <%}%>
 	    <script type="text/javascript">
+		    
 	    	var letters = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
 	    	var numbers = /^[0-9]+$/;
 	    	var fechas = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/;
@@ -339,19 +354,23 @@
 	    	function validarForm(){ 
 	    		if(!letters.test($('#nombreCliente').val()) || $('#nombreCliente').val() == undefined || $('#nombreCliente').val() == null || $('#nombreCliente').val().trim() == ""){ //
 	    			$().toastmessage('showErrorToast', "Modifique el nombre, no puede estar vacio y solo puede contener letras");
+	    			$('#loading').hide();
 	    		    return false;
 	    		} 
 	    		if(!letters.test($('#apellidoCliente').val()) || $('#apellidoCliente').val() == undefined || $('#apellidoCliente').val() == null || $('#apellidoCliente').val().trim() == ""){ //
 	    			$().toastmessage('showErrorToast', "Modifique el apellido, no puede estar vacio y solo puede contener letras");
+	    			$('#loading').hide();
 	    		    return false;
 	    		}
 	    		if(!numbers.test($('#dniCliente').val()) || $('#dniCliente').val() == undefined || $('#dniCliente').val() == null || $('#dniCliente').val().trim() == "" || $('#dniCliente').val() < 1 || $('#dniCliente').val() > 999999999){ //
 	    			$().toastmessage('showErrorToast', "Modifique el DNI, no puede estar vacio y solo puede contener numeros del 1 al 999999999");
+	    			$('#loading').hide();
 	    		    return false;
 	    		}
 	    		
 	    		if(!fechas.test($('#fechaNacimientoCliente').val()) || $('#fechaNacimientoCliente').val() == undefined || $('#fechaNacimientoCliente').val() == null || $('#fechaNacimientoCliente').val().trim() == "" ){ //
 	    			$().toastmessage('showErrorToast', "Modifique la fecha de nacimiento, no puede estar vacia o incompleta");
+	    			$('#loading').hide();
 	    		    return false;
 	    		}
 
@@ -359,36 +378,43 @@
 	    		let fechaNac = new Date($('#fechaNacimientoCliente').val());
 	    		if(fechaNac > fechaActual ){
 	    			$().toastmessage('showErrorToast', "Modifique la fecha de nacimiento, no puede ser mayor a hoy");
+	    			$('#loading').hide();
 	    		    return false;
 	    		}
 	    		
 	    		if(!letters.test($('#nacionalidadCliente').val()) || $('#nacionalidadCliente').val() == undefined || $('#nacionalidadCliente').val() == null || $('#nacionalidadCliente').val().trim() == ""){ //
 	    			$().toastmessage('showErrorToast', "Modifique la nacionalidad, no puede estar vacio y solo puede contener letras");
+	    			$('#loading').hide();
 	    		    return false;
 	    		}
 	    		
 	    		if( $('#nombreUsuario').val() == undefined || $('#nombreUsuario').val() == null || $('#nombreUsuario').val().trim() == "" || $('#nombreUsuario').val().trim().length < 6){ //
 	    			$().toastmessage('showErrorToast', "Modifique el nombre de usuario, no puede estar vacio y debe contener 6 caracteres como minimo");
+	    			$('#loading').hide();
 	    		    return false;
 	    		} 
 	    		
 	    		if(!contrasenia.test($('#contrasenia').val()) || $('#contrasenia').val() == undefined || $('#contrasenia').val() == null || $('#contrasenia').val().trim() == "" || $('#contrasenia').val().trim().length < 8){ //
 	    			$().toastmessage('showErrorToast', "Modifique la contraseña, no puede estar vacia y debe contener al menos 8 caracteres, al menos 1 letra mayuscula, al menos 1 letra minuscula y al menos un numero");
+	    			$('#loading').hide();
 	    		    return false;
 	    		}
 	    		
 	    		if( $('#direccionCliente').val() == undefined || $('#direccionCliente').val() == null || $('#direccionCliente').val().trim() == "" || $('#direccionCliente').val().trim().length < 4){ //
 	    			$().toastmessage('showErrorToast', "Modifique la direccion, no puede estar vacia y debe contener al menos 4 caracteres");
+	    			$('#loading').hide();
 	    		    return false;
 	    		}
 	    		
 	    		if( $('#provinciaCliente').val() == undefined || $('#provinciaCliente').val() == null || $('#provinciaCliente').val().trim() == ""){ //
 	    			$().toastmessage('showErrorToast', "Modifique la provincia, no puede estar vacia");
+	    			$('#loading').hide();
 	    		    return false;
 	    		}
 	    		
 	    		if( $('#localidadCliente').val() == undefined || $('#localidadCliente').val() == null || $('#localidadCliente').val().trim() == ""){ //
 	    			$().toastmessage('showErrorToast', "Modifique la localidad, no puede estar vacia");
+	    			$('#loading').hide();
 	    		    return false;
 	    		}
 	    		
@@ -396,6 +422,7 @@
 	    	}
 	    	//USAMOS JQUERY DATATABLE PARA FORMATEAR EL ESTILO Y LA FUNCIONALIDAD DE PAGINADO Y BUSQUEDA DE LAS TABLAS
 		    $(document).ready( function () {
+		    	$('#loading').hide();
 		        $('#tablaCuentas').DataTable({
 		        	"searching": false,
 		        	"paging": false,
@@ -429,6 +456,7 @@
 		    			        confirm: {
 		    			        	text:"Eliminar",
 		    			        	action: function () {
+		    			        		$('#loading').show();
 		    			        		$('#formDelete').submit();
 		    			        	}
 		    			        },
@@ -451,6 +479,7 @@
 		    			        confirm: {
 		    			        	text:"Modificar",
 		    			        	action: function () {
+		    			        		$('#loading').show();
 		    			        		$('#formUpdate').submit();
 		    			        	}
 		    			        },

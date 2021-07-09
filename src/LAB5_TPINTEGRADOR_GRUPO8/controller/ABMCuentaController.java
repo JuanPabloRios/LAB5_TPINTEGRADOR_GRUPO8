@@ -52,17 +52,12 @@ public class ABMCuentaController {
 	 
 	@RequestMapping("editCuenta.html")
     public ModelAndView editarCuenta(String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta, Integer idUsuario) {
-        ModelAndView mv = new ModelAndView(); 
-        
+        ModelAndView mv = new ModelAndView();  
         mv.addObject("nombreCuenta",nombreCuenta);  
-        TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta);
-
-        
+        TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta); 
         String result = CuentaService.editarCuenta(numeroCuenta, saldo, tpCuentas, idUsuario ); 
 
-        if(result.equalsIgnoreCase("OK")) {
-			
-
+        if(result.equalsIgnoreCase("OK")) { 
 	        mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
 	        mv.addObject("informarGuardadoCorrecto",true);
 	        mv.addObject("nombreCuenta",nombreCuenta); 
@@ -70,69 +65,65 @@ public class ABMCuentaController {
         } else {
         	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
         	Cuentas cuenta = (Cuentas)appContext.getBean("cuenta"); 
-        	
         	cuenta.setSaldo(saldo);
         	cuenta.setCBU(CBU);
         	cuenta.setTipoCuenta(tpCuentas);
-        	cuenta.setFechaCreacion(fechaCuenta);
-        	
-        	
+        	cuenta.setFechaCreacion(fechaCuenta); 
         	mv.addObject("cliente",cuenta);
         	mv.addObject("informarError",true);
         	mv.addObject("mensajeError",result); 
         	mv.setViewName("ABMCuenta"); 
         	((ConfigurableApplicationContext)appContext).close();
-        }  
-		
-		
+        }   
         return mv;
-    } 
-
-
-
-//guardarCuenta.html 
-@RequestMapping("guardarCuenta.html")
-public ModelAndView guardarCuenta(Integer idUsuario, String nombreCuenta, Double saldo, String CBU, Date fechaCuenta, String tipoCuenta, Integer numeroCuenta ) {
-    ModelAndView mv = new ModelAndView(); 
-    mv.addObject("nombreCuenta",nombreCuenta);
-    TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta);
-  
-    
-    ///Aca seria necesario 1ero chequear el limite de 4 cuentas y si se puede traer traer un numero de cuenta y un CBU
-    ///fijarse en la BD el ultimo numero de cuenta y cbu y agregarles 1, y si no hay ninguna cuenta crear un CBU (podrian ser 11 ceros y un 1 )
-    
-    String validacion1= CuentaService.limiteCuentas(idUsuario);
-    
-    if() {
-    	
-    }
-    
-    
-    
-    
-    
-	String result = CuentaService.crearCuenta(saldo, CBU,fechaCuenta, tpCuentas, numeroCuenta,idUsuario );
-   
-    if(result.equalsIgnoreCase("OK")) {
-    	mv.addObject("informarGuardadoCorrecto",true);
-    	mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
-    	 mv.addObject("nombreCuenta",nombreCuenta); 
-    	mv.setViewName("ListarCuentas");
-    } else {
-    	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
-    	Cuentas cuenta = (Cuentas)appContext.getBean("cuenta"); 
-    	
-    	cuenta.setSaldo(saldo);
-    	cuenta.setCBU(CBU);
-    	cuenta.setTipoCuenta(tpCuentas);
-    	cuenta.setFechaCreacion(fechaCuenta);
-
-    	mv.addObject("cliente",cuenta);
-    	mv.addObject("informarError",true);
-    	mv.addObject("mensajeError",result); 
-    	mv.setViewName("ABMCuenta"); 
-    	((ConfigurableApplicationContext)appContext).close();
     }  
-    return mv;
-}
+
+	//guardarCuenta.html 
+	@RequestMapping("guardarCuenta.html")
+	public ModelAndView guardarCuenta(Integer idUsuario, String nombreCuenta, String CBU, String tipoCuenta) {
+	    ModelAndView mv = new ModelAndView(); 
+	    mv.addObject("nombreCuenta",nombreCuenta);
+	    TiposDeCuentas tpCuentas = TipoDeCuentaDao.obtenerTipoCuentaPorNombre(tipoCuenta); 
+	    Usuario us = UsuarioDao.obtenerUsuarioPorID(idUsuario);
+	    
+	    Boolean puedeCrear = CuentaService.limiteCuentas(idUsuario); 
+	    if(puedeCrear) {
+	    	String result = CuentaService.crearCuenta(10000.00, CBU,new Date(System.currentTimeMillis()), tpCuentas, idUsuario );
+	    	   
+	        if(result.equalsIgnoreCase("OK")) {
+	        	mv.addObject("informarGuardadoCorrecto",true);
+	        	mv.addObject("listaCuentas",CuentaDao.obtenerTodasLasCuentas()); 
+	        	mv.addObject("nombreCuenta",nombreCuenta); 
+	        	mv.setViewName("ListarCuentas");
+	        } else {
+	        	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
+	        	Cuentas cuenta = (Cuentas)appContext.getBean("cuenta"); 
+	        	
+	        	cuenta.setSaldo(1000.00); 
+	        	cuenta.setTipoCuenta(tpCuentas);  
+	    		mv.addObject("newCBU",CBU);
+	        	mv.addObject("cliente",cuenta);
+	        	mv.addObject("idUsuarioAsignado",us.getIdusuario());
+		    	mv.addObject("apellidoYNombre",us.getApellidoYNombre()); 
+	        	mv.addObject("informarError",true);
+	        	mv.addObject("mensajeError",result); 
+	        	mv.setViewName("ABMCuenta"); 
+	        	((ConfigurableApplicationContext)appContext).close();
+	        }  
+	    } else {
+	    	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
+	    	Cuentas cuenta = (Cuentas)appContext.getBean("cuenta");  
+	    	cuenta.setSaldo(10000.00);
+    		mv.addObject("newCBU",CBU);
+	    	cuenta.setTipoCuenta(tpCuentas); 
+	    	mv.addObject("cliente",cuenta);
+	    	mv.addObject("informarError",true); 
+        	mv.addObject("idUsuarioAsignado",us.getIdusuario());
+	    	mv.addObject("apellidoYNombre",us.getApellidoYNombre()); 
+	    	mv.addObject("mensajeError","El Cliente ya tiene 4 cuentas"); 
+	    	mv.setViewName("ABMCuenta"); 
+	    	((ConfigurableApplicationContext)appContext).close();
+	    }
+	    return mv;
+	}
 }

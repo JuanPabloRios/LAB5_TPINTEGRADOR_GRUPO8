@@ -148,7 +148,7 @@
 	    			return false;
 	    		} 
 	    		
-	    		if(porCBU && !numbers.test($('#cbu').val()) || $('#cbu').val() == undefined || $('#cbu').val() == null || $('#cbu').val().trim() == ""){
+	    		if(porCBU && (!numbers.test($('#cbu').val()) || $('#cbu').val() == undefined || $('#cbu').val() == null || $('#cbu').val().trim() == "")){
 	    			$().toastmessage('showErrorToast', "El CBU solo debe contener numeros y no puede estar vacio.");
 	    			return false;
 	    		} 

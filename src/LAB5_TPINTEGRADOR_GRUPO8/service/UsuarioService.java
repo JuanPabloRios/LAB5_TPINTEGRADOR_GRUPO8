@@ -26,8 +26,8 @@ public class UsuarioService {
     public static String crearUsuario(String nombreCliente, String apellidoCliente, Integer dniCliente, Date fechaNacimientoCliente, 
     	String nacionalidadCliente, String direccionCliente, String sexoCliente, String provinciaCliente, Integer localidadCliente,
 		String nombreUsuario, String contrasenia){ 
-    	Boolean existeN = UsuarioService.existeNombreUsuario(nombreUsuario, null);
-    	Boolean existeD = UsuarioService.existeDNI(dniCliente, null); 
+    	Boolean existeN = UsuarioService.existeNombreUsuario(nombreUsuario, 0);
+    	Boolean existeD = UsuarioService.existeDNI(dniCliente, 0); 
     	if(existeN == true) {
     		return "El Nombre de Usuario ingresado ya existe";
     	} else if(existeD == true) {

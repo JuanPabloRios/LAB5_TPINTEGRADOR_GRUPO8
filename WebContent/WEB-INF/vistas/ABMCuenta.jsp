@@ -43,11 +43,11 @@
 				<div class="controlesUsuario">
 					<div>Banking App</div>
 					<div style="display:flex; flex-direction:row;"> 
-						<form method="post" action="redirigirListadoCuentas.html">
-							<input type="submit" title="Cuentas" value="Cuentas" class="button btnHeader"></input>
+						<form method="post" action="redirigirListadoCuentas.html" onsubmit="$('#loading').show();">
+							<input type="submit" title="Cuentas" value="Cuentas" class="button btnHeader" ></input>
 								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 						</form>
-						<form method="post" action="redirigirListadoClientes.html" style="margin-left:10px;">
+						<form method="post" action="redirigirListadoClientes.html" style="margin-left:10px;" onsubmit="$('#loading').show();">
 							<input type="submit" title="Clientes" value="Clientes" class="button btnHeader"></input>
 								<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 						</form>
@@ -56,7 +56,7 @@
 				<div class="controlesUsuario">
 					<div>${nombreCuenta}</div>
 					<div class="salirContainer">
-						<form method="post" action="salir.html">
+						<form method="post" action="salir.html" onsubmit="$('#loading').show();">
 							<input type="submit" title="Salir" value="Salir" class="button btnHeader"></input>
 						</form>
 					</div>

@@ -18,6 +18,20 @@
 		<link href="estilos/toast/resources/css/jquery.toastmessage.css" rel="StyleSheet" type="text/css">	
 	</head>
 	<body> 
+		<div id="loading" 
+			style="position: fixed;
+  				display: flex;
+  				justify-content: center;
+  				align-items: center;
+  				width: 100%;
+  				height: 100%;
+				  top: 0;
+				  left: 0;
+				  opacity: 0.7;
+				  background-color: #fff;
+				  z-index: 99;">
+		  <img id="loading-image" src="estilos/Ajux_loader.gif" alt="Loading..." />
+		</div>
 		<% 
 		Usuario cliente = new Usuario();
 		if(request.getAttribute("usuario")!=null) {
@@ -38,7 +52,7 @@
 				<div class="controlesUsuario">
 					<div>${nombreCuenta}</div>
 					<div class="salirContainer">
-						<form method="post" action="salir.html">
+						<form method="post" action="salir.html" onsubmit="$('#loading').show();">
 							<input type="submit" title="Salir" value="Salir" class="button btnHeader"></input>
 						</form>
 					</div>
@@ -49,7 +63,7 @@
 				<div class="tituloPaginaContainer">
 					<div class="tituloPagina">Home Cliente</div>   	
 					<div class="botonPrincipalContainer">
-						<form method="post" action="irATransferencia.html">
+						<form method="post" action="irATransferencia.html" onsubmit="$('#loading').show();">
 				  			<input class="button btnNuevoCliente" type="submit" title="Realizar transferencia" value="Realizar transferencia"></input> 
 				  			<input type="hidden" name="nombreCuenta" value="${nombreCuenta}" >
 				  			<input type="hidden" name="idUsuario" value="<%=cliente.getIdusuario()%>" >
@@ -83,7 +97,7 @@
 								for(Cuentas ci : cuentasCliente) { %>
 							<tr> 
 								<td>
-									<form method="post" action="verMovimientosCuenta.html">
+									<form method="post" action="verMovimientosCuenta.html" onsubmit="$('#loading').show();">
 							  			<input class="button" type="submit" value="Ver movimientos">
 							  			<input type="hidden" name="idUsuario" value="<%=cliente.getIdusuario()%>" >
 							  			<input type="hidden" name="idCuenta" value="<%=ci.getIdNroDeCuenta()%>" >
@@ -114,6 +128,7 @@
 	    %>
 	    <script type="text/javascript">
 		    $(document).ready( function () {
+		    	$('#loading').hide();
 		        $('#tablaCuentas').DataTable({
 		        	"searching": false,
 		        	"paging": false,

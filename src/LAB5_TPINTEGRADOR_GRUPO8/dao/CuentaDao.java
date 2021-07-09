@@ -21,9 +21,9 @@ public class CuentaDao {
         try {
         	Session se = ConfigHibernate.obtenerSessionFactory().openSession();
             List<Cuentas> cuentasClientes = (List<Cuentas>)se.createQuery("FROM Cuentas").list();
+            se.beginTransaction();
 	        for(Integer i = 0; i< cuentasClientes.size(); i++) { 
-	            if(cuentasClientes.get(i).getUsuario().getIdusuario() ==  usuarioId) {
-	                se.beginTransaction();
+	            if(cuentasClientes.get(i).getUsuario().getIdusuario() ==  usuarioId) { 
 	                cuentasClientes.get(i).setEstado(false);
 	                se.update(cuentasClientes.get(i));  
 	            }

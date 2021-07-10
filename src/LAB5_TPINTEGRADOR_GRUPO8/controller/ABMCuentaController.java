@@ -119,7 +119,7 @@ public class ABMCuentaController {
 	        	ApplicationContext appContext = new AnnotationConfigApplicationContext(Config.class); 
 	        	Cuentas cuenta = (Cuentas)appContext.getBean("cuenta"); 
 	        	
-	        	cuenta.setSaldo(1000.00); 
+	        	cuenta.setSaldo(10000.00); 
 	        	cuenta.setTipoCuenta(tpCuentas);  
 	    		mv.addObject("newCBU",CBU);
 	        	mv.addObject("cliente",cuenta);
